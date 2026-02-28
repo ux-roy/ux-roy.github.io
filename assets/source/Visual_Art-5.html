@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Artwork Layout</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 1rem;
+      background: transparent;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: system-ui, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 90vh;
+      align-items: flex-start;
+    }
+    img {
+      max-width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border: 1px solid #ccc ;
+      border-radius: 8px;
+    }
+    .info-box {
+      width: 300px;
+      height: 100%;
+      line-height: 1.5;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .info-box::-webkit-scrollbar {
+      width: 2px;
+    }
+    .info-box p {
+      font-size: 16px;
+      color: #116d97
+    }
+    .label {
+      font-weight: 600;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+      .info-box {
+        width: 100%;
+        max-height: auto;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Image -->
+    <img src="../img/Visual-Art-5.jpg" alt="The Word Father">
+
+    <!-- Text -->
+    <div class="info-box">
+      <p><span class="label">Title:</span> <br> The Word Father</p>
+      <p><span class="label">Time:</span> <br> 2018</p>
+      <p><span class="label">Medium:</span> <br> Oil on canvas</p>
+      <p><span class="label">Dimension:</span> <br> 4' × 2'5"</p>
+      <p><span class="label">Depiction:</span> <br>A strong, weathered face emerges from the shadows, shaped with bold strokes. The expression feels firm yet sad, like someone who has carried life’s weight for years. The eyes hint at quiet struggles and unspoken care, turning the painting into a tribute to silent strength.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
