@@ -6,10 +6,10 @@ var nav_sections = $('section');
 var main_nav = $('.nav-menu, #mobile-nav');
 
 // 🔴 AOS Initialization (Animation On Scrolling) -----------> 
-  AOS.init({
-    duration: 1000,
-    easing: "ease-in-out-back"
-  });
+AOS.init({
+  duration: 1000,
+  easing: "ease-in-out-back"
+});
 
 // 🔴 Typing Animated Text Top of (Hero Background) ----------->
 if ($('.typed').length) {
@@ -141,18 +141,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 🔴 Portfolio Popup Overlay for (Pictures Preview) ----------->
 document.querySelectorAll('.popup-trigger').forEach(button => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
     const portfolioItem = button.closest('.portfolio-item');
     const overlay = portfolioItem.querySelector('.overlay').cloneNode(true);
-    const mediaSrc = portfolioItem.querySelector('iframe').src || 
-                     portfolioItem.querySelector('img')?.src || 
-                     portfolioItem.querySelector('video')?.src;
-    
-    const iframe = overlay.querySelector('iframe');
-    if (iframe) iframe.src = mediaSrc;
-    
+
+    const videoSrc = button.getAttribute('data-video-src');
+    if (videoSrc) {
+      const iframeContainer = overlay.querySelector('.iframe-container');
+      if (iframeContainer) {
+        iframeContainer.innerHTML = `<video controls playsinline autoplay style="width:100%; height:100%; max-height:80vh; background:#000;"><source src="${videoSrc}" type="video/mp4"></video>`;
+      }
+    } else {
+      // Check if the button itself provides a specific source
+      const btnSrc = button.getAttribute('data-src') || button.getAttribute('href');
+
+      const mediaSrc = btnSrc || portfolioItem.querySelector('iframe')?.src ||
+        portfolioItem.querySelector('img')?.src ||
+        portfolioItem.querySelector('video')?.src;
+
+      const iframe = overlay.querySelector('iframe');
+      if (iframe) iframe.src = mediaSrc;
+    }
+
     document.body.appendChild(overlay);
-    
+
     overlay.style.display = 'flex';
     overlay.style.zIndex = '9999';
     document.body.classList.add('no-scroll');
@@ -161,6 +174,12 @@ document.querySelectorAll('.popup-trigger').forEach(button => {
     $('.back-to-top').hide();
 
     overlay.querySelector('.close-btn').addEventListener('click', () => {
+      const videoElement = overlay.querySelector('video');
+      if (videoElement) {
+        videoElement.pause();
+        videoElement.removeAttribute('src');
+        videoElement.load();
+      }
       overlay.style.display = 'none';
       document.body.removeChild(overlay);
       document.body.classList.remove('no-scroll');
