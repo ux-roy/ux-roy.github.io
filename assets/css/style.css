@@ -1883,9 +1883,18 @@ footer {
   width: 50px;
   height: 50px;
   fill: var(--darkest-gradient);
-  transition: transform 0.5s ease-in-out;
+  transition: all 0.4s ease-in-out;
   margin-left: 0.5rem;
   transform: translateY(1px);
+  border-radius: 50%;
+  border: 1px solid transparent;
+  padding: 0.3rem;
+}
+
+.social-link:hover .last-icon,
+.social-link:focus-visible .last-icon {
+  background: var(--pure-white);
+  filter: drop-shadow(0 0 5px var(--lightest-gradient));
 }
 
 .resume-link a {
