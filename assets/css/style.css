@@ -1537,20 +1537,18 @@ footer{
   padding: 0;
 }
 .social-svg {
-  width: 40px;
-  height: 40px;
-  fill: var(--lightest-gradient);
-  transition: fill 0.3s ease;
+  width: 50px;
+  height: 50px;
+  fill: var(--primary-color);
+  background: var(--background-color);
+  border-radius: 1rem;
+  border: 1px solid var(--lightest-gradient);
+  transition: all 0.4s ease-in-out;
 }
 .social-links a {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
-  background: var(--primary-color);
-  border-radius: 2rem;
-  transition: transform 0.5s ease-in-out;
   position: relative;
 }
 .linktip {
@@ -1585,10 +1583,14 @@ footer{
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+  filter: drop-shadow(0 0 5px var(--lightest-gradient));
 }
 .social-link:hover .social-svg,
 .social-link:focus-visible .social-svg {
   fill: var(--pure-white);
+  transition: fill 0.3s ease;
+  background: var(--primary-color);
+  transition: all 0.4s ease-in-out;
 }
 @media (max-width: 991px) {
   .social-links-container {
@@ -1637,15 +1639,15 @@ footer{
   font-size: 14px;
   color: var(--medium-gray);
   text-decoration: none;
-  padding: 0.1rem 0.4rem 0.2rem 0.4rem ;
-  border: 1px solid var(--pure-white);;
-  border-radius: 0.3rem;
-  transition: all 0.3s ease;
+  padding: 0 0.2rem;
+  border: 1px solid var(--pure-white);
+  transition: all 0.4s ease-in-out;
 }
 .resume-link a:hover {
   cursor: pointer;
   color: var(--pure-white);
   background-color: var(--primary-color);
+  transition: all 0.4s ease-in-out;
 }
 @media (max-width: 991px) {
   .copyright {
