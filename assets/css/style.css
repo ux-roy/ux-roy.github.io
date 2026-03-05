@@ -1615,7 +1615,7 @@ footer{
   margin-top: auto;
 }
 .copyright p {
-  font-size: 12px;
+  font-size: 14px;
   text-decoration: none;
   color: var(--medium-gray);
   text-align: right;
@@ -1634,18 +1634,18 @@ footer{
   transform: translateY(1px);
 }
 .resume-link a {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--medium-gray);
   text-decoration: none;
-  padding: 0.01rem 0.2rem ;
+  padding: 0.1rem 0.4rem 0.2rem 0.4rem ;
   border: 1px solid var(--pure-white);;
-  border-radius: 0.2rem;
+  border-radius: 0.3rem;
   transition: all 0.3s ease;
 }
 .resume-link a:hover {
   cursor: pointer;
-  background-color: var(--light-transparent);
-  border: 1px solid var(--dark-transparent);
+  color: var(--pure-white);
+  background-color: var(--primary-color);
 }
 @media (max-width: 991px) {
   .copyright {
