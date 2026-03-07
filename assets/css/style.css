@@ -1869,7 +1869,7 @@ footer {
 .copyright p {
   font-size: 14px;
   text-decoration: none;
-  color: var(--medium-gray);
+  color: var(--tertiary-color);
   text-align: right;
   padding-right: 0.7rem;
   border-right: 1px solid var(--medium-gray);
@@ -1899,18 +1899,15 @@ footer {
 
 .resume-link a {
   font-size: 14px;
-  color: var(--medium-gray);
-  text-decoration: none;
-  padding: 0 0.2rem;
-  border: 1px solid var(--pure-white);
+  color: var(--tertiary-color);
   transition: all 0.4s ease-in-out;
 }
 
 .resume-link a:hover {
   cursor: pointer;
-  color: var(--pure-white);
-  background-color: var(--primary-color);
+  color: var(--secondary-color);
   transition: all 0.4s ease-in-out;
+  text-decoration: underline;
 }
 
 @media (max-width: 991px) {
