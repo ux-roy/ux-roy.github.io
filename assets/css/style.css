@@ -614,7 +614,7 @@ hr {
 
 #profile-pic {
   border-radius: 8px;
-  filter: grayscale(50%);
+  filter: grayscale(100%);
 }
 
 .profile-depiction .content ul {
