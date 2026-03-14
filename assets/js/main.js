@@ -289,3 +289,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 🔴 Desktop Specific hook (Convert Into Sidebar) ----------->
 document.body.classList.add("desktop-compact");
+
+// 🔴 Hero Background Wipe Effect (Mouse Move) ----------->
+const heroSection = document.getElementById('hero');
+if (heroSection) {
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    heroSection.style.setProperty('--mouse-x', `${x}px`);
+    heroSection.style.setProperty('--mouse-y', `${y}px`);
+  });
+  
+  heroSection.addEventListener('mouseleave', () => {
+    heroSection.style.setProperty('--mouse-x', `-100%`);
+    heroSection.style.setProperty('--mouse-y', `-100%`);
+  });
+}
