@@ -19,6 +19,7 @@
 
   --filter-shadow: rgba(19, 121, 168, 0.7);
   --outer-shadow: rgba(0, 0, 0, 0.12);
+  --overlay-shadow: rgba(7, 69, 86, 0.269);
 
   --dark-transparent: rgba(9, 19, 48, 0.3);
   --light-transparent: rgba(157, 182, 255, 0.165);
@@ -537,24 +538,36 @@ hr {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: url("../img/background.jpg") no-repeat center;
-  background-size: cover;
 }
 
 #hero::before {
+content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("../img/background.jpg") no-repeat center;
+  background-size: cover;
+  filter: blur(2px); 
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+#hero::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(7, 69, 86, 0.269);
-  z-index: 1;
+  background: var(--overlay-shadow);
+  z-index: 2;
 }
 
 #hero .hero-container {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   min-width: 340px;
 }
 
@@ -614,7 +627,7 @@ hr {
 
 #profile-pic {
   border-radius: 8px;
-  filter: grayscale(50%);
+  filter: grayscale(100%);
 }
 
 .profile-depiction .content ul {
