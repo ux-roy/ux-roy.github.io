@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabContents = document.querySelectorAll('.tab-content');
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sidePanel = document.getElementById('side-panel');
+    const menuOverlay = document.getElementById('menu-overlay');
+
 
 
 
@@ -19,11 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isOpen) {
             sidePanel.classList.remove('open');
             hamburgerMenu.classList.remove('open');
+            if (menuOverlay) menuOverlay.classList.remove('open');
+            document.body.style.overflow = '';
             hamburgerMenu.setAttribute('title', 'Open menu');
             hamburgerMenu.setAttribute('aria-label', 'Open menu');
         } else {
             sidePanel.classList.add('open');
             hamburgerMenu.classList.add('open');
+            if (menuOverlay) menuOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
             hamburgerMenu.setAttribute('title', 'Home');
             hamburgerMenu.setAttribute('aria-label', 'Home');
         }
@@ -32,11 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const closePanel = () => {
         sidePanel.classList.remove('open');
         hamburgerMenu.classList.remove('open');
+        if (menuOverlay) menuOverlay.classList.remove('open');
+        document.body.style.overflow = '';
         hamburgerMenu.setAttribute('title', 'Open menu');
         hamburgerMenu.setAttribute('aria-label', 'Open menu');
     };
 
     hamburgerMenu.addEventListener('click', togglePanel);
+    if (menuOverlay) menuOverlay.addEventListener('click', closePanel);
 
 
 
@@ -47,12 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetContent = document.getElementById(targetId);
             
             if (targetContent) {
-                // Keep the panel open as per the request: Show/hide ONLY on hamburger click
+                // Close panel first for better visual feedback
+                closePanel();
                 
                 // Allow a tiny delay before scrolling
                 setTimeout(() => {
                     targetContent.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
+                }, 300); // Slightly more delay for mobile panel retraction
             }
         });
     });
@@ -137,13 +147,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     
+    const profileImg = document.querySelector('.hero-profile-img');
+    
     // Function to update images based on theme
     const updateThemeImages = (theme) => {
         if (designProcessImg) {
-            const src = theme === 'dark' 
-                ? 'assets/icons/design-process-white.svg' 
-                : 'assets/icons/design-process-black.svg';
+            const isMobile = window.innerWidth <= 600;
+            const src = isMobile
+                ? (theme === 'dark' ? 'assets/icons/mobile-process-white.svg' : 'assets/icons/mobile-process-black.svg')
+                : (theme === 'dark' ? 'assets/icons/design-process-white.svg' : 'assets/icons/design-process-black.svg');
             designProcessImg.src = src;
+        }
+
+        if (profileImg) {
+            profileImg.src = theme === 'dark'
+                ? 'assets/images/profile-dark.png'
+                : 'assets/images/profile-light.png';
         }
     };
 
@@ -169,6 +188,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
         });
     }
+
+    // Update images on resize (for mobile/desktop process diagram swap)
+    window.addEventListener('resize', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        updateThemeImages(currentTheme);
+    }, { passive: true });
 
     // Carousel Logic
     const track = document.querySelector('.carousel-track');
@@ -241,8 +266,12 @@ document.addEventListener('DOMContentLoaded', () => {
             currentProjectData.videoUrl = videoUrl;
             currentProjectData.prototypeUrl = prototypeUrl;
 
-            // Default view: Show Figma
-            showFigma();
+            // Default view: Show Video on mobile, Figma on desktop
+            if (window.innerWidth <= 600) {
+                showVideo();
+            } else {
+                showFigma();
+            }
             
             modal.classList.add('open');
             document.body.style.overflow = 'hidden'; 
@@ -272,9 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.load();
             projectVideo.play();
 
-            // Hide floating actions and show back button
+            // Hide floating actions and show back button (only on desktop)
             if (modalActions) modalActions.style.display = 'none';
-            if (btnBackToPrototype) btnBackToPrototype.style.display = 'flex';
+            if (btnBackToPrototype) btnBackToPrototype.style.display = (window.innerWidth <= 600) ? 'none' : 'flex';
         }
     };
 
