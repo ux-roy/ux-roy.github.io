@@ -237,7 +237,7 @@ body {
 .panel-nav {
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: 30px;
 }
 
 .panel-link {
@@ -1632,7 +1632,7 @@ h3 {
         position: fixed;
         width: calc(100% - 30px);
         max-width: 360px;
-        padding: 60px;
+        padding: 40px;
         background-color: var(--card-bg);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
@@ -1698,7 +1698,7 @@ h3 {
     }
 
     .panel-link::after {
-        height: 5px;
+        height: 3px;
     }
 
     .main-title {
