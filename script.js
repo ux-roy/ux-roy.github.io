@@ -12,11 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const togglePanel = () => {
         const isOpen = sidePanel.classList.contains('open');
         
-        // Smooth scroll to top
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        // Smooth scroll to top - only on mobile when opening
+        if (window.innerWidth <= 768 && !isOpen) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
 
         if (isOpen) {
             sidePanel.classList.remove('open');
@@ -29,7 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
             sidePanel.classList.add('open');
             hamburgerMenu.classList.add('open');
             if (menuOverlay) menuOverlay.classList.add('open');
-            document.body.style.overflow = 'hidden';
+            
+            // Only disable scrolling on mobile
+            if (window.innerWidth <= 768) {
+                document.body.style.overflow = 'hidden';
+            }
+            
             hamburgerMenu.setAttribute('title', 'Home');
             hamburgerMenu.setAttribute('aria-label', 'Home');
         }
@@ -135,10 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
+        const isMenuOpen = sidePanel && sidePanel.classList.contains('open');
         
         // Hide/Show on mobile
         if (window.innerWidth <= 768) {
-            if (currentScrollY > lastScrollY && currentScrollY > headerThreshold) {
+            if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
                 // Scrolling Down - Hide
                 if (hamburgerMenu) hamburgerMenu.classList.add('header-hidden');
                 if (logoDropdown) logoDropdown.classList.add('header-hidden');
@@ -148,11 +156,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (logoDropdown) logoDropdown.classList.remove('header-hidden');
             }
         } else {
-            // Restore visibility on desktop resize
+            // Restore visibility on desktop resize or scroll
             if (hamburgerMenu) hamburgerMenu.classList.remove('header-hidden');
             if (logoDropdown) logoDropdown.classList.remove('header-hidden');
         }
 
+        // Close logo dropdown on scroll
         if (logoDropdown && logoDropdown.classList.contains('active')) {
             logoDropdown.classList.remove('active');
             if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
