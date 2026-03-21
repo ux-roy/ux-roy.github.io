@@ -6,19 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuOverlay = document.getElementById('menu-overlay');
 
 
-
-
-    // Toggle Side Panel & Scroll to Top
+    // Toggle Side Panel
     const togglePanel = () => {
         const isOpen = sidePanel.classList.contains('open');
-        
-        // Smooth scroll to top - only on mobile when opening
-        if (window.innerWidth <= 768 && !isOpen) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
 
         if (isOpen) {
             sidePanel.classList.remove('open');
