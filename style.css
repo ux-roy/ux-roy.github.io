@@ -1182,7 +1182,7 @@ h3 {
 }
 
 .back-modal {
-    left: 15px;
+    right: 15px;
 }
 
 .close-modal svg,
@@ -1292,6 +1292,12 @@ h3 {
     gap: 12px;
     z-index: 100;
     pointer-events: none;
+}
+
+@media screen and (max-width: 600px) {
+    .modal-floating-actions {
+        display: none !important;
+    }
 }
 
 .modal-action-btn {
@@ -1634,7 +1640,7 @@ h3 {
         margin-top: 40px;
         position: relative;
         width: 100%;
-        min-height: 980px; /* Reduced to fit smaller SVG */
+        min-height: 700px; /* Reduced from 980px to remove empty space */
     }
 
     .diagram-img {

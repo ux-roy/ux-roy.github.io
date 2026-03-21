@@ -290,12 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentProjectData.videoUrl = videoUrl;
             currentProjectData.prototypeUrl = prototypeUrl;
 
-            // Default view: Show Video on mobile, Figma on desktop
-            if (window.innerWidth <= 600) {
-                showVideo();
-            } else {
-                showFigma();
-            }
+            // Default view: Show Figma (Figjam) board
+            showFigma();
             
             modal.classList.add('open');
             document.body.style.overflow = 'hidden'; 
@@ -309,8 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.style.display = 'none';
             projectVideo.pause();
             
-            // Show floating actions and hide back button
-            if (modalActions) modalActions.style.display = 'flex';
+            // Show floating actions (only on desktop)
+            if (modalActions) modalActions.style.display = (window.innerWidth <= 600) ? 'none' : 'flex';
+            if (closeModalBtn) closeModalBtn.style.display = 'flex'; 
             if (btnBackToPrototype) btnBackToPrototype.style.display = 'none';
         }
     };
@@ -325,9 +322,10 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.load();
             projectVideo.play();
 
-            // Hide floating actions and show back button (only on desktop)
+            // Hide floating actions and show back button (Replacing Close)
             if (modalActions) modalActions.style.display = 'none';
-            if (btnBackToPrototype) btnBackToPrototype.style.display = (window.innerWidth <= 600) ? 'none' : 'flex';
+            if (closeModalBtn) closeModalBtn.style.display = 'none';
+            if (btnBackToPrototype) btnBackToPrototype.style.display = 'flex';
         }
     };
 
