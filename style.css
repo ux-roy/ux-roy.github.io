@@ -1894,12 +1894,12 @@ h3 {
 
 ::view-transition-new(root) {
     z-index: 9999;
-    animation: reveal-circle 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: reveal-circle 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     /* mask for feathered edge */
-    mask: radial-gradient(circle at right 40px top 40px, 
+    mask: radial-gradient(circle at right 59px top 54px, 
             black var(--reveal), 
             transparent calc(var(--reveal) + 18%));
-    -webkit-mask: radial-gradient(circle at right 40px top 40px, 
+    -webkit-mask: radial-gradient(circle at right 59px top 54px, 
             black var(--reveal), 
             transparent calc(var(--reveal) + 18%));
     mask-repeat: no-repeat;
@@ -1923,6 +1923,12 @@ h3 {
 }
 
 @keyframes reveal-simple {
-    from { clip-path: circle(0% at right 40px top 40px); }
-    to { clip-path: circle(150% at right 40px top 40px); }
+    from { clip-path: circle(0% at right 59px top 54px); }
+    to { clip-path: circle(150% at right 59px top 54px); }
+}
+
+/* Fix for blinking jerk: Disable all transitions during view transition capture */
+.theme-transitioning * {
+    transition: none !important;
+    animation-play-state: paused !important;
 }

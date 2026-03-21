@@ -248,7 +248,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            document.startViewTransition(runner);
+            // Suppress all existing transitions during capture to avoid "ghosting"
+            document.documentElement.classList.add('theme-transitioning');
+            
+            const transition = document.startViewTransition(runner);
+            
+            // Clean up when transition finishes
+            transition.finished.finally(() => {
+                document.documentElement.classList.remove('theme-transitioning');
+            });
         });
     }
 
