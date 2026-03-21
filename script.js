@@ -139,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Header Visibility on Scroll (Mobile Specific)
     let lastScrollY = window.scrollY;
     const headerThreshold = 80;
+    const mobileHeader = document.getElementById('mobile-header');
 
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
@@ -146,19 +147,27 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Hide/Show on mobile
         if (window.innerWidth <= 768) {
+            // Background logic - separate from visibility
+            if (currentScrollY > 10) { // Small threshold for background
+                if (mobileHeader) mobileHeader.classList.add('header-floating');
+            } else {
+                if (mobileHeader) mobileHeader.classList.remove('header-floating');
+            }
+
+            // Visibility toggle logic
             if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
                 // Scrolling Down - Hide
-                if (hamburgerMenu) hamburgerMenu.classList.add('header-hidden');
-                if (logoDropdown) logoDropdown.classList.add('header-hidden');
+                if (mobileHeader) mobileHeader.classList.add('header-hidden');
             } else if (currentScrollY < lastScrollY) {
-                // Scrolling Up - Show (Pop down)
-                if (hamburgerMenu) hamburgerMenu.classList.remove('header-hidden');
-                if (logoDropdown) logoDropdown.classList.remove('header-hidden');
+                // Scrolling Up - Show
+                if (mobileHeader) mobileHeader.classList.remove('header-hidden');
             }
         } else {
-            // Restore visibility on desktop resize or scroll
-            if (hamburgerMenu) hamburgerMenu.classList.remove('header-hidden');
-            if (logoDropdown) logoDropdown.classList.remove('header-hidden');
+            // Restore visibility/styles on desktop
+            if (mobileHeader) {
+                mobileHeader.classList.remove('header-hidden');
+                mobileHeader.classList.remove('header-floating');
+            }
         }
 
         // Close logo dropdown on scroll

@@ -82,6 +82,25 @@ body {
     }
 }
 
+/* Mobile Floating Header Wrapper */
+.mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    pointer-events: none; /* Allow clicking through when not floating */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-header > * {
+    pointer-events: auto; /* Re-enable for buttons */
+}
+
+.mobile-header.header-hidden {
+    transform: translateY(-150px);
+}
+
 /* Hamburger Menu & Side Panel */
 .hamburger-menu {
     position: fixed;
@@ -90,7 +109,7 @@ body {
     width: 48px;
     height: 48px;
     background: transparent;
-    border: 1px solid var(--bg-color);
+    border: 1px transparent;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -104,7 +123,7 @@ body {
 }
 
 .hamburger-menu.header-hidden {
-    transform: translateY(-100px);
+    transform: translateY(-150px);
 }
 
 .hamburger-menu.open {
@@ -269,7 +288,7 @@ body {
 }
 
 .logo-wrapper.header-hidden {
-    transform: translateY(-100px);
+    transform: translateY(-150px);
 }
 
 .logo-trigger {
@@ -1517,14 +1536,14 @@ h3 {
     }
 
     .logo-wrapper {
-        position: fixed;
-        top: 20px;
-        right: 15px;
+        position: relative; /* Changed from fixed */
+        top: auto;
+        right: auto;
     }
 
     .logo-trigger {
         width: 60px;
-        height: 40px;
+        height: 48px; /* Slightly more height */
     }
 
     .site-logo {
@@ -1532,11 +1551,56 @@ h3 {
     }
 
     .hamburger-menu {
+        position: relative; /* Changed from fixed */
+        top: auto;
+        left: auto;
+        width: 48px;
+        height: 48px;
+    }
+
+    /* Mobile Header Styling */
+    .mobile-header {
         position: fixed;
-        top: 20px;
-        left: 15px;
-        width: 40px;
-        height: 40px;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        width: auto; /* Ensure it respects left/right constraints */
+        height: 68px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 12px; /* Increased internal padding for better focus */
+        z-index: 1000;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none; /* Click through when transparent */
+    }
+
+    .mobile-header > * {
+        pointer-events: auto; /* Interactive children */
+    }
+
+    /* Hide individual hidden classes on mobile since handler moved to parent */
+    .hamburger-menu.header-hidden,
+    .logo-wrapper.header-hidden {
+        transform: none !important;
+    }
+
+    .mobile-header.header-hidden {
+        transform: translateY(-150%);
+        opacity: 0;
+    }
+
+    /* The single floating background */
+    .mobile-header.header-floating {
+        background: var(--card-bg); /* Solid background color */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 1.5px solid var(--border-color); /* More defined border for solid look */
+        box-shadow: 0 10px 30px var(--shadow-color);
+        pointer-events: auto;
     }
 
 
