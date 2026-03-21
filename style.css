@@ -237,7 +237,7 @@ body {
 .panel-nav {
     display: flex;
     flex-direction: row;
-    gap: 30px;
+    gap: 20px;
 }
 
 .panel-link {
@@ -1685,13 +1685,13 @@ h3 {
 
     .panel-nav {
         flex-direction: column;
-        gap: 40px;
+        gap: 30px;
         width: 100%;
         align-items: flex-start;
     }
 
     .panel-link {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         padding: 10px 0;
         width: 100%;
         text-align: left;
@@ -1725,14 +1725,13 @@ h3 {
         display: flex;
         flex-direction: column;
         gap: 0;
-        margin-bottom: 80px;
+        margin-bottom: 20px;
         align-items: center;
         padding-left: 0;
         border-left: none;
-        margin-top: 40px;
         position: relative;
         width: 100%;
-        min-height: 700px; /* Reduced from 980px to remove empty space */
+        min-height: 700px;
     }
 
     .diagram-img {
@@ -1750,46 +1749,53 @@ h3 {
     .process-step {
         display: flex !important;
         position: absolute !important;
-        left: 50% !important;
-        width: 50%;
+        left: 41% !important;
+        width: 60%; /* Increased for better fit */
         height: auto;
         align-items: center;
+        gap: 70px; /* Increased space between badge and label */
         text-align: left;
         transform: translateY(-50%);
-        padding-left: 15px;
+        padding: 0;
     }
 
     /* Vertical alignment with SVG nodes */
-    .process-step:nth-of-type(1) { top: 9%; }
+    .process-step:nth-of-type(1) { top: 8%; }
     .process-step:nth-of-type(2) { top: 28%; }
-    .process-step:nth-of-type(3) { top: 48%; }
-    .process-step:nth-of-type(4) { top: 69%; }
-    .process-step:nth-of-type(5) { top: 89%; }
+    .process-step:nth-of-type(3) { top: 47.5%; }
+    .process-step:nth-of-type(4) { top: 68%; }
+    .process-step:nth-of-type(5) { top: 88.5%; }
 
     .process-badge {
         display: flex !important;
-        position: absolute;
-        left: 0;
-        transform: translateX(-50%);
-        width: 30px;
-        height: 30px;
-        font-size: 0.9rem;
+        position: relative; /* Changed from absolute */
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
         z-index: 10;
         border-width: 1.5px;
+        top: 0;
+        left: 0;
+        transform: none;
     }
 
     .process-label {
         display: flex;
         align-items: center;
-        padding-left: 40px; /* Offset from centered badge (increased by 20px) */
+        gap: 12px; /* Added gap between line and text */
+        padding-left: 0;
         position: relative;
         top: 0;
         left: 0;
-        padding-top: 5px;
     }
 
     .label-line {
-        display: none;
+        display: block;
+        width: 1.5px;
+        height: 24px; /* Vertical line as requested */
+        background-color: var(--accent-color);
+        flex-shrink: 0;
     }
 
     .label-text {
@@ -1799,12 +1805,7 @@ h3 {
         color: var(--text-primary);
     }
 
-    .process-badge {
-        top: 0;
-        left: -35px;
-        transform: translate(0, 0);
-        margin-left: -1px; /* Align with border-left */
-    }
+    /* Removed duplicate badge styles */
 
 
 
