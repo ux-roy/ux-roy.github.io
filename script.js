@@ -24,13 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
             sidePanel.classList.remove('open');
             hamburgerMenu.classList.remove('open');
             if (menuOverlay) menuOverlay.classList.remove('open');
+            document.body.classList.remove('menu-open');
             document.body.style.overflow = '';
             hamburgerMenu.setAttribute('title', 'Open menu');
             hamburgerMenu.setAttribute('aria-label', 'Open menu');
         } else {
+            // Close logo dropdown when opening side panel
+            if (logoDropdown) {
+                logoDropdown.classList.remove('active');
+                if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+            }
+
             sidePanel.classList.add('open');
             hamburgerMenu.classList.add('open');
             if (menuOverlay) menuOverlay.classList.add('open');
+            document.body.classList.add('menu-open');
             
             // Only disable scrolling on mobile
             if (window.innerWidth <= 768) {
@@ -46,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sidePanel.classList.remove('open');
         hamburgerMenu.classList.remove('open');
         if (menuOverlay) menuOverlay.classList.remove('open');
+        document.body.classList.remove('menu-open');
         document.body.style.overflow = '';
         hamburgerMenu.setAttribute('title', 'Open menu');
         hamburgerMenu.setAttribute('aria-label', 'Open menu');

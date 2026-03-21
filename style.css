@@ -278,13 +278,13 @@ body {
     width: 100%;
 }
 
-/* Site Logo - Actions Menu */
+/* Logo Wrapper is normally fixed */
 .logo-wrapper {
     position: fixed;
     top: 30px;
     right: 20px;
     z-index: 1001;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .logo-wrapper.header-hidden {
@@ -1501,11 +1501,7 @@ h3 {
         display: inline;
     }
 
-    .menu-overlay {
-        background-color: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(10px) saturate(180%);
-        -webkit-backdrop-filter: blur(10px) saturate(180%);
-    }
+
 
     .tab-content {
         padding-top: 80px;
@@ -1527,6 +1523,34 @@ h3 {
         aspect-ratio: auto;
     }
 
+    /* Visual enhancements for menu open state */
+    .menu-overlay.open {
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+    }
+
+    /* Disable and blur logo when mobile menu is open */
+    body.menu-open .logo-wrapper {
+        pointer-events: none;
+        opacity: 0.15;
+        filter: blur(10px) grayscale(1);
+        transform: scale(0.92);
+    }
+
+    /* Clear header background when menu is open to avoid double blur */
+    body.menu-open .mobile-header {
+        pointer-events: none;
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    body.menu-open .mobile-header > * {
+        pointer-events: auto; /* Hamburger still clickable */
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -1732,11 +1756,11 @@ h3 {
     }
 
     /* Vertical alignment with SVG nodes */
-    .process-step:nth-of-type(1) { top: 8.5%; }
+    .process-step:nth-of-type(1) { top: 9%; }
     .process-step:nth-of-type(2) { top: 28%; }
-    .process-step:nth-of-type(3) { top: 47.5%; }
-    .process-step:nth-of-type(4) { top: 68%; }
-    .process-step:nth-of-type(5) { top: 88%; }
+    .process-step:nth-of-type(3) { top: 48%; }
+    .process-step:nth-of-type(4) { top: 69%; }
+    .process-step:nth-of-type(5) { top: 89%; }
 
     .process-badge {
         display: flex !important;
