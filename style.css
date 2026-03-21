@@ -1879,3 +1879,50 @@ h3 {
         padding: 20px 10px;
     }
 }
+
+/* --- Smooth Theme Transition --- */
+@property --reveal {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+::view-transition-old(root) {
+    animation: none;
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 9999;
+    animation: reveal-circle 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    /* mask for feathered edge */
+    mask: radial-gradient(circle at right 40px top 40px, 
+            black var(--reveal), 
+            transparent calc(var(--reveal) + 18%));
+    -webkit-mask: radial-gradient(circle at right 40px top 40px, 
+            black var(--reveal), 
+            transparent calc(var(--reveal) + 18%));
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+}
+
+@keyframes reveal-circle {
+    from { --reveal: 0%; }
+    to { --reveal: 150%; }
+}
+
+/* Fallback for browsers without @property support (simple sharp circular reveal) */
+@supports not (color: color-mix(in srgb, red, blue)) {
+    ::view-transition-new(root) {
+        animation: reveal-simple 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        mask: none;
+        -webkit-mask: none;
+    }
+}
+
+@keyframes reveal-simple {
+    from { clip-path: circle(0% at right 40px top 40px); }
+    to { clip-path: circle(150% at right 40px top 40px); }
+}

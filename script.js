@@ -227,16 +227,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeImages(newTheme);
-            
-            // Close menu after selection
-            if (logoDropdown) logoDropdown.classList.remove('active');
-            if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+            const runner = () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeImages(newTheme);
+                
+                // Close menu after selection
+                if (logoDropdown) {
+                    logoDropdown.classList.remove('active');
+                    if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+                }
+            };
+
+            // SMOOTH THEME CHANGE REVEAL
+            if (!document.startViewTransition) {
+                runner();
+                return;
+            }
+
+            document.startViewTransition(runner);
         });
     }
 
