@@ -129,14 +129,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close dropdown on scroll
-        window.addEventListener('scroll', () => {
-            if (logoDropdown.classList.contains('active')) {
-                logoDropdown.classList.remove('active');
-                logoTrigger.setAttribute('aria-expanded', 'false');
+    // Header Visibility on Scroll (Mobile Specific)
+    let lastScrollY = window.scrollY;
+    const headerThreshold = 80;
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        
+        // Hide/Show on mobile
+        if (window.innerWidth <= 768) {
+            if (currentScrollY > lastScrollY && currentScrollY > headerThreshold) {
+                // Scrolling Down - Hide
+                if (hamburgerMenu) hamburgerMenu.classList.add('header-hidden');
+                if (logoDropdown) logoDropdown.classList.add('header-hidden');
+            } else if (currentScrollY < lastScrollY) {
+                // Scrolling Up - Show (Pop down)
+                if (hamburgerMenu) hamburgerMenu.classList.remove('header-hidden');
+                if (logoDropdown) logoDropdown.classList.remove('header-hidden');
             }
-        }, { passive: true });
-    }
+        } else {
+            // Restore visibility on desktop resize
+            if (hamburgerMenu) hamburgerMenu.classList.remove('header-hidden');
+            if (logoDropdown) logoDropdown.classList.remove('header-hidden');
+        }
+
+        if (logoDropdown && logoDropdown.classList.contains('active')) {
+            logoDropdown.classList.remove('active');
+            if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+        }
+        
+        lastScrollY = currentScrollY;
+    }, { passive: true });
+}
 
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');

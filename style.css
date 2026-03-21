@@ -100,10 +100,13 @@ body {
     /* classic spacing */
     cursor: pointer;
     z-index: 1000;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hamburger-menu:hover,
+.hamburger-menu.header-hidden {
+    transform: translateY(-100px);
+}
+
 .hamburger-menu.open {
     background-color: var(--panel-bg);
     backdrop-filter: blur(12px) saturate(180%);
@@ -111,6 +114,17 @@ body {
     border: 1px solid var(--accent-light);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(226, 114, 58, 0.25);
+}
+
+@media (hover: hover) {
+    .hamburger-menu:hover {
+        background-color: var(--panel-bg);
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        border: 1px solid var(--accent-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(226, 114, 58, 0.25);
+    }
 }
 
 .hamburger-menu:active {
@@ -158,9 +172,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     z-index: 998; /* Just below side-panel (999) */
     opacity: 0;
     visibility: hidden;
@@ -251,6 +265,11 @@ body {
     top: 30px;
     right: 20px;
     z-index: 1001;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-wrapper.header-hidden {
+    transform: translateY(-100px);
 }
 
 .logo-trigger {
@@ -269,7 +288,6 @@ body {
     z-index: 1002;
 }
 
-.logo-wrapper:hover .logo-trigger,
 .logo-wrapper.active .logo-trigger {
     background-color: var(--panel-bg);
     backdrop-filter: blur(12px) saturate(180%);
@@ -277,6 +295,17 @@ body {
     border: 1px solid var(--accent-light);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(226, 114, 58, 0.25);
+}
+
+@media (hover: hover) {
+    .logo-wrapper:hover .logo-trigger {
+        background-color: var(--panel-bg);
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        border: 1px solid var(--accent-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(226, 114, 58, 0.25);
+    }
 }
 
 .site-logo {
@@ -1433,6 +1462,13 @@ h3 {
     .bg-typography-track {
         font-size: 12rem;
         gap: 30px;
+        -webkit-text-stroke: 0.5px var(--bg-text-stroke);
+    }
+
+    .menu-overlay {
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px) saturate(180%);
+        -webkit-backdrop-filter: blur(10px) saturate(180%);
     }
 
     .tab-content {
