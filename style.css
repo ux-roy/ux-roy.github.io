@@ -703,7 +703,7 @@ h3 {
 .timeline-content h5 {
     font-family: var(--font-heading);
     font-size: 1.4rem;
-    font-weight: 600;
+    font-weight:600;
     color: var(--text-primary);
 }
 
@@ -1514,6 +1514,10 @@ h3 {
 
     .section-title {
         font-size: 2.2rem;
+    }
+
+    .timeline-content h5 {
+        font-size: 1.15rem;
     }
 
 
