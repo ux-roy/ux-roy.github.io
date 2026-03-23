@@ -312,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Action buttons inside modal
     const btnVideoOverview = document.getElementById('btn-video-overview');
     const btnOpenPrototype = document.getElementById('btn-open-prototype');
+    const btnExpandModal = document.getElementById('btn-expand-modal');
     const modalActions = document.getElementById('modal-actions');
 
     let currentProjectData = {
@@ -342,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.pause();
             
             // Show floating actions (only on desktop)
-            if (modalActions) modalActions.style.display = (window.innerWidth <= 600) ? 'none' : 'flex';
+            if (modalActions) modalActions.style.display = 'flex';
             if (closeModalBtn) closeModalBtn.style.display = 'flex'; 
         }
     };
@@ -381,6 +382,14 @@ document.addEventListener('DOMContentLoaded', () => {
             openModal(figmaUrl, videoUrl, prototypeUrl);
         });
     });
+
+    if (btnExpandModal) {
+        btnExpandModal.addEventListener('click', () => {
+            if (currentProjectData.figmaUrl) {
+                window.open(currentProjectData.figmaUrl, '_blank');
+            }
+        });
+    }
 
     if (btnVideoOverview) {
         btnVideoOverview.addEventListener('click', showVideo);

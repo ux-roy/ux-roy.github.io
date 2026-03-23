@@ -1181,31 +1181,20 @@ h3 {
 .close-modal {
     position: absolute;
     top: 15px;
+    right: 15px;
     cursor: pointer;
     color: var(--text-secondary);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 25;
-    width: 25px;
-    height: 25px;
     background: #ffffff;
-    border-radius: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--border-color);
 }
-
-.close-modal {
-    right: 15px;
-}
-
-
 
 .close-modal svg {
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     stroke-width: 2px;
-    opacity: 0.8;
 }
 
 .close-modal:hover {
@@ -1214,49 +1203,7 @@ h3 {
     color: #ffffff;
 }
 
-/* Tooltip for the Close Button - Styled for the Gray/White theme as requested */
-.modal-close-tooltip {
-    position: absolute;
-    bottom: calc(100% + 12px);
-    /* Positioned ABOVE the button/modal */
-    left: 50%;
-    transform: translateX(-50%) translateY(5px);
-    background: #333333;
-    /* Dark gray background */
-    color: #ffffff;
-    /* White text */
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-family: var(--font-body);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    z-index: 100;
-    pointer-events: none;
-}
 
-.modal-close-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    /* Arrow at the bottom pointing to the button */
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-top-color: #333333;
-    /* Arrow matches tooltip color */
-}
-
-.close-modal:hover .modal-close-tooltip {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
 
 #modal-body {
     width: 100%;
@@ -1284,7 +1231,7 @@ h3 {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 60px;
+    height: 56px;
     background-color: var(--bg-color);
     z-index: 10;
     pointer-events: none;
@@ -1294,10 +1241,10 @@ h3 {
 /* Positioning both buttons to the sides as requested */
 .modal-floating-actions {
     position: absolute;
-    bottom: 15px;
+    bottom: 12px;
     /* Increased slightly for better visual balance */
-    left: 15px;
-    right: 15px;
+    left: 12px;
+    right: 12px;
     display: flex;
     justify-content: flex-end;
     gap: 12px;
@@ -1307,14 +1254,25 @@ h3 {
 
 @media screen and (max-width: 600px) {
     .modal-floating-actions {
+        left: 15px;
+        right: 15px;
+        pointer-events: none;
+    }
+
+    #btn-video-overview {
         display: none !important;
+    }
+
+    #btn-expand-modal,
+    #btn-open-prototype {
+        display: flex !important;
     }
 }
 
 .modal-action-btn {
     pointer-events: auto;
-    padding: 8px 16px;
-    border-radius: 20px;
+    padding: 8px 12px;
+    border-radius: 8px;
     border: 1px solid var(--border-color);
     background-color: var(--card-bg);
     color: var(--text-primary);
@@ -1333,6 +1291,20 @@ h3 {
     background-color: var(--accent-color);
     color: #ffffff;
     border-color: var(--accent-color);
+}
+
+.btn-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    padding: 0; /* Let width/height handle it for icons */
+}
+
+#btn-expand-modal {
+    margin-right: auto;
 }
 
 @keyframes fadeIn {
