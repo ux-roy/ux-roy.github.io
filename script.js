@@ -144,29 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentScrollY = window.scrollY;
         const isMenuOpen = sidePanel && sidePanel.classList.contains('open');
         
-        // Hide/Show on mobile
-        if (window.innerWidth <= 768) {
-            // Background logic - separate from visibility
-            if (currentScrollY > 10) { // Small threshold for background
-                if (mobileHeader) mobileHeader.classList.add('header-floating');
-            } else {
-                if (mobileHeader) mobileHeader.classList.remove('header-floating');
-            }
-
-            // Visibility toggle logic
-            if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
-                // Scrolling Down - Hide
-                if (mobileHeader) mobileHeader.classList.add('header-hidden');
-            } else if (currentScrollY < lastScrollY) {
-                // Scrolling Up - Show
-                if (mobileHeader) mobileHeader.classList.remove('header-hidden');
-            }
+        // Background logic - separate from visibility
+        if (currentScrollY > 10) { // Small threshold for background
+            if (mobileHeader) mobileHeader.classList.add('header-floating');
         } else {
-            // Restore visibility/styles on desktop
-            if (mobileHeader) {
-                mobileHeader.classList.remove('header-hidden');
-                mobileHeader.classList.remove('header-floating');
-            }
+            if (mobileHeader) mobileHeader.classList.remove('header-floating');
+        }
+
+        // Visibility toggle logic
+        if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
+            // Scrolling Down - Hide
+            if (mobileHeader) mobileHeader.classList.add('header-hidden');
+        } else if (currentScrollY < lastScrollY) {
+            // Scrolling Up - Show
+            if (mobileHeader) mobileHeader.classList.remove('header-hidden');
         }
 
         // Close logo dropdown on scroll
