@@ -312,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Action buttons inside modal
     const btnVideoOverview = document.getElementById('btn-video-overview');
     const btnOpenPrototype = document.getElementById('btn-open-prototype');
-    const btnBackToPrototype = document.getElementById('back-to-prototype');
     const modalActions = document.getElementById('modal-actions');
 
     let currentProjectData = {
@@ -345,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show floating actions (only on desktop)
             if (modalActions) modalActions.style.display = (window.innerWidth <= 600) ? 'none' : 'flex';
             if (closeModalBtn) closeModalBtn.style.display = 'flex'; 
-            if (btnBackToPrototype) btnBackToPrototype.style.display = 'none';
         }
     };
 
@@ -359,10 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.load();
             projectVideo.play();
 
-            // Hide floating actions and show back button (Replacing Close)
+            // Show close button
             if (modalActions) modalActions.style.display = 'none';
-            if (closeModalBtn) closeModalBtn.style.display = 'none';
-            if (btnBackToPrototype) btnBackToPrototype.style.display = 'flex';
+            if (closeModalBtn) closeModalBtn.style.display = 'flex';
         }
     };
 
@@ -397,10 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showFigma();
             }
         });
-    }
-
-    if (btnBackToPrototype) {
-        btnBackToPrototype.addEventListener('click', showFigma);
     }
 
     if (closeModalBtn) {

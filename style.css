@@ -493,7 +493,7 @@ h3 {
     font-family: var(--font-section);
     font-size: 2.5rem;
     font-weight: 700;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .edu-header-wrapper {
@@ -1178,8 +1178,7 @@ h3 {
     }
 }
 
-.close-modal,
-.back-modal {
+.close-modal {
     position: absolute;
     top: 15px;
     cursor: pointer;
@@ -1200,28 +1199,23 @@ h3 {
     right: 15px;
 }
 
-.back-modal {
-    right: 15px;
-}
 
-.close-modal svg,
-.back-modal svg {
+
+.close-modal svg {
     width: 10px;
     height: 10px;
     stroke-width: 2px;
     opacity: 0.8;
 }
 
-.close-modal:hover,
-.back-modal:hover {
+.close-modal:hover {
     box-shadow: 0 6px 15px rgba(226, 114, 58, 0.25);
     background-color: var(--accent-color);
     color: #ffffff;
 }
 
 /* Tooltip for the Close Button - Styled for the Gray/White theme as requested */
-.modal-close-tooltip,
-.modal-back-tooltip {
+.modal-close-tooltip {
     position: absolute;
     bottom: calc(100% + 12px);
     /* Positioned ABOVE the button/modal */
@@ -1246,8 +1240,7 @@ h3 {
     pointer-events: none;
 }
 
-.modal-close-tooltip::after,
-.modal-back-tooltip::after {
+.modal-close-tooltip::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -1259,8 +1252,7 @@ h3 {
     /* Arrow matches tooltip color */
 }
 
-.close-modal:hover .modal-close-tooltip,
-.back-modal:hover .modal-back-tooltip {
+.close-modal:hover .modal-close-tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
