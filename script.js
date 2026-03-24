@@ -154,10 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Visibility toggle logic
         if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
             // Scrolling Down - Hide
-            if (mobileHeader) mobileHeader.classList.add('header-hidden');
+            if (mobileHeader) {
+                mobileHeader.classList.add('header-hidden');
+                mobileHeader.classList.remove('scrolling-up');
+            }
         } else if (currentScrollY < lastScrollY) {
             // Scrolling Up - Show
-            if (mobileHeader) mobileHeader.classList.remove('header-hidden');
+            if (mobileHeader) {
+                mobileHeader.classList.remove('header-hidden');
+                // Apply floating background style only when scrolled away from top
+                if (currentScrollY > 20) {
+                    mobileHeader.classList.add('scrolling-up');
+                } else {
+                    mobileHeader.classList.remove('scrolling-up');
+                }
+            }
         }
 
         // Close logo dropdown on scroll
