@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Check system preference if no saved theme
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    const initialTheme = savedTheme || 'dark'; // Updated to default to dark theme as requested
     
     const profileImg = document.querySelector('.hero-profile-img');
     

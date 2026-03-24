@@ -18,15 +18,15 @@
 }
 
 [data-theme="dark"] {
-    --bg-color: #0f1113;
-    --text-primary: #f2f2f2;
-    --text-secondary: #a0a0a0;
-    --accent-light: #3d2a1f;
-    --bg-text-stroke: rgba(255, 255, 255, 0.025);
-    --panel-bg: rgba(15, 17, 19, 0.6);
-    --shadow-color: rgba(0, 0, 0, 0.4);
-    --border-color: rgba(255, 255, 255, 0.10);
-    --card-bg: #1a1c1e;
+    --bg-color: #0B111E; /* Deep Dark Blue */
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --accent-light: rgba(226, 114, 58, 0.15);
+    --bg-text-stroke: rgba(255, 255, 255, 0.04);
+    --panel-bg: rgba(11, 17, 30, 0.8);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --card-bg: #161E2D; /* Slightly lighter Navy Blue for cards */
 }
 
 * {
@@ -958,7 +958,7 @@ h3 {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    background-color: #1a1a1a;
+    background-color: var(--text-primary); /* Changed from hardcoded black */
     border-radius: 30px;
     padding: 8px;
     margin: 14px auto 0;
@@ -968,7 +968,7 @@ h3 {
 .carousel-controls .nav-btn {
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: var(--bg-color); /* Contrast with control background */
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -990,7 +990,7 @@ h3 {
     font-family: var(--font-body);
     font-size: 0.85rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--bg-color); /* Contrast with control background */
     letter-spacing: 0.5px;
     min-width: 30px;
     text-align: center;
@@ -1153,9 +1153,9 @@ h3 {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(5, 10, 20, 0.75); /* Dark Blue tinted overlay */
+    backdrop-filter: blur(12px) saturate(160%); /* Enhanced blur for a premium look */
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
     align-items: center;
     justify-content: center;
 }
@@ -1204,11 +1204,11 @@ h3 {
     top: 15px;
     right: 15px;
     cursor: pointer;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 25;
-    background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    background: var(--card-bg); /* Use variable instead of white */
+    box-shadow: 0 4px 12px var(--shadow-color);
     border: 1px solid var(--border-color);
 }
 
@@ -1231,8 +1231,8 @@ h3 {
     height: 100%;
     overflow: hidden;
     position: relative;
-    background-color: #000;
-    /* Ensures black bars blend in */
+    background-color: var(--bg-color); /* Changed from black to dark blue theme background */
+    /* Ensures dark background blends in */
     border-radius: 8px;
     /* Added to prevent corners bleeding from rounded parent */
 }
@@ -1522,7 +1522,7 @@ h3 {
 
     /* Visual enhancements for menu open state */
     .menu-overlay.open {
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(5, 10, 20, 0.6); /* Dark Blue tinted overlay */
         backdrop-filter: blur(12px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
     }
