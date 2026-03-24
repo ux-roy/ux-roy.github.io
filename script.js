@@ -210,12 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Apply initial theme
-    if (initialTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        updateThemeImages('dark');
-    } else {
-        updateThemeImages('light');
-    }
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    updateThemeImages(initialTheme);
 
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
