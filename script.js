@@ -183,6 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
+    const bgBackdrop = document.querySelector('.bg-typography-backdrop');
+    
 
     const designProcessImg = document.getElementById('design-process-img');
     const savedTheme = localStorage.getItem('theme');
