@@ -809,10 +809,11 @@ h3 {
     top: 0;
     left: 0;
     transform: translate(-50%, -50%);
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     background-color: var(--accent-color);
     color: white;
+    border: 2px solid white;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1857,6 +1858,7 @@ h3 {
         top: 0;
         left: 0;
         transform: none;
+        border: 2px solid white;
     }
 
     .process-label {
