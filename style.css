@@ -806,8 +806,8 @@ h3 {
     top: 0;
     left: 0;
     transform: translate(-50%, -50%);
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     background-color: var(--accent-color);
     color: white;
     border-radius: 50%;
@@ -815,8 +815,8 @@ h3 {
     align-items: center;
     justify-content: center;
     font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 1.2rem;
+    font-weight: 500;
+    font-size: 1.1rem;
     box-shadow: 0 4px 10px rgba(226, 114, 58, 0.3);
 }
 
@@ -1793,7 +1793,7 @@ h3 {
     }
 
     .diagram-img {
-        margin-left: -70px;
+        margin-left: -120px;
     }
 
     .process-img {
@@ -1808,7 +1808,7 @@ h3 {
     .process-step {
         display: flex !important;
         position: absolute !important;
-        left: 41% !important;
+        left: 33.5% !important;
         width: 60%;
         /* Increased for better fit */
         height: auto;
@@ -1846,9 +1846,9 @@ h3 {
         position: relative;
         /* Changed from absolute */
         flex-shrink: 0;
-        width: 24px;
-        height: 24px;
-        font-size: 0.8rem;
+        width: 30px;
+        height: 30px;
+        font-size: 1.1rem;
         z-index: 10;
         border-width: 1.5px;
         top: 0;
@@ -1870,7 +1870,7 @@ h3 {
     .label-line {
         display: block;
         width: 1.5px;
-        height: 24px;
+        height: 50px;
         /* Vertical line as requested */
         background-color: var(--accent-color);
         flex-shrink: 0;
