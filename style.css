@@ -18,15 +18,18 @@
 }
 
 [data-theme="dark"] {
-    --bg-color: #0B111E; /* Deep Dark Blue */
+    --bg-color: #0D0F14;
+    /* Neutral deep dark grey-black */
     --text-primary: #F8FAFC;
     --text-secondary: #94A3B8;
     --accent-light: rgba(226, 114, 58, 0.15);
     --bg-text-stroke: rgba(255, 255, 255, 0.04);
-    --panel-bg: rgba(11, 17, 30, 0.8);
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --border-color: rgba(255, 255, 255, 0.08);
-    --card-bg: #161E2D; /* Slightly lighter Navy Blue for cards */
+    --panel-bg: rgba(13, 15, 20, 0.85);
+    /* Less blue, more neutral */
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --border-color: rgba(255, 255, 255, 0.06);
+    --card-bg: #16181D;
+    /* Deep charcoal for cards */
 }
 
 * {
@@ -89,7 +92,8 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    pointer-events: none; /* Allow clicking through when not floating */
+    pointer-events: none;
+    /* Allow clicking through when not floating */
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -101,7 +105,7 @@ body {
     pointer-events: none;
 }
 
-.header-inner > * {
+.header-inner>* {
     pointer-events: auto;
 }
 
@@ -111,8 +115,9 @@ body {
     -webkit-backdrop-filter: none;
     border-bottom: none;
     box-shadow: none;
-    pointer-events: none; /* Allow click through unless children are interactive */
-    height: 100px; 
+    pointer-events: none;
+    /* Allow click through unless children are interactive */
+    height: 100px;
 }
 
 .mobile-header.header-hidden {
@@ -214,7 +219,8 @@ body {
     background-color: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    z-index: 998; /* Just below side-panel (999) */
+    z-index: 998;
+    /* Just below side-panel (999) */
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -390,7 +396,8 @@ body {
     width: 100%;
     background: transparent;
     border: none;
-    border-radius: 8px; /* Slightly tighter rounding */
+    border-radius: 8px;
+    /* Slightly tighter rounding */
     color: var(--text-primary);
     font-family: var(--font-body);
     font-size: 1rem;
@@ -406,10 +413,12 @@ body {
 .menu-item::before {
     content: '';
     position: absolute;
-    left: 10px; /* Bring closer to text center */
+    left: 10px;
+    /* Bring closer to text center */
     top: 50%;
     transform: translateY(-50%);
-    width: 3px; /* Thicker line as requested */
+    width: 3px;
+    /* Thicker line as requested */
     height: 0;
     background-color: var(--accent-color);
     transition: height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
@@ -418,11 +427,13 @@ body {
 .menu-item:hover {
     background: transparent;
     color: var(--accent-color);
-    padding-left: 22px; /* Repositioned text near the 4px line highlight */
+    padding-left: 22px;
+    /* Repositioned text near the 4px line highlight */
 }
 
 .menu-item:hover::before {
-    height: 18px; /* Thick 2px line before the text */
+    height: 18px;
+    /* Thick 2px line before the text */
 }
 
 .menu-icon {
@@ -724,7 +735,7 @@ h3 {
 .timeline-content h5 {
     font-family: var(--font-heading);
     font-size: 1.4rem;
-    font-weight:600;
+    font-weight: 600;
     color: var(--text-primary);
 }
 
@@ -948,7 +959,7 @@ h3 {
     justify-content: space-between;
     align-items: center;
     padding-top: 16px;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    border-top: 1px solid var(--border-color);
     gap: 16px;
 }
 
@@ -957,43 +968,59 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    background-color: var(--text-primary); /* Changed from hardcoded black */
-    border-radius: 30px;
-    padding: 8px;
-    margin: 14px auto 0;
+    gap: 0;
+    background-color: var(--card-bg);
+    border-radius: 40px;
+    padding: 3px 4px;
+    margin: 20px auto 0;
     width: fit-content;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
 }
 
 .carousel-controls .nav-btn {
     background: transparent;
     border: none;
-    color: var(--bg-color); /* Contrast with control background */
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+    color: var(--text-primary);
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    box-shadow: none;
-    padding: 0;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.carousel-controls .prev-btn {
+    border-radius: 50% 12% 12% 50%;
+}
+
+.carousel-controls .next-btn {
+    border-radius: 12% 50% 50% 12%;
 }
 
 .carousel-controls .nav-btn:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    box-shadow: none;
+    opacity: 1;
+    background-color: var(--accent-light);
 }
 
 .slide-counter {
     font-family: var(--font-body);
     font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--bg-color); /* Contrast with control background */
+    font-weight: 500;
+    color: var(--text-primary);
     letter-spacing: 0.5px;
-    min-width: 30px;
+    min-width: 70px;
     text-align: center;
+    margin: 0 4px;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    padding: 0 12px;
 }
 
 /* Right duration block with orange left border */
@@ -1096,7 +1123,7 @@ h3 {
 .get-in-touch-group {
     margin-top: 10px;
     padding-top: 18px;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    border-top: 1px solid var(--border-color);
 }
 
 .get-in-touch-label {
@@ -1153,8 +1180,10 @@ h3 {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rgba(5, 10, 20, 0.75); /* Dark Blue tinted overlay */
-    backdrop-filter: blur(12px) saturate(160%); /* Enhanced blur for a premium look */
+    background-color: rgba(5, 10, 20, 0.75);
+    /* Dark Blue tinted overlay */
+    backdrop-filter: blur(12px) saturate(160%);
+    /* Enhanced blur for a premium look */
     -webkit-backdrop-filter: blur(12px) saturate(160%);
     align-items: center;
     justify-content: center;
@@ -1207,7 +1236,8 @@ h3 {
     color: var(--text-primary);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 25;
-    background: var(--card-bg); /* Use variable instead of white */
+    background: var(--card-bg);
+    /* Use variable instead of white */
     box-shadow: 0 4px 12px var(--shadow-color);
     border: 1px solid var(--border-color);
 }
@@ -1231,7 +1261,8 @@ h3 {
     height: 100%;
     overflow: hidden;
     position: relative;
-    background-color: var(--bg-color); /* Changed from black to dark blue theme background */
+    background-color: var(--bg-color);
+    /* Changed from black to dark blue theme background */
     /* Ensures dark background blends in */
     border-radius: 8px;
     /* Added to prevent corners bleeding from rounded parent */
@@ -1321,7 +1352,8 @@ h3 {
     width: 30px;
     height: 30px;
     border-radius: 6px;
-    padding: 0; /* Let width/height handle it for icons */
+    padding: 0;
+    /* Let width/height handle it for icons */
 }
 
 #btn-expand-modal {
@@ -1376,6 +1408,7 @@ h3 {
     .header-inner {
         padding: 0 25px;
     }
+
     .main-title {
         font-size: 3.5rem;
     }
@@ -1522,9 +1555,10 @@ h3 {
 
     /* Visual enhancements for menu open state */
     .menu-overlay.open {
-        background-color: rgba(5, 10, 20, 0.6); /* Dark Blue tinted overlay */
-        backdrop-filter: blur(12px) saturate(180%);
-        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        background-color: rgba(0, 0, 0, 0.25);
+        /* Neutral dark overlay */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(5px);
     }
 
     /* Disable and blur logo when mobile menu is open */
@@ -1545,8 +1579,9 @@ h3 {
         -webkit-backdrop-filter: none !important;
     }
 
-    body.menu-open .mobile-header > * {
-        pointer-events: auto; /* Hamburger still clickable */
+    body.menu-open .mobile-header>* {
+        pointer-events: auto;
+        /* Hamburger still clickable */
     }
 }
 
@@ -1557,14 +1592,16 @@ h3 {
     }
 
     .logo-wrapper {
-        position: relative; /* Changed from fixed */
+        position: relative;
+        /* Changed from fixed */
         top: auto;
         right: auto;
     }
 
     .logo-trigger {
         width: 60px;
-        height: 48px; /* Slightly more height */
+        height: 48px;
+        /* Slightly more height */
     }
 
     .site-logo {
@@ -1572,7 +1609,8 @@ h3 {
     }
 
     .hamburger-menu {
-        position: relative; /* Changed from fixed */
+        position: relative;
+        /* Changed from fixed */
         top: auto;
         left: auto;
         width: 48px;
@@ -1585,16 +1623,20 @@ h3 {
         top: 12px;
         left: 12px;
         right: 12px;
-        width: auto; /* Ensure it respects left/right constraints */
+        width: auto;
+        /* Ensure it respects left/right constraints */
         height: 68px;
-        display: block; /* Removed flex from parent */
-        padding: 0; /* Padding moved to inner */
+        display: block;
+        /* Removed flex from parent */
+        padding: 0;
+        /* Padding moved to inner */
         z-index: 1000;
         background: transparent;
         border: 1px solid transparent;
         border-radius: 20px;
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none; /* Click through when transparent */
+        pointer-events: none;
+        /* Click through when transparent */
     }
 
     .header-inner {
@@ -1608,8 +1650,9 @@ h3 {
         pointer-events: none;
     }
 
-    .mobile-header > * {
-        pointer-events: auto; /* Interactive children */
+    .mobile-header>* {
+        pointer-events: auto;
+        /* Interactive children */
     }
 
     /* Hide individual hidden classes on mobile since handler moved to parent */
@@ -1637,40 +1680,33 @@ h3 {
 
     .side-panel {
         position: fixed;
-        width: calc(100% - 30px);
-        max-width: 360px;
+        width: 250px;
+        /* Narrower as requested */
         padding: 40px;
         background-color: var(--card-bg);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        border-radius: 24px;
-        box-shadow: 0 10px 40px var(--shadow-color);
-        left: -100%; /* Slide from left */
-        top: 50%;
+        backdrop-filter: blur(16px) saturate(100%);
+        /* Reduced saturation */
+        -webkit-backdrop-filter: blur(10px) saturate(100%);
+        border: 1px solid var(--border-color);
+        border-radius: 30px;
+        box-shadow: 0 30px 60px var(--shadow-color);
+        left: 50%;
+        top: -60%;
+        /* Slide from top hidden state */
         transform: translate(-50%, -50%);
-        transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        transition: top 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 1100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .side-panel.open {
-        left: 50%;
         top: 50%;
+        /* Center in screen */
     }
 
-    /* Cross Symbol for Hamburger on Mobile */
-    .hamburger-menu.open .hamburger-line:nth-child(1) {
-        width: 20px;
-        transform: translateY(6px) rotate(45deg);
-    }
 
-    .hamburger-menu.open .hamburger-line:nth-child(2) {
-        opacity: 0;
-        width: 20px;
-    }
-
-    .hamburger-menu.open .hamburger-line:nth-child(3) {
-        width: 20px;
-        transform: translateY(-6px) rotate(-45deg);
-    }
 
 
     .hero-layout {
@@ -1692,20 +1728,24 @@ h3 {
 
     .panel-nav {
         flex-direction: column;
-        gap: 30px;
+        gap: 24px;
         width: 100%;
-        align-items: flex-start;
+        align-items: center;
+        /* Centered */
     }
 
     .panel-link {
-        font-size: 1.25rem;
-        padding: 10px 0;
+        font-size: 1.2rem;
+        padding: 8px 0;
         width: 100%;
-        text-align: left;
+        text-align: center;
+        /* Centered */
     }
 
     .panel-link::after {
-        height: 3px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 2px;
     }
 
     .main-title {
@@ -1748,7 +1788,8 @@ h3 {
     .process-img {
         display: block;
         width: 100%;
-        max-width: 160px; /* Reduced from 240px */
+        max-width: 160px;
+        /* Reduced from 240px */
         height: auto;
         margin: 0 auto;
     }
@@ -1757,25 +1798,42 @@ h3 {
         display: flex !important;
         position: absolute !important;
         left: 41% !important;
-        width: 60%; /* Increased for better fit */
+        width: 60%;
+        /* Increased for better fit */
         height: auto;
         align-items: center;
-        gap: 70px; /* Increased space between badge and label */
+        gap: 70px;
+        /* Increased space between badge and label */
         text-align: left;
         transform: translateY(-50%);
         padding: 0;
     }
 
     /* Vertical alignment with SVG nodes */
-    .process-step:nth-of-type(1) { top: 8%; }
-    .process-step:nth-of-type(2) { top: 28%; }
-    .process-step:nth-of-type(3) { top: 47.5%; }
-    .process-step:nth-of-type(4) { top: 68%; }
-    .process-step:nth-of-type(5) { top: 88.5%; }
+    .process-step:nth-of-type(1) {
+        top: 8%;
+    }
+
+    .process-step:nth-of-type(2) {
+        top: 28%;
+    }
+
+    .process-step:nth-of-type(3) {
+        top: 47.5%;
+    }
+
+    .process-step:nth-of-type(4) {
+        top: 68%;
+    }
+
+    .process-step:nth-of-type(5) {
+        top: 88.5%;
+    }
 
     .process-badge {
         display: flex !important;
-        position: relative; /* Changed from absolute */
+        position: relative;
+        /* Changed from absolute */
         flex-shrink: 0;
         width: 24px;
         height: 24px;
@@ -1790,7 +1848,8 @@ h3 {
     .process-label {
         display: flex;
         align-items: center;
-        gap: 12px; /* Added gap between line and text */
+        gap: 12px;
+        /* Added gap between line and text */
         padding-left: 0;
         position: relative;
         top: 0;
@@ -1800,7 +1859,8 @@ h3 {
     .label-line {
         display: block;
         width: 1.5px;
-        height: 24px; /* Vertical line as requested */
+        height: 24px;
+        /* Vertical line as requested */
         background-color: var(--accent-color);
         flex-shrink: 0;
     }
@@ -1906,11 +1966,11 @@ h3 {
     z-index: 9999;
     animation: reveal-circle 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     /* mask for feathered edge */
-    mask: radial-gradient(circle at right 59px top 54px, 
-            black var(--reveal), 
+    mask: radial-gradient(circle at right 59px top 54px,
+            black var(--reveal),
             transparent calc(var(--reveal) + 18%));
-    -webkit-mask: radial-gradient(circle at right 59px top 54px, 
-            black var(--reveal), 
+    -webkit-mask: radial-gradient(circle at right 59px top 54px,
+            black var(--reveal),
             transparent calc(var(--reveal) + 18%));
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
@@ -1919,8 +1979,13 @@ h3 {
 }
 
 @keyframes reveal-circle {
-    from { --reveal: 0%; }
-    to { --reveal: 150%; }
+    from {
+        --reveal: 0%;
+    }
+
+    to {
+        --reveal: 150%;
+    }
 }
 
 /* Fallback for browsers without @property support (simple sharp circular reveal) */
@@ -1933,8 +1998,13 @@ h3 {
 }
 
 @keyframes reveal-simple {
-    from { clip-path: circle(0% at right 59px top 54px); }
-    to { clip-path: circle(150% at right 59px top 54px); }
+    from {
+        clip-path: circle(0% at right 59px top 54px);
+    }
+
+    to {
+        clip-path: circle(150% at right 59px top 54px);
+    }
 }
 
 /* Fix for blinking jerk: Disable all transitions during view transition capture */
