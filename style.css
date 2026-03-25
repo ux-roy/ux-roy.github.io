@@ -58,6 +58,12 @@ body {
     overflow: hidden;
     pointer-events: none;
     user-select: none;
+    transition: opacity 0.6s ease;
+}
+
+.bg-typography-backdrop.bg-hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .bg-typography-track {
@@ -1516,6 +1522,10 @@ h3 {
 
 @media screen and (max-width: 768px) {
     .bg-typography-backdrop {
+        display: none;
+    }
+
+    #bg-toggle {
         display: none;
     }
 

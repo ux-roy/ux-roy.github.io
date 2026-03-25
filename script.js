@@ -183,6 +183,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
+    const bgToggle = document.getElementById('bg-toggle');
+    const bgBackdrop = document.querySelector('.bg-typography-backdrop');
+    
+    // Background Toggle Logic
+    const savedBgState = localStorage.getItem('bg-hidden');
+    if (savedBgState === 'true' && bgBackdrop) {
+        bgBackdrop.classList.add('bg-hidden');
+        if (bgToggle) bgToggle.querySelector('span').textContent = 'Show Animation';
+    }
+
+    if (bgToggle && bgBackdrop) {
+        bgToggle.addEventListener('click', () => {
+            const isHidden = bgBackdrop.classList.toggle('bg-hidden');
+            localStorage.setItem('bg-hidden', isHidden);
+            bgToggle.querySelector('span').textContent = isHidden ? 'Show Animation' : 'Hide Animation';
+            
+            // Close dropdown after selection
+            if (logoDropdown) {
+                logoDropdown.classList.remove('active');
+                if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
     const designProcessImg = document.getElementById('design-process-img');
     const savedTheme = localStorage.getItem('theme');
     
