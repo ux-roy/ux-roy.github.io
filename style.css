@@ -10,7 +10,7 @@
     --font-heading: 'Poppins', sans-serif;
     --font-body: 'Poppins', sans-serif;
     --font-section: 'Lora', serif;
-    --bg-text-stroke: rgba(0, 0, 0, 0.04);
+    --bg-text-stroke: rgba(0, 0, 0, 0.05);
     --panel-bg: rgba(252, 251, 245, 0.25);
     --shadow-color: rgba(0, 0, 0, 0.12);
     --border-color: rgba(0, 0, 0, 0.10);
@@ -23,7 +23,7 @@
     --text-primary: #F8FAFC;
     --text-secondary: #94A3B8;
     --accent-light: rgba(226, 114, 58, 0.15);
-    --bg-text-stroke: rgba(255, 255, 255, 0.03);
+    --bg-text-stroke: rgba(255, 255, 255, 0.05);
     --panel-bg: rgba(35, 38, 46, 0.9);
     /* Lighter, slightly transparent for better blur */
     --shadow-color: rgba(0, 0, 0, 0.6);
@@ -54,7 +54,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 1;
     overflow: hidden;
     pointer-events: none;
     user-select: none;
@@ -371,7 +371,7 @@ body {
     position: absolute;
     top: calc(100% + 15px);
     right: 0;
-    width: 200px;
+    width: 190px;
     background: var(--card-bg);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
