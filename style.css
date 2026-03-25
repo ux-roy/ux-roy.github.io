@@ -608,7 +608,7 @@ h3 {
     font-family: var(--font-body);
     font-size: 1.1rem;
     font-style: italic;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     line-height: 1.8;
 }
 
