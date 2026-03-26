@@ -149,8 +149,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4px;
-    /* classic spacing */
+    gap: 5px;
+    /* Adjusted for 16px total height */
     cursor: pointer;
     z-index: 1000;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -365,13 +365,13 @@ body {
 }
 
 .site-logo {
-    width: 42px;
+    width: 46px; /* Adjusted for 16px visual height */
     height: auto;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .site-logo path {
-    stroke-dasharray: 1.5;
+    stroke-dasharray: 1; /* Match pathLength="1" */
     stroke-dashoffset: 0; /* Default state: fully drawn */
     transition: stroke-dashoffset 0.8s ease;
 }
@@ -379,17 +379,23 @@ body {
 /* Keyframes for drawing animation (start to end loop) */
 @keyframes logoDraw {
     0% {
-        stroke-dashoffset: 1.5;
+        stroke-dashoffset: 1; /* Start hidden */
+    }
+    40% {
+        stroke-dashoffset: 0; /* Fully drawn */
+    }
+    60% {
+        stroke-dashoffset: 0; /* Hold drawn */
     }
     100% {
-        stroke-dashoffset: 0;
+        stroke-dashoffset: -1; /* Erase forward */
     }
 }
 
 /* Controlled by JS via .logo-animate class added directly to .site-logo */
 .site-logo.logo-animate path {
-    stroke-dashoffset: 1.5; /* Override default 0 to start hidden */
-    animation: logoDraw 5s ease-in-out infinite alternate;
+    stroke-dashoffset: 1; /* Override default 0 to start hidden */
+    animation: logoDraw 4s linear infinite; /* Complete continuous sequence */
 }
 
 
@@ -1652,7 +1658,7 @@ h3 {
     }
 
     .site-logo {
-        width: 32px;
+        width: 40px; /* Adjusted for 14px visual height */
     }
 
     .hamburger-menu {
@@ -1662,6 +1668,7 @@ h3 {
         left: auto;
         width: 48px;
         height: 48px;
+        gap: 4px; /* Adjusted for 14px total height */
     }
 
     /* Mobile Header Styling */
