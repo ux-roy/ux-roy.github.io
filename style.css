@@ -374,7 +374,7 @@ body {
     position: absolute;
     top: calc(100% + 15px);
     right: 0;
-    width: 180px;
+    width: 185px;
     background: var(--card-bg);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
@@ -1526,7 +1526,13 @@ h3 {
 
 @media screen and (max-width: 768px) {
     .bg-typography-backdrop {
-        display: none;
+        display: block;
+    }
+
+    .bg-typography-track {
+        font-size: 12rem;
+        -webkit-text-stroke: 0.5px var(--bg-text-stroke);
+        font-weight: 500;
     }
 
     #bg-toggle {
@@ -1604,6 +1610,8 @@ h3 {
     .bg-typography-track {
         font-size: 8rem;
         gap: 20px;
+        -webkit-text-stroke: 0.5px var(--bg-text-stroke);
+        font-weight: 500;
     }
 
     .logo-wrapper {

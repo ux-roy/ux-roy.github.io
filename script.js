@@ -251,6 +251,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Animation Toggle Logic
+    const animationToggle = document.getElementById('animation-toggle');
+    const animationStatusKey = 'animation_hidden';
+    
+    const updateAnimationState = (isHidden) => {
+        if (!bgBackdrop) return;
+        
+        if (isHidden) {
+            bgBackdrop.classList.add('bg-hidden');
+            if (animationToggle) {
+                animationToggle.querySelector('span').textContent = 'Show Animation';
+            }
+        } else {
+            bgBackdrop.classList.remove('bg-hidden');
+            if (animationToggle) {
+                animationToggle.querySelector('span').textContent = 'Hide Animation';
+            }
+        }
+    };
+
+    // Apply initial animation state
+    const isAnimationHidden = localStorage.getItem(animationStatusKey) === 'true';
+    updateAnimationState(isAnimationHidden);
+
+    if (animationToggle) {
+        animationToggle.addEventListener('click', () => {
+            const isCurrentlyHidden = bgBackdrop.classList.contains('bg-hidden');
+            const newState = !isCurrentlyHidden;
+            
+            updateAnimationState(newState);
+            localStorage.setItem(animationStatusKey, newState);
+            
+            // Close dropdown
+            if (logoDropdown) {
+                logoDropdown.classList.remove('active');
+                if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
     // Update images on resize (for mobile/desktop process diagram swap)
     window.addEventListener('resize', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
