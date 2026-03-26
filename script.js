@@ -264,13 +264,13 @@ document.addEventListener('DOMContentLoaded', () => {
             bgBackdrop.classList.add('bg-hidden');
             if (logo) logo.classList.remove('logo-animate');
             if (animationToggle) {
-                animationToggle.querySelector('span').textContent = 'Show Animation';
+                animationToggle.querySelector('span').textContent = 'Enable Motion';
             }
         } else {
             bgBackdrop.classList.remove('bg-hidden');
             if (logo) logo.classList.add('logo-animate');
             if (animationToggle) {
-                animationToggle.querySelector('span').textContent = 'Hide Animation';
+                animationToggle.querySelector('span').textContent = 'Disable Motion';
             }
         }
     };
