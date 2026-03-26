@@ -370,6 +370,30 @@ body {
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.site-logo path {
+    stroke-dasharray: 1.5;
+    stroke-dashoffset: 0; /* Default state: fully drawn */
+    transition: stroke-dashoffset 0.8s ease;
+}
+
+/* Keyframes for drawing animation (start to end loop) */
+@keyframes logoDraw {
+    0% {
+        stroke-dashoffset: 1.5;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Controlled by JS via .logo-animate class added directly to .site-logo */
+.site-logo.logo-animate path {
+    stroke-dashoffset: 1.5; /* Override default 0 to start hidden */
+    animation: logoDraw 5s ease-in-out infinite alternate;
+}
+
+
+
 .logo-menu {
     position: absolute;
     top: calc(100% + 15px);

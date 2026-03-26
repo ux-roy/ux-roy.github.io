@@ -258,13 +258,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateAnimationState = (isHidden) => {
         if (!bgBackdrop) return;
         
+        const logo = document.querySelector('.site-logo');
+
         if (isHidden) {
             bgBackdrop.classList.add('bg-hidden');
+            if (logo) logo.classList.remove('logo-animate');
             if (animationToggle) {
                 animationToggle.querySelector('span').textContent = 'Show Animation';
             }
         } else {
             bgBackdrop.classList.remove('bg-hidden');
+            if (logo) logo.classList.add('logo-animate');
             if (animationToggle) {
                 animationToggle.querySelector('span').textContent = 'Hide Animation';
             }
