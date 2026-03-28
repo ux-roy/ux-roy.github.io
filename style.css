@@ -11,7 +11,7 @@
     --font-body: 'Poppins', sans-serif;
     --font-section: 'Lora', serif;
     --bg-text-stroke: rgba(0, 0, 0, 0.05);
-    --panel-bg: rgba(252, 251, 245, 0.25);
+    --panel-bg: rgba(255, 255, 255, 0.08); /* Unified glass background */
     --shadow-color: rgba(0, 0, 0, 0.12);
     --border-color: rgba(0, 0, 0, 0.10);
     --card-bg: #ffffff;
@@ -24,8 +24,7 @@
     --text-secondary: #94A3B8;
     --accent-light: rgba(226, 114, 58, 0.15);
     --bg-text-stroke: rgba(255, 255, 255, 0.05);
-    --panel-bg: rgba(35, 38, 46, 0.9);
-    /* Lighter, slightly transparent for better blur */
+    --panel-bg: rgba(255, 255, 255, 0.08); /* Keep unified glass background */
     --shadow-color: rgba(0, 0, 0, 0.6);
     --border-color: rgba(255, 255, 255, 0.08);
     /* Slightly more visible border */
@@ -48,6 +47,41 @@ body {
     font-family: var(--font-body);
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+body, a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
+    cursor: none !important;
+}
+
+/* Custom Cursor Shape ✦ */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16px; 
+    height: 16px;
+    pointer-events: none;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color); /* Principal Orange */
+    font-size: 16px; 
+    font-weight: 700;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                color 0.25s ease;
+    will-change: transform;
+    user-select: none;
+}
+
+/* Restore default cursor on mobile */
+@media (max-width: 768px) {
+    body, a, button, .menu-item, .panel-link {
+        cursor: auto;
+    }
+    .custom-cursor {
+        display: none;
+    }
 }
 
 /* Background Typography Backdrop */
@@ -163,11 +197,11 @@ body {
 .hamburger-menu.open,
 .mobile-header.scrolling-up .hamburger-menu {
     background-color: var(--panel-bg);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    border: 1px solid var(--accent-light);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(226, 114, 58, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 @media (hover: hover) {
@@ -346,11 +380,11 @@ body {
 .logo-wrapper.active .logo-trigger,
 .mobile-header.scrolling-up .logo-trigger {
     background-color: var(--panel-bg);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    border: 1px solid var(--accent-light);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(226, 114, 58, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 @media (hover: hover) {
