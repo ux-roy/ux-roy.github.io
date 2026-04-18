@@ -642,7 +642,7 @@ h3 {
 
 .hero-profile-img {
     width: 100%;
-    max-width: 480px;
+    max-width: 550px;
     height: auto;
     object-fit: cover;
     border-radius: 15px;
