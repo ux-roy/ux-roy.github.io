@@ -212,10 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Update Theme Color Meta Tag
-        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-        if (themeColorMeta) {
-            themeColorMeta.setAttribute('content', theme === 'dark' ? '#0D0F14' : '#fcfbf5');
-        }
+        const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
+        themeColorMetas.forEach(meta => {
+            meta.setAttribute('content', theme === 'dark' ? '#0D0F14' : '#fcfbf5');
+        });
     };
 
     // Apply initial theme
