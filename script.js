@@ -210,6 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? 'assets/images/profile-dark.png'
                 : 'assets/images/profile-light.png';
         }
+
+        // Update Theme Color Meta Tag
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeColorMeta) {
+            themeColorMeta.setAttribute('content', theme === 'dark' ? '#0D0F14' : '#fcfbf5');
+        }
     };
 
     // Apply initial theme
@@ -467,5 +473,14 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+
+    // Service Worker Registration for PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker: Registered'))
+                .catch(err => console.log(`Service Worker: Error: ${err}`));
+        });
+    }
 
 });

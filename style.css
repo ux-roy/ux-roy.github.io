@@ -150,7 +150,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .hamburger-menu {
     position: absolute;
     top: 30px;
-    left: 0;
+    right: 0;
     width: 48px;
     height: 48px;
     background: transparent;
@@ -174,7 +174,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .hamburger-menu.open,
 .mobile-header.scrolling-up .hamburger-menu {
     background-color: var(--panel-bg);
-    backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(2px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
@@ -329,7 +329,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .logo-wrapper {
     position: absolute;
     top: 30px;
-    right: 0;
+    left: 0;
     z-index: 1001;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -357,7 +357,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .logo-wrapper.active .logo-trigger,
 .mobile-header.scrolling-up .logo-trigger {
     background-color: var(--panel-bg);
-    backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(2px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
@@ -367,7 +367,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 @media (hover: hover) {
     .logo-wrapper:hover .logo-trigger {
         background-color: var(--panel-bg);
-        backdrop-filter: blur(12px) saturate(180%);
+        backdrop-filter: blur(2px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
         border: 1px solid var(--accent-light);
         transform: translateY(-2px);
@@ -414,7 +414,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .logo-menu {
     position: absolute;
     top: calc(100% + 15px);
-    right: 0;
+    left: 0;
     width: 180px;
     background: var(--card-bg);
     backdrop-filter: blur(15px) saturate(180%);
@@ -631,8 +631,6 @@ h3 {
     margin-top: 30px;
 }
 
-
-
 .hero-image-col {
     position: relative;
     flex: 1;
@@ -645,7 +643,6 @@ h3 {
     max-width: 550px;
     height: auto;
     object-fit: cover;
-    border-radius: 15px;
 }
 
 .italic-desc {
@@ -2047,10 +2044,10 @@ h3 {
     z-index: 9999;
     animation: reveal-circle 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     /* mask for feathered edge */
-    mask: radial-gradient(circle at right 59px top 54px,
+    mask: radial-gradient(circle at left 54px top 54px,
             black var(--reveal),
             transparent calc(var(--reveal) + 18%));
-    -webkit-mask: radial-gradient(circle at right 59px top 54px,
+    -webkit-mask: radial-gradient(circle at left 54px top 54px,
             black var(--reveal),
             transparent calc(var(--reveal) + 18%));
     mask-repeat: no-repeat;
@@ -2080,11 +2077,11 @@ h3 {
 
 @keyframes reveal-simple {
     from {
-        clip-path: circle(0% at right 59px top 54px);
+        clip-path: circle(0% at left 54px top 54px);
     }
 
     to {
-        clip-path: circle(150% at right 59px top 54px);
+        clip-path: circle(150% at left 54px top 54px);
     }
 }
 
