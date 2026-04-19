@@ -474,13 +474,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Service Worker Registration for PWA
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('Service Worker: Registered'))
-                .catch(err => console.log(`Service Worker: Error: ${err}`));
-        });
-    }
-
 });
+
+// Service Worker Registration for PWA (Independent of DOMContentLoaded)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker: Registered successfully with scope:', reg.scope))
+            .catch(err => console.error('Service Worker: Registration failed:', err));
+    });
+}

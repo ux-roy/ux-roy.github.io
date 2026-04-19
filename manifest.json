@@ -2,23 +2,31 @@
   "name": "SKR",
   "short_name": "SKR",
   "description": "Portfolio of Suman Kanti Roy, Senior Product Designer",
-  "start_url": "index.html",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0D0F14",
   "theme_color": "#0D0F14",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "assets/icons/pwa-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "assets/icons/pwa-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/icons/pwa-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "assets/icons/pwa-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/pwa-icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
+
