@@ -150,7 +150,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .hamburger-menu {
     position: absolute;
     top: 30px;
-    right: 0;
+    left: 0;
     width: 48px;
     height: 48px;
     background: transparent;
@@ -329,7 +329,7 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .logo-wrapper {
     position: absolute;
     top: 30px;
-    left: 0;
+    right: 0;
     z-index: 1001;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -414,7 +414,8 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .logo-menu {
     position: absolute;
     top: calc(100% + 15px);
-    left: 0;
+    right: 0;
+    transform-origin: top right;
     width: 180px;
     background: var(--card-bg);
     backdrop-filter: blur(15px) saturate(180%);
@@ -1666,7 +1667,7 @@ h3 {
         position: relative;
         /* Changed from fixed */
         top: auto;
-        right: auto;
+        left: auto;
     }
 
     .logo-trigger {
@@ -1683,7 +1684,7 @@ h3 {
         position: relative;
         /* Changed from fixed */
         top: auto;
-        left: auto;
+        right: auto;
         width: 48px;
         height: 48px;
         gap: 4px; /* Adjusted for 14px total height */
@@ -2044,10 +2045,10 @@ h3 {
     z-index: 9999;
     animation: reveal-circle 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     /* mask for feathered edge */
-    mask: radial-gradient(circle at left 54px top 54px,
+    mask: radial-gradient(circle at right 54px top 54px,
             black var(--reveal),
             transparent calc(var(--reveal) + 18%));
-    -webkit-mask: radial-gradient(circle at left 54px top 54px,
+    -webkit-mask: radial-gradient(circle at right 54px top 54px,
             black var(--reveal),
             transparent calc(var(--reveal) + 18%));
     mask-repeat: no-repeat;
@@ -2077,11 +2078,11 @@ h3 {
 
 @keyframes reveal-simple {
     from {
-        clip-path: circle(0% at left 54px top 54px);
+        clip-path: circle(0% at right 54px top 54px);
     }
 
     to {
-        clip-path: circle(150% at left 54px top 54px);
+        clip-path: circle(150% at right 54px top 54px);
     }
 }
 
