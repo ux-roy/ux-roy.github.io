@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
-  "name": "✦",
-  "short_name": "✦",
-=======
-  "name": "Suman Kanti Roy - Portfolio",
-  "short_name": "UX Roy",
->>>>>>> parent of 02cdb9f (PWA-Name)
+  "name": "SKR",
+  "short_name": "SKR",
   "description": "Portfolio of Suman Kanti Roy, Senior Product Designer",
   "start_url": "index.html",
   "display": "standalone",

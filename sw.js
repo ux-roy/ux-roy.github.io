@@ -7,6 +7,14 @@ const ASSETS_TO_CACHE = [
   './manifest.json',
   './assets/icons/logo.svg',
   './assets/icons/pwa-icon.svg',
+  './assets/icons/design-process-white.svg',
+  './assets/icons/design-process-black.svg',
+  './assets/icons/mobile-process-white.svg',
+  './assets/icons/mobile-process-black.svg',
+  './assets/icons/tools-proficiency.svg',
+  './assets/icons/design-competency.svg',
+  './assets/icons/research-expertise.svg',
+  './assets/icons/AI-&-frontend.svg',
   './assets/images/profile-dark.png',
   './assets/images/profile-light.png'
 ];

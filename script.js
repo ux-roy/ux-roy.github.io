@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 logoTrigger.setAttribute('aria-expanded', 'false');
             }
         });
+    }
 
     // Header Visibility on Scroll (Mobile Specific)
     let lastScrollY = window.scrollY;
@@ -179,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         lastScrollY = currentScrollY;
     }, { passive: true });
-}
 
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
