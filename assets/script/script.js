@@ -380,8 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentProjectData.videoUrl = videoUrl;
             currentProjectData.prototypeUrl = prototypeUrl;
 
-            // Default view: Show Figma (Figjam) board
-            showFigma();
+            // Default view: Show Video
+            showVideo();
             
             modal.classList.add('open');
             document.body.style.overflow = 'hidden'; 
@@ -398,6 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show floating actions (only on desktop)
             if (modalActions) modalActions.style.display = 'flex';
             if (closeModalBtn) closeModalBtn.style.display = 'flex'; 
+            
+            // Update button text
+            if (btnVideoOverview) btnVideoOverview.textContent = 'Watch Video';
         }
     };
 
@@ -411,9 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.load();
             projectVideo.play();
 
-            // Show close button
-            if (modalActions) modalActions.style.display = 'none';
+            // Show floating actions
+            if (modalActions) modalActions.style.display = 'flex';
             if (closeModalBtn) closeModalBtn.style.display = 'flex';
+
+            // Update button text
+            if (btnVideoOverview) btnVideoOverview.textContent = 'View Research';
         }
     };
 
@@ -445,7 +451,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (btnVideoOverview) {
-        btnVideoOverview.addEventListener('click', showVideo);
+        btnVideoOverview.addEventListener('click', () => {
+            if (projectVideo && projectVideo.style.display === 'block') {
+                showFigma();
+            } else {
+                showVideo();
+            }
+        });
     }
 
     if (btnOpenPrototype) {

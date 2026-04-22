@@ -1292,10 +1292,7 @@ h3 {
         pointer-events: none;
     }
 
-    #btn-video-overview {
-        display: none !important;
-    }
-
+    #btn-video-overview,
     #btn-expand-modal,
     #btn-open-prototype {
         display: flex !important;
