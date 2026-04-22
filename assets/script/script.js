@@ -479,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Service Worker Registration for PWA (Independent of DOMContentLoaded)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./assets/native/sw.js')
+        navigator.serviceWorker.register('./assets/script/sw.js')
             .then(reg => console.log('Service Worker: Registered successfully with scope:', reg.scope))
             .catch(err => console.error('Service Worker: Registration failed:', err));
     });
