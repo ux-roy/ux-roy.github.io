@@ -200,15 +200,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (designProcessImg) {
             const isMobile = window.innerWidth <= 600;
             const src = isMobile
-                ? (theme === 'dark' ? 'assets/icons/mobile-process-white.svg' : 'assets/icons/mobile-process-black.svg')
-                : (theme === 'dark' ? 'assets/icons/design-process-white.svg' : 'assets/icons/design-process-black.svg');
+                ? (theme === 'dark' ? 'assets/icon/mobile-process-white.svg' : 'assets/icon/mobile-process-black.svg')
+                : (theme === 'dark' ? 'assets/icon/design-process-white.svg' : 'assets/icon/design-process-black.svg');
             designProcessImg.src = src;
         }
 
         if (profileImg) {
             profileImg.src = theme === 'dark'
-                ? 'assets/images/profile-dark.png'
-                : 'assets/images/profile-light.png';
+                ? 'assets/image/profile-dark.png'
+                : 'assets/image/profile-light.png';
         }
 
         // Update Theme Color Meta Tag
@@ -479,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Service Worker Registration for PWA (Independent of DOMContentLoaded)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./assets/script/sw.js')
+        navigator.serviceWorker.register('./sw.js')
             .then(reg => console.log('Service Worker: Registered successfully with scope:', reg.scope))
             .catch(err => console.error('Service Worker: Registration failed:', err));
     });

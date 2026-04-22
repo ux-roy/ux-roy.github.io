@@ -5,13 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suman Kanti Roy ✦ Portfolio</title>
-    <meta name="description" content="Portfolio of Suman Kanti Roy, Senior Product Designer">
+    <meta name="description" content="Portfolio of Suman Kanti Roy, Senior Product Designer & UX Consultant with 12+ years of experience.">
+    <link rel="canonical" href="https://ux-roy.github.io/">
+
+    <!-- Social Meta Tags (Open Graph) -->
+    <meta property="og:title" content="Suman Kanti Roy ✦ Portfolio">
+    <meta property="og:description" content="Senior Product Designer & UX Consultant shaping business ideas into intuitive and scalable solutions.">
+    <meta property="og:image" content="https://ux-roy.github.io/assets/image/profile-dark.png">
+    <meta property="og:url" content="https://ux-roy.github.io/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Suman Kanti Roy ✦ Portfolio">
+    <meta name="twitter:description" content="Senior Product Designer & UX Consultant specializing in retail, fintech, and enterprise platforms.">
+    <meta name="twitter:image" content="https://ux-roy.github.io/assets/image/profile-dark.png">
+
+    <!-- Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://embed.figma.com https://xd.adobe.com; connect-src 'self';">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Suman Kanti Roy",
+      "jobTitle": "Senior Product Designer & UX Consultant",
+      "url": "https://ux-roy.github.io/",
+      "image": "https://ux-roy.github.io/assets/image/profile-dark.png",
+      "sameAs": [
+        "https://www.linkedin.com/in/s-kantiroy",
+        "https://www.behance.net/ux-roy",
+        "https://credly.com/users/ux-roy",
+        "https://in.pinterest.com/uxroy123/",
+        "https://www.instagram.com/amisumankanti"
+      ],
+      "description": "Senior Product Designer & UX Consultant with 12+ years of experience across enterprise platforms and digital products."
+    }
+    </script>
 
     <!-- PWA & Theme -->
     <meta name="theme-color" content="#fcfbf5" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0D0F14" media="(prefers-color-scheme: dark)">
-    <link rel="manifest" href="assets/script/manifest.json">
-    <link rel="apple-touch-icon" href="assets/images/pwa-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/image/pwa-icon.png">
     <meta name="apple-mobile-web-app-title" content="SKR">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,7 +59,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;400;500;600;700;800&family=Lora:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="assets/style/style.css">
-    <link rel="icon" type="image/svg+xml" href="assets/icons/logo.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/icon/logo.svg">
 
 </head>
 
@@ -46,43 +83,41 @@
 
     <!-- Floating Header -->
     <header class="mobile-header" id="mobile-header">
-        <div class="header-inner">
-            <!-- Hamburger Menu -->
-            <button class="hamburger-menu" id="hamburger-menu" aria-label="Main menu" title="Main menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
+        <!-- Hamburger Menu -->
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Main menu" title="Main menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
 
-            <!-- Website Branding -->
-            <div class="logo-wrapper" id="logo-dropdown">
-                <button class="logo-trigger" aria-label="Website Actions" aria-haspopup="true" aria-expanded="false">
-                    <svg width="147" height="57" viewBox="0 0 147 57" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="site-logo">
-                        <path
-                            d="M126.483 19.846H98.758V54L67 28.7184L94.3086 3H124.342C135.639 3 144 8.19529 144 18.985C144 31.5296 134.956 34.5483 125.974 34.5483H114.164C114.164 34.5483 144 31.5 144 54"
-                            stroke="#E2723A" stroke-width="6" stroke-miterlimit="1.5" stroke-linecap="round"
-                            stroke-linejoin="round" pathLength="1" />
-                        <path
-                            d="M29 36L21.5655 36.2619C9.5 36.2619 3 29.0378 3 19.5C3 10.502 8.5 3.50195 21.5655 3H57V54"
-                            stroke="#E2723A" stroke-width="6" stroke-miterlimit="1.5" stroke-linecap="round"
-                            stroke-linejoin="round" pathLength="1" />
-                        <path
-                            d="M3 54.002H10H29.5C38.6127 54.002 46 46.6147 46 37.502C46 28.3893 38.6127 21.002 29.5 21.002H20"
-                            stroke="#E2723A" stroke-width="6" stroke-linecap="round" pathLength="1" />
-                    </svg>
+        <!-- Branding Logo -->
+        <div class="logo-wrapper" id="logo-dropdown">
+            <button class="logo-trigger" aria-label="Website Actions" aria-haspopup="true" aria-expanded="false">
+                <svg width="147" height="57" viewBox="0 0 147 57" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="site-logo">
+                    <path
+                        d="M126.483 19.846H98.758V54L67 28.7184L94.3086 3H124.342C135.639 3 144 8.19529 144 18.985C144 31.5296 134.956 34.5483 125.974 34.5483H114.164C114.164 34.5483 144 31.5 144 54"
+                        stroke="#E2723A" stroke-width="6" stroke-miterlimit="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" pathLength="1" />
+                    <path
+                        d="M29 36L21.5655 36.2619C9.5 36.2619 3 29.0378 3 19.5C3 10.502 8.5 3.50195 21.5655 3H57V54"
+                        stroke="#E2723A" stroke-width="6" stroke-miterlimit="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" pathLength="1" />
+                    <path
+                        d="M3 54.002H10H29.5C38.6127 54.002 46 46.6147 46 37.502C46 28.3893 38.6127 21.002 29.5 21.002H20"
+                        stroke="#E2723A" stroke-width="6" stroke-linecap="round" pathLength="1" />
+                </svg>
+            </button>
+            <div class="logo-menu">
+                <button class="menu-item" id="theme-toggle">
+                    <span>Switch Theme</span>
                 </button>
-                <div class="logo-menu">
-                    <button class="menu-item" id="theme-toggle">
-                        <span>Switch Theme</span>
-                    </button>
-                    <button class="menu-item" id="animation-toggle">
-                        <span>Disable Motion</span>
-                    </button>
-                    <a href="assets/docs/Suman-Kanti-Roy_Resume.pdf" target="_blank" class="menu-item">
-                        <span>Open Resume</span>
-                    </a>
-                </div>
+                <button class="menu-item" id="animation-toggle">
+                    <span>Disable Motion</span>
+                </button>
+                <a href="assets/doc/Suman-Kanti-Roy_Resume.pdf" target="_blank" class="menu-item">
+                    <span>Open Resume</span>
+                </a>
             </div>
         </div>
     </header>
@@ -126,7 +161,7 @@
                 </div>
 
                 <div class="hero-image-col">
-                    <img src="assets/images/profile-dark.png" alt="Suman Kanti Roy - Profile" class="hero-profile-img">
+                    <img src="assets/image/profile-dark.png" alt="Suman Kanti Roy - Profile" class="hero-profile-img" width="931" height="1200">
                 </div>
             </div>
         </section>
@@ -258,7 +293,7 @@
                 <!-- Column 1 -->
                 <div class="skill-category">
                     <div class="skill-header">
-                        <img src="assets/icons/tools-proficiency.svg" alt="Tools Proficiency" class="skill-icon">
+                        <img src="assets/icon/tools-proficiency.svg" alt="Tools Proficiency" class="skill-icon">
                         <h3>Tools <br>Proficiency</h3>
                     </div>
                     <ul class="skill-list">
@@ -274,7 +309,7 @@
                 <!-- Column 2 -->
                 <div class="skill-category">
                     <div class="skill-header">
-                        <img src="assets/icons/design-competency.svg" alt="Design Competency" class="skill-icon">
+                        <img src="assets/icon/design-competency.svg" alt="Design Competency" class="skill-icon">
                         <h3>Design <br>Competency</h3>
                     </div>
                     <ul class="skill-list">
@@ -291,7 +326,7 @@
                 <!-- Column 3 -->
                 <div class="skill-category">
                     <div class="skill-header">
-                        <img src="assets/icons/research-expertise.svg" alt="Research Expertise" class="skill-icon">
+                        <img src="assets/icon/research-expertise.svg" alt="Research Expertise" class="skill-icon">
                         <h3>Research <br>& Collaboration</h3>
                     </div>
                     <ul class="skill-list">
@@ -307,7 +342,7 @@
                 <!-- Column 4 -->
                 <div class="skill-category">
                     <div class="skill-header">
-                        <img src="assets/icons/AI-&-frontend.svg" alt="AI & Frontend" class="skill-icon">
+                        <img src="assets/icon/AI-&-frontend.svg" alt="AI & Frontend" class="skill-icon">
                         <h3>Frontend <br>& AI Technology</h3>
                     </div>
                     <ul class="skill-list">
@@ -335,8 +370,8 @@
 
             <div class="process-diagram-wrapper">
                 <div class="diagram-img">
-                    <img src="assets/icons/design-process-white.svg" id="design-process-img"
-                        alt="Design Process Diagram" class="process-img">
+                    <img src="assets/icon/design-process-white.svg" id="design-process-img"
+                        alt="Design Process Diagram" class="process-img" loading="lazy">
                 </div>
                 <div class="steps-name">
                     <!-- Step 1 -->
@@ -412,7 +447,7 @@
 
                             <div class="project-details-grid">
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/problem.svg" alt="Problem Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/problem.svg" alt="Problem Icon"
                                             class="detail-svg-icon"> Problem</h5>
                                     <ul class="detail-list">
                                         <li>Poor batch & inventory visibility.</li>
@@ -422,7 +457,7 @@
                                     </ul>
                                 </div>
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/solution.svg" alt="Solution Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/solution.svg" alt="Solution Icon"
                                             class="detail-svg-icon"> Solution</h5>
                                     <ul class="detail-list">
                                         <li>Streamlined quick tasks by scanning.</li>
@@ -433,7 +468,7 @@
                                     </ul>
                                 </div>
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/results.svg" alt="Results Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/results.svg" alt="Results Icon"
                                             class="detail-svg-icon"> Results</h5>
                                     <ul class="detail-list">
                                         <li>Reduced clutter, show only essentials.</li>
@@ -447,7 +482,7 @@
                             <div class="project-footer">
                                 <button class="btn-outline open-project-modal"
                                     data-figma-url="https://embed.figma.com/board/aRnBMY2p9gPhghdLTQfplT/1_Retail_Research?node-id=0-1&embed-host=share"
-                                    data-video-url="assets/videos/Case-Study-1_Retail.mp4"
+                                    data-video-url="assets/video/Case-Study-1_Retail.mp4"
                                     data-prototype-url="https://www.figma.com/proto/LNqzdOWYVn9aCoGYjjdSPA/1_Retail_Prototype?node-id=1-5135&p=f&viewport=489%2C396%2C0.04&t=pngflXwVlaUiJ8wf-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A5124&page-id=0%3A1">
                                     View Details
                                 </button>
@@ -475,7 +510,7 @@
 
                             <div class="project-details-grid">
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/problem.svg" alt="Problem Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/problem.svg" alt="Problem Icon"
                                             class="detail-svg-icon"> Problem</h5>
                                     <ul class="detail-list">
                                         <li>Confusing text-heavy PDF manuals.</li>
@@ -485,7 +520,7 @@
                                     </ul>
                                 </div>
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/solution.svg" alt="Solution Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/solution.svg" alt="Solution Icon"
                                             class="detail-svg-icon"> Solution</h5>
                                     <ul class="detail-list">
                                         <li>Replace manual to 3D demonstration.</li>
@@ -495,7 +530,7 @@
                                     </ul>
                                 </div>
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/results.svg" alt="Results Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/results.svg" alt="Results Icon"
                                             class="detail-svg-icon"> Results</h5>
                                     <ul class="detail-list">
                                         <li>Zero IT intervention to error resolved.</li>
@@ -510,7 +545,7 @@
                             <div class="project-footer">
                                 <button class="btn-outline open-project-modal"
                                     data-figma-url="https://embed.figma.com/board/nw1rktNGVuDTnWJ57iNQun/2_PrintAR_Research?node-id=0-1&embed-host=share"
-                                    data-video-url="assets/videos/Case-Study-2_ARPrint.mp4"
+                                    data-video-url="assets/video/Case-Study-2_ARPrint.mp4"
                                     data-prototype-url="https://www.figma.com/proto/k7o6C1kDZT8nKL9fSa52fm/2_PrintAR_Prototype?node-id=1-173&p=f&viewport=146%2C45%2C0.17&t=D9NX7x1zSkMjVmPY-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1">
                                     View Details
                                 </button>
@@ -538,7 +573,7 @@
 
                             <div class="project-details-grid">
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/problem.svg" alt="Problem Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/problem.svg" alt="Problem Icon"
                                             class="detail-svg-icon"> Problem</h5>
                                     <ul class="detail-list">
                                         <li>Forget routine maintenance.</li>
@@ -549,7 +584,7 @@
                                     </ul>
                                 </div>
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/solution.svg" alt="Solution Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/solution.svg" alt="Solution Icon"
                                             class="detail-svg-icon"> Solution</h5>
                                     <ul class="detail-list">
                                         <li>Unified bookings and scheduling.</li>
@@ -560,7 +595,7 @@
                                     </ul>
                                 </div>
                                 <div class="detail-col">
-                                    <h5 class="detail-title"><img src="assets/icons/results.svg" alt="Results Icon"
+                                    <h5 class="detail-title"><img src="assets/icon/results.svg" alt="Results Icon"
                                             class="detail-svg-icon"> Results</h5>
                                     <ul class="detail-list">
                                         <li>Direct communication channel.</li>
@@ -574,7 +609,7 @@
                             <div class="project-footer">
                                 <button class="btn-outline open-project-modal"
                                     data-figma-url="https://embed.figma.com/board/g4hR5VXmB3RREbuB1TS8wO/3_Automobile_Research?node-id=2-4&embed-host=share"
-                                    data-video-url="assets/videos/Case-Study-3_Automobile.mp4"
+                                    data-video-url="assets/video/Case-Study-3_Automobile.mp4"
                                     data-prototype-url="https://xd.adobe.com/view/6f2db149-662e-45cf-9a78-014a693affc7-3a7e/">
                                     View Details
                                 </button>
@@ -609,7 +644,7 @@
         <section id="contact" class="tab-content">
             <div class="contact-layout">
                 <div class="thank-you-col">
-                    <h1 class="thank-you-text">Thank You</h1>
+                    <h2 class="thank-you-text">Thank You</h2>
                 </div>
 
                 <div class="contact-divider"></div>
