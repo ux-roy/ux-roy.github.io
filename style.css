@@ -1,35 +1,31 @@
 :root {
     --bg-color: #fcfbf5;
-    /* Creamy off-white background */
     --text-primary: #111111;
     --text-secondary: #4d4d4d;
     --accent-color: #E2723A;
-    /* Burnt orange */
     --accent-light: #ffd8bc;
-    /* Lighter orange */
     --font-heading: 'Poppins', sans-serif;
     --font-body: 'Poppins', sans-serif;
     --font-section: 'Lora', serif;
     --bg-text-stroke: rgba(0, 0, 0, 0.05);
-    --panel-bg: rgba(255, 255, 255, 0.08); /* Unified glass background */
+    --panel-bg: rgba(255, 255, 255, 0.08);
     --shadow-color: rgba(0, 0, 0, 0.12);
     --border-color: rgba(0, 0, 0, 0.10);
     --card-bg: #ffffff;
+    --modal-overlay: rgba(10, 10, 10, 0.5);
 }
 
 [data-theme="dark"] {
     --bg-color: #0D0F14;
-    /* Neutral deep dark grey-black */
     --text-primary: #F8FAFC;
     --text-secondary: #94A3B8;
     --accent-light: rgba(226, 114, 58, 0.15);
     --bg-text-stroke: rgba(255, 255, 255, 0.05);
-    --panel-bg: rgba(255, 255, 255, 0.08); /* Keep unified glass background */
+    --panel-bg: rgba(255, 255, 255, 0.08);
     --shadow-color: rgba(0, 0, 0, 0.6);
     --border-color: rgba(255, 255, 255, 0.08);
-    /* Slightly more visible border */
     --card-bg: #23262E;
-    /* Lighter charcoal for cards */
+    --modal-overlay: rgba(100, 100, 100, 0.5);
 }
 
 * {
@@ -50,18 +46,18 @@ body {
 }
 
 body {
-    /* Define the custom star cursor as a native CSS property for perfect performance */
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='16' fill='%23E2723A' font-family='sans-serif'%3E✦%3C/text%3E%3C/svg%3E") 8 8, auto;
 }
 
-a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
+a,
+button,
+.menu-item,
+.panel-link,
+.logo-trigger,
+.hamburger-menu {
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='16' fill='%23E2723A' font-family='sans-serif' transform='rotate(45 8 8)'%3E✦%3C/text%3E%3C/svg%3E") 8 8, pointer;
 }
 
-/* Custom Cursor element removed as it's no longer needed for JS-driven movement */
-
-
-/* Background Typography Backdrop */
 .bg-typography-backdrop {
     position: fixed;
     top: 0;
@@ -91,7 +87,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     line-height: 0.8;
     color: transparent;
     -webkit-text-stroke: 1px var(--bg-text-stroke);
-    /* Very light version */
     white-space: nowrap;
     animation: bgTextMoveDown 180s linear infinite;
 }
@@ -106,7 +101,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     }
 }
 
-/* Mobile Floating Header Wrapper */
 .mobile-header {
     position: fixed;
     top: 0;
@@ -114,7 +108,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     right: 0;
     z-index: 1000;
     pointer-events: none;
-    /* Allow clicking through when not floating */
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -137,7 +130,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     border-bottom: none;
     box-shadow: none;
     pointer-events: none;
-    /* Allow click through unless children are interactive */
     height: 100px;
 }
 
@@ -146,7 +138,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     opacity: 0;
 }
 
-/* Hamburger Menu & Side Panel */
 .hamburger-menu {
     position: absolute;
     top: 30px;
@@ -161,7 +152,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     justify-content: center;
     align-items: center;
     gap: 5px;
-    /* Adjusted for 16px total height */
     cursor: pointer;
     z-index: 1000;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -198,7 +188,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 
 .hamburger-line {
     width: 20px;
-    /* Slightly narrower */
     height: 2px;
     background-color: var(--accent-color);
     border-radius: 2px;
@@ -212,25 +201,21 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     opacity: 1;
 }
 
-/* Roof Left */
 .hamburger-menu.open .hamburger-line:nth-child(1) {
     width: 13px;
     transform: translate(-4.2px, 1.5px) rotate(-45deg);
 }
 
-/* Roof Right (Line 2 - center default) */
 .hamburger-menu.open .hamburger-line:nth-child(2) {
     width: 13px;
     transform: translate(4.2px, -5px) rotate(45deg);
 }
 
-/* Base/Floor */
 .hamburger-menu.open .hamburger-line:nth-child(3) {
     width: 17px;
     transform: translateY(2.5px);
 }
 
-/* Menu Overlay Background */
 .menu-overlay {
     position: fixed;
     top: 0;
@@ -241,7 +226,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     z-index: 998;
-    /* Just below side-panel (999) */
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -255,7 +239,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 .side-panel {
     position: fixed;
     top: -150px;
-    /* Hidden above viewport */
     left: 50%;
     transform: translateX(-50%);
     width: max-content;
@@ -265,7 +248,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid var(--border-color);
     border-radius: 50px;
-    /* Floating pill shape */
     box-shadow: 0 15px 50px var(--shadow-color), 0 0 20px rgba(226, 114, 58, 0.05);
     z-index: 999;
     padding: 15px 40px;
@@ -278,7 +260,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 
 .side-panel.open {
     top: 25px;
-    /* Floats near the top */
 }
 
 .panel-nav {
@@ -292,7 +273,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     border: none;
     text-align: center;
     font-family: var(--font-body);
-    /* Sans font as requested */
     font-size: 1rem;
     letter-spacing: 0.5px;
     font-weight: 550;
@@ -325,7 +305,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     width: 100%;
 }
 
-/* Logo Wrapper is normally absolute within inner container */
 .logo-wrapper {
     position: absolute;
     top: 30px;
@@ -342,7 +321,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     background: transparent;
     border: 1.5px solid transparent;
     border-radius: 12px;
-    /* Matching hamburger style */
     width: 78px;
     height: 48px;
     display: flex;
@@ -376,40 +354,39 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
 }
 
 .site-logo {
-    width: 46px; /* Adjusted for 16px visual height */
+    width: 46px;
     height: auto;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .site-logo path {
-    stroke-dasharray: 1; /* Match pathLength="1" */
-    stroke-dashoffset: 0; /* Default state: fully drawn */
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
     transition: stroke-dashoffset 0.8s ease;
 }
 
-/* Keyframes for drawing animation (start to end loop) */
 @keyframes logoDraw {
     0% {
-        stroke-dashoffset: 1; /* Start hidden */
+        stroke-dashoffset: 1;
     }
+
     40% {
-        stroke-dashoffset: 0; /* Fully drawn */
+        stroke-dashoffset: 0;
     }
+
     60% {
-        stroke-dashoffset: 0; /* Hold drawn */
+        stroke-dashoffset: 0;
     }
+
     100% {
-        stroke-dashoffset: -1; /* Erase forward */
+        stroke-dashoffset: -1;
     }
 }
 
-/* Controlled by JS via .logo-animate class added directly to .site-logo */
 .site-logo.logo-animate path {
-    stroke-dashoffset: 1; /* Override default 0 to start hidden */
-    animation: logoDraw 4s linear infinite; /* Complete continuous sequence */
+    stroke-dashoffset: 1;
+    animation: logoDraw 4s linear infinite;
 }
-
-
 
 .logo-menu {
     position: absolute;
@@ -449,7 +426,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     background: transparent;
     border: none;
     border-radius: 8px;
-    /* Slightly tighter rounding */
     color: var(--text-primary);
     font-family: var(--font-body);
     font-size: 1rem;
@@ -466,11 +442,9 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     content: '';
     position: absolute;
     left: 10px;
-    /* Bring closer to text center */
     top: 50%;
     transform: translateY(-50%);
     width: 3px;
-    /* Thicker line as requested */
     height: 0;
     background-color: var(--accent-color);
     transition: height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
@@ -480,12 +454,10 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     background: transparent;
     color: var(--accent-color);
     padding-left: 22px;
-    /* Repositioned text near the 4px line highlight */
 }
 
 .menu-item:hover::before {
     height: 18px;
-    /* Thick 2px line before the text */
 }
 
 .menu-icon {
@@ -498,7 +470,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     opacity: 1;
 }
 
-/* Main Content Container */
 .content-container {
     width: 100%;
     max-width: 1200px;
@@ -517,7 +488,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     width: 100%;
 }
 
-/* Tabs Content Visibility */
 .tab-content {
     width: 100%;
     padding-top: 100px;
@@ -529,7 +499,6 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
     position: relative;
 }
 
-/* Gradient divider between sections */
 .tab-content:not(:last-of-type)::after {
     content: '';
     position: absolute;
@@ -544,14 +513,10 @@ a, button, .menu-item, .panel-link, .logo-trigger, .hamburger-menu {
             transparent 100%);
 }
 
-/* Smooth scrolling for the whole page */
 html {
     scroll-behavior: smooth;
 }
 
-
-
-/* Typography & Elements */
 h1,
 h2,
 h3 {
@@ -595,7 +560,6 @@ h3 {
     color: var(--text-primary);
 }
 
-/* Section 1: Intro / Hero */
 .hero-layout {
     gap: 0;
     align-items: center;
@@ -664,8 +628,6 @@ h3 {
     line-height: 1.5;
 }
 
-
-/* Section 3: Professional Skills */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -717,7 +679,6 @@ h3 {
     padding-left: 30px;
 }
 
-/* Section 4: Experience & Education */
 .experience-layout {
     align-items: stretch;
 }
@@ -743,7 +704,6 @@ h3 {
     left: 8px;
     top: 5px;
     bottom: 0px;
-    /* Ensures the line does not extend well past the last item */
     width: 2px;
     background-color: var(--accent-color);
     z-index: 1;
@@ -823,8 +783,6 @@ h3 {
     margin-top: 30px;
 }
 
-
-/* Section 5: Design Process */
 .process-diagram-wrapper {
     position: relative;
     width: 100%;
@@ -860,8 +818,8 @@ h3 {
     font-family: var(--font-body);
     font-weight: 500;
     font-size: 1.1rem;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                box-shadow 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.4s ease;
     cursor: pointer;
     z-index: 10;
 }
@@ -891,7 +849,6 @@ h3 {
 
 .label-text {
     font-family: var(--font-body);
-    /* Matching Tools Proficiency style */
     font-size: 1.2rem;
     font-weight: 600;
     line-height: 1.3;
@@ -899,7 +856,6 @@ h3 {
     color: var(--text-primary);
 }
 
-/* Section: Projects */
 .carousel-container {
     position: relative;
     width: 100%;
@@ -922,8 +878,6 @@ h3 {
 .carousel-slide.active {
     display: block;
 }
-
-
 
 .project-card {
     background: var(--card-bg);
@@ -1023,7 +977,6 @@ h3 {
     gap: 16px;
 }
 
-/* Shared nav bar — outside the white card, centered */
 .carousel-controls {
     display: flex;
     align-items: center;
@@ -1083,7 +1036,6 @@ h3 {
     padding: 0 12px;
 }
 
-/* Right duration block with orange left border */
 .project-duration {
     font-family: var(--font-body);
     font-size: 0.95rem;
@@ -1113,9 +1065,6 @@ h3 {
     color: white;
 }
 
-
-
-/* Section: Contact */
 .contact-layout {
     display: flex;
     align-items: center;
@@ -1179,7 +1128,6 @@ h3 {
     color: var(--accent-color);
 }
 
-/* Get in Touch – Social Icons Group */
 .get-in-touch-group {
     margin-top: 10px;
     padding-top: 18px;
@@ -1230,7 +1178,6 @@ h3 {
     box-shadow: 0 8px 20px rgba(226, 114, 58, 0.25);
 }
 
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -1240,11 +1187,9 @@ h3 {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rgba(5, 10, 20, 0.75);
-    /* Dark Blue tinted overlay */
-    backdrop-filter: blur(12px) saturate(160%);
-    /* Enhanced blur for a premium look */
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    background-color: var(--modal-overlay);
+    backdrop-filter: blur(2px) saturate(180%);
+    -webkit-backdrop-filter: blur(2px) saturate(180%);
     align-items: center;
     justify-content: center;
 }
@@ -1263,28 +1208,21 @@ h3 {
     max-width: 90vw;
     max-height: 80vh;
     position: relative;
-    box-shadow: 0 0 50px rgba(226, 114, 58, 0.5);
+    box-shadow: 0 20px 60px var(--shadow-color);
     transform: translateY(20px);
     animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    /* overflow: hidden; Removed to allow tooltip to show outside */
     display: flex;
     flex-direction: column;
 }
 
 #figma-iframe {
     border-radius: 8px;
-    /* Maintain rounded corners when overflow is visible */
 }
 
-/* Ensure the modal content doesn't get too small or weirdly sized on small screens */
-
-
-/* Fallback for browsers that don't support aspect-ratio */
 @supports not (aspect-ratio: 16 / 9) {
     .modal-content {
         height: 0;
         padding-bottom: 45%;
-        /* 80% * 9/16 = 45% */
     }
 }
 
@@ -1297,7 +1235,6 @@ h3 {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 25;
     background: var(--card-bg);
-    /* Use variable instead of white */
     box-shadow: 0 4px 12px var(--shadow-color);
     border: 1px solid var(--border-color);
 }
@@ -1314,28 +1251,21 @@ h3 {
     color: #ffffff;
 }
 
-
-
 #modal-body {
     width: 100%;
     height: 100%;
     overflow: hidden;
     position: relative;
     background-color: var(--bg-color);
-    /* Changed from black to dark blue theme background */
-    /* Ensures dark background blends in */
     border-radius: 8px;
-    /* Added to prevent corners bleeding from rounded parent */
 }
 
 #project-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* This eliminates side black bars by filling the container */
     border-radius: 8px;
     display: block;
-    /* Managed by JS, but good to have base style */
 }
 
 .modal-figma-overlay-bottom {
@@ -1350,11 +1280,9 @@ h3 {
     border-radius: 0 0 8px 8px;
 }
 
-/* Positioning both buttons to the sides as requested */
 .modal-floating-actions {
     position: absolute;
     bottom: 12px;
-    /* Increased slightly for better visual balance */
     left: 12px;
     right: 12px;
     display: flex;
@@ -1413,7 +1341,6 @@ h3 {
     height: 30px;
     border-radius: 6px;
     padding: 0;
-    /* Let width/height handle it for icons */
 }
 
 #btn-expand-modal {
@@ -1441,12 +1368,6 @@ h3 {
         opacity: 1;
     }
 }
-
-
-/* =========================================
-   Responsive Media Queries 
-   ========================================= */
-
 
 @media screen and (max-width: 1024px) {
     .content-container {
@@ -1487,7 +1408,6 @@ h3 {
         padding-right: 0;
         text-align: left;
     }
-
 
     .hero-image-col {
         justify-content: center;
@@ -1597,8 +1517,6 @@ h3 {
         display: inline;
     }
 
-
-
     .tab-content {
         padding-top: 80px;
         padding-bottom: 80px;
@@ -1616,22 +1534,18 @@ h3 {
         font-size: 1.15rem;
     }
 
-
     .modal-content {
         width: 95vw;
         height: 70vh;
         aspect-ratio: auto;
     }
 
-    /* Visual enhancements for menu open state */
     .menu-overlay.open {
         background-color: rgba(0, 0, 0, 0.25);
-        /* Neutral dark overlay */
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(5px);
     }
 
-    /* Disable and blur logo when mobile menu is open */
     body.menu-open .logo-wrapper {
         pointer-events: none;
         opacity: 0.15;
@@ -1639,7 +1553,6 @@ h3 {
         transform: scale(0.92);
     }
 
-    /* Clear header background when menu is open to avoid double blur */
     body.menu-open .mobile-header {
         pointer-events: none;
         background: transparent !important;
@@ -1651,7 +1564,6 @@ h3 {
 
     body.menu-open .mobile-header>* {
         pointer-events: auto;
-        /* Hamburger still clickable */
     }
 }
 
@@ -1665,7 +1577,6 @@ h3 {
 
     .logo-wrapper {
         position: relative;
-        /* Changed from fixed */
         top: auto;
         left: auto;
     }
@@ -1673,43 +1584,36 @@ h3 {
     .logo-trigger {
         width: 60px;
         height: 48px;
-        /* Slightly more height */
     }
 
     .site-logo {
-        width: 40px; /* Adjusted for 14px visual height */
+        width: 40px;
     }
 
     .hamburger-menu {
         position: relative;
-        /* Changed from fixed */
         top: auto;
         right: auto;
         width: 48px;
         height: 48px;
-        gap: 4px; /* Adjusted for 14px total height */
+        gap: 4px;
     }
 
-    /* Mobile Header Styling */
     .mobile-header {
         position: fixed;
         top: 12px;
         left: 12px;
         right: 12px;
         width: auto;
-        /* Ensure it respects left/right constraints */
         height: 68px;
         display: block;
-        /* Removed flex from parent */
         padding: 0;
-        /* Padding moved to inner */
         z-index: 1000;
         background: transparent;
         border: 1px solid transparent;
         border-radius: 20px;
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         pointer-events: none;
-        /* Click through when transparent */
     }
 
     .header-inner {
@@ -1725,10 +1629,8 @@ h3 {
 
     .mobile-header>* {
         pointer-events: auto;
-        /* Interactive children */
     }
 
-    /* Hide individual hidden classes on mobile since handler moved to parent */
     .hamburger-menu.header-hidden,
     .logo-wrapper.header-hidden {
         transform: none !important;
@@ -1739,7 +1641,6 @@ h3 {
         opacity: 0;
     }
 
-    /* Mobile specific floating background overrides */
     .mobile-header.header-floating {
         background: transparent;
         backdrop-filter: none;
@@ -1750,22 +1651,18 @@ h3 {
         height: 68px;
     }
 
-
     .side-panel {
         position: fixed;
         width: 250px;
-        /* Narrower as requested */
         padding: 40px;
         background-color: var(--card-bg);
-        backdrop-filter: blur(16px) saturate(100%);
-        /* Reduced saturation */
-        -webkit-backdrop-filter: blur(10px) saturate(100%);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(10px) saturate(180%);
         border: 1px solid var(--border-color);
         border-radius: 30px;
         box-shadow: 0 30px 60px var(--shadow-color);
         left: 50%;
         top: -60%;
-        /* Slide from top hidden state */
         transform: translate(-50%, -50%);
         transition: top 0.7s cubic-bezier(0.19, 1, 0.22, 1);
         z-index: 1100;
@@ -1776,11 +1673,7 @@ h3 {
 
     .side-panel.open {
         top: 50%;
-        /* Center in screen */
     }
-
-
-
 
     .hero-layout {
         flex-direction: column-reverse;
@@ -1804,7 +1697,6 @@ h3 {
         gap: 24px;
         width: 100%;
         align-items: center;
-        /* Centered */
     }
 
     .panel-link {
@@ -1812,7 +1704,6 @@ h3 {
         padding: 8px 0;
         width: 100%;
         text-align: center;
-        /* Centered */
     }
 
     .panel-link::after {
@@ -1862,7 +1753,6 @@ h3 {
         display: block;
         width: 100%;
         max-width: 160px;
-        /* Reduced from 240px */
         height: auto;
         margin: 0 auto;
     }
@@ -1872,17 +1762,14 @@ h3 {
         position: absolute !important;
         left: 33.5% !important;
         width: 60%;
-        /* Increased for better fit */
         height: auto;
         align-items: center;
         gap: 70px;
-        /* Increased space between badge and label */
         text-align: left;
         transform: translateY(-50%);
         padding: 0;
     }
 
-    /* Vertical alignment with SVG nodes */
     .process-step:nth-of-type(1) {
         top: 8%;
     }
@@ -1906,7 +1793,6 @@ h3 {
     .process-badge {
         display: flex !important;
         position: relative;
-        /* Changed from absolute */
         flex-shrink: 0;
         width: 30px;
         height: 30px;
@@ -1928,7 +1814,6 @@ h3 {
         display: flex;
         align-items: center;
         gap: 12px;
-        /* Added gap between line and text */
         padding-left: 0;
         position: relative;
         top: 0;
@@ -1939,7 +1824,6 @@ h3 {
         display: block;
         width: 1.5px;
         height: 50px;
-        /* Vertical line as requested */
         background-color: var(--accent-color);
         flex-shrink: 0;
     }
@@ -1950,12 +1834,6 @@ h3 {
         font-weight: 600;
         color: var(--text-primary);
     }
-
-    /* Removed duplicate badge styles */
-
-
-
-
 
     .project-card {
         padding: 25px 15px 15px 15px;
@@ -2022,14 +1900,11 @@ h3 {
         font-size: 1.3rem;
     }
 
-
-
     .project-card {
         padding: 20px 10px;
     }
 }
 
-/* --- Smooth Theme Transition --- */
 @property --reveal {
     syntax: '<percentage>';
     inherits: false;
@@ -2044,7 +1919,6 @@ h3 {
 ::view-transition-new(root) {
     z-index: 9999;
     animation: reveal-circle 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    /* mask for feathered edge */
     mask: radial-gradient(circle at right 54px top 54px,
             black var(--reveal),
             transparent calc(var(--reveal) + 18%));
@@ -2067,7 +1941,6 @@ h3 {
     }
 }
 
-/* Fallback for browsers without @property support (simple sharp circular reveal) */
 @supports not (color: color-mix(in srgb, red, blue)) {
     ::view-transition-new(root) {
         animation: reveal-simple 1.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2086,7 +1959,6 @@ h3 {
     }
 }
 
-/* Fix for blinking jerk: Disable all transitions during view transition capture */
 .theme-transitioning * {
     transition: none !important;
     animation-play-state: paused !important;

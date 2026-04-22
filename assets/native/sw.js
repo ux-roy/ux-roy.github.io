@@ -1,23 +1,23 @@
 const CACHE_NAME = 'ux-roy-portfolio-v1';
 const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './style.css',
-  './script.js',
-  './manifest.json',
-  './assets/icons/pwa-icon.png',
-  './assets/icons/logo-icon.svg',
-  './assets/icons/logo.svg',
-  './assets/icons/design-process-white.svg',
-  './assets/icons/design-process-black.svg',
-  './assets/icons/mobile-process-white.svg',
-  './assets/icons/mobile-process-black.svg',
-  './assets/icons/tools-proficiency.svg',
-  './assets/icons/design-competency.svg',
-  './assets/icons/research-expertise.svg',
-  './assets/icons/AI-&-frontend.svg',
-  './assets/images/profile-dark.png',
-  './assets/images/profile-light.png'
+  '../../',
+  '../../index.html',
+  '../../style.css',
+  '../../script.js',
+  '../../assets/native/manifest.json',
+  '../../assets/images/pwa-icon.png',
+  '../../assets/icons/logo-icon.svg',
+  '../../assets/icons/logo.svg',
+  '../../assets/icons/design-process-white.svg',
+  '../../assets/icons/design-process-black.svg',
+  '../../assets/icons/mobile-process-white.svg',
+  '../../assets/icons/mobile-process-black.svg',
+  '../../assets/icons/tools-proficiency.svg',
+  '../../assets/icons/design-competency.svg',
+  '../../assets/icons/research-expertise.svg',
+  '../../assets/icons/AI-&-frontend.svg',
+  '../../assets/images/profile-dark.png',
+  '../../assets/images/profile-light.png'
 ];
 
 // Install Event
