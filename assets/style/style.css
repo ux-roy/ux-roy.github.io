@@ -611,15 +611,13 @@ h3 {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 30px;
 }
 
 .skill-icon {
-    font-size: 2rem;
-    color: var(--accent-color);
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     object-fit: contain;
 }
 
