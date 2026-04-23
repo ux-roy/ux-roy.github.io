@@ -1407,12 +1407,7 @@ h3 {
     }
 
     .project-duration {
-        border-left: none;
-        padding-left: 0;
-        border-top: 2px solid var(--accent-color);
-        padding-top: 10px;
-        width: 100%;
-        text-align: center;
+        display: none;
     }
 
     .contact-layout {

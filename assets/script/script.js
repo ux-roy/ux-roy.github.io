@@ -369,14 +369,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalActions = document.getElementById('modal-actions');
 
     let currentProjectData = {
-        figmaUrl: '',
+        researchUrl: '',
         videoUrl: '',
         prototypeUrl: ''
     };
 
-    const openModal = (figmaUrl, videoUrl, prototypeUrl = '') => {
+    const openModal = (researchUrl, videoUrl, prototypeUrl = '') => {
         if (modal) {
-            currentProjectData.figmaUrl = figmaUrl;
+            currentProjectData.researchUrl = researchUrl;
             currentProjectData.videoUrl = videoUrl;
             currentProjectData.prototypeUrl = prototypeUrl;
 
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showFigma = () => {
         if (figmaContainer && projectVideo) {
             figmaContainer.style.display = 'block';
-            if (figmaIframe) figmaIframe.src = currentProjectData.figmaUrl;
+            if (figmaIframe) figmaIframe.src = currentProjectData.researchUrl;
             projectVideo.style.display = 'none';
             projectVideo.pause();
             
@@ -435,17 +435,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     openModalButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const figmaUrl = button.getAttribute('data-figma-url');
+            const researchUrl = button.getAttribute('data-research-url');
             const videoUrl = button.getAttribute('data-video-url');
             const prototypeUrl = button.getAttribute('data-prototype-url') || '';
-            openModal(figmaUrl, videoUrl, prototypeUrl);
+            openModal(researchUrl, videoUrl, prototypeUrl);
         });
     });
 
     if (btnExpandModal) {
         btnExpandModal.addEventListener('click', () => {
-            if (currentProjectData.figmaUrl) {
-                window.open(currentProjectData.figmaUrl, '_blank');
+            if (currentProjectData.researchUrl) {
+                window.open(currentProjectData.researchUrl, '_blank');
             }
         });
     }
