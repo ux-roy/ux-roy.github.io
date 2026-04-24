@@ -495,10 +495,10 @@
 
                             <div class="project-footer">
                                 <button class="btn-outline open-project-modal"
-                                    data-research-url="https://www.figma.com/board/aRnBMY2p9gPhghdLTQfplT/R?node-id=0-1&t=7ZPSjBYtPz7j3wYd-1"
                                     data-video-url="assets/video/Case-Study-1_Retail.mp4"
+                                    data-insights-image="assets/image/Project-1.svg"
                                     data-prototype-url="https://www.figma.com/proto/LNqzdOWYVn9aCoGYjjdSPA/1_Retail_Prototype?node-id=1-5135&p=f&viewport=489%2C396%2C0.04&t=pngflXwVlaUiJ8wf-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A5124&page-id=0%3A1">
-                                    Watch Video
+                                    View Details
                                 </button>
                                 <div class="project-duration">
                                     Duration: 24 weeks
@@ -558,10 +558,10 @@
 
                             <div class="project-footer">
                                 <button class="btn-outline open-project-modal"
-                                    data-research-url="https://embed.figma.com/board/nw1rktNGVuDTnWJ57iNQun/2_PrintAR_Research?node-id=0-1&embed-host=share"
                                     data-video-url="assets/video/Case-Study-2_ARPrint.mp4"
+                                    data-insights-image="assets/image/Project-2.svg"
                                     data-prototype-url="https://www.figma.com/proto/k7o6C1kDZT8nKL9fSa52fm/2_PrintAR_Prototype?node-id=1-173&p=f&viewport=146%2C45%2C0.17&t=D9NX7x1zSkMjVmPY-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1">
-                                    Watch Video
+                                    View Details
                                 </button>
                                 <div class="project-duration">
                                     Duration: 6 weeks
@@ -622,10 +622,10 @@
 
                             <div class="project-footer">
                                 <button class="btn-outline open-project-modal"
-                                    data-research-url="https://embed.figma.com/board/g4hR5VXmB3RREbuB1TS8wO/3_Automobile_Research?node-id=2-4&embed-host=share"
                                     data-video-url="assets/video/Case-Study-3_Automobile.mp4"
+                                    data-insights-image="assets/image/Project-3.svg"
                                     data-prototype-url="https://xd.adobe.com/view/6f2db149-662e-45cf-9a78-014a693affc7-3a7e/">
-                                    Watch Video
+                                    View Details
                                 </button>
                                 <div class="project-duration">Duration: 03 months</div>
                             </div>
@@ -682,10 +682,10 @@
 
                             <div class="project-footer">
                                 <button class="btn-outline open-project-modal"
-                                    data-research-url="https://miro.com/app/board/uXjVHdB7T5Q=/?share_link_id=611947237009"
                                     data-video-url="assets/video/Case-Study-4_Healthcare.mp4"
+                                    data-insights-image="assets/image/Project-4.svg"
                                     data-prototype-url="https://ux-roy.github.io/work4/">
-                                    Watch Video
+                                    View Details
                                 </button>
                                 <div class="project-duration">Duration: 2 weeks</div>
                             </div>
@@ -844,20 +844,16 @@
                 </svg>
             </button>
             <div id="modal-body">
-                <div id="figma-container" style="width: 100%; height: 100%; position: relative;">
-                    <iframe id="figma-iframe" style="border: none;" width="100%" height="100%" src=""
-                        allowfullscreen></iframe>
-                </div>
-                <video id="project-video" width="100%" height="100%" controls
-                    style="display: none; border-radius: 8px;">
+                <video id="project-video" width="100%" height="100%" controls>
                     <source src="" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+                <img id="insights-image" src="" alt="Project Insights">
             </div>
             <!-- Floating Buttons -->
             <div class="modal-floating-actions" id="modal-actions">
-                <button class="modal-action-btn" id="btn-expand-modal">Explore Insights</button>
-                <button class="modal-action-btn" id="btn-open-prototype">Open Prototype</button>
+                <button class="modal-action-btn" id="btn-expand-modal">Key Insights</button>
+                <button class="modal-action-btn" id="btn-open-prototype">Quick Demo</button>
             </div>
         </div>
     </div>

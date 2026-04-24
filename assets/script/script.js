@@ -355,30 +355,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // Modal Logic for multiple projects
     const modal = document.getElementById('project-modal');
-    const figmaIframe = document.getElementById('figma-iframe');
-    const figmaContainer = document.getElementById('figma-container');
     const projectVideo = document.getElementById('project-video');
+    const insightsImage = document.getElementById('insights-image');
     const videoSource = projectVideo ? projectVideo.querySelector('source') : null;
     const openModalButtons = document.querySelectorAll('.open-project-modal');
     const closeModalBtn = document.querySelector('.close-modal');
     
     // Action buttons inside modal
-    const btnVideoOverview = document.getElementById('btn-video-overview');
     const btnOpenPrototype = document.getElementById('btn-open-prototype');
     const btnExpandModal = document.getElementById('btn-expand-modal');
     const modalActions = document.getElementById('modal-actions');
 
     let currentProjectData = {
-        researchUrl: '',
         videoUrl: '',
-        prototypeUrl: ''
+        prototypeUrl: '',
+        insightsImageUrl: ''
     };
 
-    const openModal = (researchUrl, videoUrl, prototypeUrl = '') => {
+    // Zoom & Pan Variables
+    let zoomScale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isPanning = false;
+    let startX, startY;
+
+    const updateImageTransform = () => {
+        if (insightsImage) {
+            insightsImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomScale})`;
+        }
+    };
+
+    const resetZoom = () => {
+        zoomScale = 1;
+        translateX = 0;
+        translateY = 0;
+        if (insightsImage) {
+            insightsImage.style.transition = 'none';
+            updateImageTransform();
+            // Force a reflow
+            insightsImage.offsetHeight;
+            insightsImage.style.transition = 'transform 0.1s ease-out';
+            insightsImage.style.cursor = 'grab';
+        }
+    };
+
+    const openModal = (videoUrl, prototypeUrl = '', insightsImageUrl = '') => {
         if (modal) {
-            currentProjectData.researchUrl = researchUrl;
             currentProjectData.videoUrl = videoUrl;
             currentProjectData.prototypeUrl = prototypeUrl;
+            currentProjectData.insightsImageUrl = insightsImageUrl;
 
             // Default view: Show Video
             showVideo();
@@ -388,26 +413,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const showFigma = () => {
-        if (figmaContainer && projectVideo) {
-            figmaContainer.style.display = 'block';
-            if (figmaIframe) figmaIframe.src = currentProjectData.researchUrl;
+    const showInsights = () => {
+        if (projectVideo && insightsImage) {
             projectVideo.style.display = 'none';
             projectVideo.pause();
             
-            // Show floating actions (only on desktop)
+            insightsImage.style.display = 'block';
+            insightsImage.src = currentProjectData.insightsImageUrl;
+            resetZoom(); // Reset zoom when showing new insights
+
+            // Show floating actions
             if (modalActions) modalActions.style.display = 'flex';
-            if (closeModalBtn) closeModalBtn.style.display = 'flex'; 
-            
+            if (closeModalBtn) closeModalBtn.style.display = 'flex';
+
             // Update button text
-            if (btnVideoOverview) btnVideoOverview.textContent = 'Watch Video';
+            if (btnExpandModal) btnExpandModal.textContent = 'Watch Again';
         }
     };
 
     const showVideo = () => {
-        if (figmaContainer && projectVideo && videoSource) {
-            figmaContainer.style.display = 'none';
-            if (figmaIframe) figmaIframe.src = ''; // Stop loading/playing in iframe
+        if (projectVideo && videoSource) {
+            if (insightsImage) insightsImage.style.display = 'none';
             
             projectVideo.style.display = 'block';
             videoSource.src = currentProjectData.videoUrl;
@@ -419,14 +445,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (closeModalBtn) closeModalBtn.style.display = 'flex';
 
             // Update button text
-            if (btnVideoOverview) btnVideoOverview.textContent = 'View Research';
+            if (btnExpandModal) btnExpandModal.textContent = 'Key Insights';
         }
     };
 
     const closeModal = () => {
         modal.classList.remove('open');
         document.body.style.overflow = '';
-        if (figmaIframe) figmaIframe.src = '';
+        if (insightsImage) {
+            insightsImage.style.display = 'none';
+            resetZoom();
+        }
         if (projectVideo) {
             projectVideo.pause();
             projectVideo.currentTime = 0;
@@ -435,27 +464,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     openModalButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const researchUrl = button.getAttribute('data-research-url');
             const videoUrl = button.getAttribute('data-video-url');
             const prototypeUrl = button.getAttribute('data-prototype-url') || '';
-            openModal(researchUrl, videoUrl, prototypeUrl);
+            const insightsImageUrl = button.getAttribute('data-insights-image') || '';
+            openModal(videoUrl, prototypeUrl, insightsImageUrl);
         });
     });
 
     if (btnExpandModal) {
         btnExpandModal.addEventListener('click', () => {
-            if (currentProjectData.researchUrl) {
-                window.open(currentProjectData.researchUrl, '_blank');
-            }
-        });
-    }
-
-    if (btnVideoOverview) {
-        btnVideoOverview.addEventListener('click', () => {
-            if (projectVideo && projectVideo.style.display === 'block') {
-                showFigma();
-            } else {
+            if (insightsImage && insightsImage.style.display === 'block') {
                 showVideo();
+            } else if (currentProjectData.insightsImageUrl) {
+                showInsights();
             }
         });
     }
@@ -464,8 +485,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btnOpenPrototype.addEventListener('click', () => {
             if (currentProjectData.prototypeUrl) {
                 window.open(currentProjectData.prototypeUrl, '_blank');
-            } else {
-                showFigma();
             }
         });
     }
@@ -474,17 +493,86 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModalBtn.addEventListener('click', closeModal);
     }
 
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
 
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && modal.classList.contains('open')) {
             closeModal();
         }
     });
+
+    // Zoom & Pan Event Listeners
+    if (insightsImage) {
+        insightsImage.addEventListener('wheel', (e) => {
+            if (insightsImage.style.display !== 'block') return;
+            e.preventDefault();
+            
+            const zoomSpeed = 0.1;
+            const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
+            const prevScale = zoomScale;
+            zoomScale = Math.min(Math.max(1, zoomScale + delta), 5);
+            
+            // Adjust translation to zoom towards center or maintain feel
+            if (zoomScale === 1) {
+                translateX = 0;
+                translateY = 0;
+            }
+            
+            updateImageTransform();
+            insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
+        }, { passive: false });
+
+        insightsImage.addEventListener('mousedown', (e) => {
+            if (zoomScale > 1) {
+                isPanning = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                insightsImage.style.transition = 'none';
+                insightsImage.style.cursor = 'grabbing';
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isPanning) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateImageTransform();
+        });
+
+        window.addEventListener('mouseup', () => {
+            if (isPanning) {
+                isPanning = false;
+                insightsImage.style.transition = 'transform 0.1s ease-out';
+                insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
+            }
+        });
+
+        // Double click to reset
+        insightsImage.addEventListener('dblclick', () => {
+            resetZoom();
+        });
+
+        // Touch support for mobile panning
+        insightsImage.addEventListener('touchstart', (e) => {
+            if (zoomScale > 1 && e.touches.length === 1) {
+                isPanning = true;
+                startX = e.touches[0].clientX - translateX;
+                startY = e.touches[0].clientY - translateY;
+                insightsImage.style.transition = 'none';
+            }
+        }, { passive: true });
+
+        insightsImage.addEventListener('touchmove', (e) => {
+            if (!isPanning || e.touches.length !== 1) return;
+            translateX = e.touches[0].clientX - startX;
+            translateY = e.touches[0].clientY - startY;
+            updateImageTransform();
+        }, { passive: true });
+
+        insightsImage.addEventListener('touchend', () => {
+            isPanning = false;
+            insightsImage.style.transition = 'transform 0.1s ease-out';
+        });
+    }
 
 });
 
