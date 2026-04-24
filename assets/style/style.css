@@ -871,7 +871,7 @@ h3 {
 .project-type {
     font-family: var(--font-body);
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: 500;
     color: var(--text-primary);
     margin-top: 10px;
 }
