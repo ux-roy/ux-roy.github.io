@@ -365,6 +365,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnOpenPrototype = document.getElementById('btn-open-prototype');
     const btnExpandModal = document.getElementById('btn-expand-modal');
     const modalActions = document.getElementById('modal-actions');
+    const zoomControls = document.getElementById('zoom-controls');
+    const btnZoomIn = document.getElementById('btn-zoom-in');
+    const btnZoomOut = document.getElementById('btn-zoom-out');
+    const btnZoomReset = document.getElementById('btn-zoom-reset');
+    const btnZoomExpand = document.getElementById('btn-zoom-expand');
+    const expandIconPath = document.getElementById('expand-icon-path');
 
     let currentProjectData = {
         videoUrl: '',
@@ -424,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Show floating actions
             if (modalActions) modalActions.style.display = 'flex';
+            if (zoomControls) zoomControls.style.display = 'flex';
             if (closeModalBtn) closeModalBtn.style.display = 'flex';
 
             // Update button text
@@ -442,6 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Show floating actions
             if (modalActions) modalActions.style.display = 'flex';
+            if (zoomControls) zoomControls.style.display = 'none';
             if (closeModalBtn) closeModalBtn.style.display = 'flex';
 
             // Update button text
@@ -452,6 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModal = () => {
         modal.classList.remove('open');
         document.body.style.overflow = '';
+        if (zoomControls) zoomControls.style.display = 'none';
         if (insightsImage) {
             insightsImage.style.display = 'none';
             resetZoom();
@@ -499,6 +508,77 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+
+    if (btnZoomIn) {
+        btnZoomIn.addEventListener('click', () => {
+            if (insightsImage && insightsImage.style.display === 'block') {
+                zoomScale = Math.min(zoomScale + 0.5, 5);
+                updateImageTransform();
+                insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
+            }
+        });
+    }
+
+    if (btnZoomOut) {
+        btnZoomOut.addEventListener('click', () => {
+            if (insightsImage && insightsImage.style.display === 'block') {
+                zoomScale = Math.max(1, zoomScale - 0.5);
+                if (zoomScale === 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateImageTransform();
+                insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
+            }
+        });
+    }
+
+    if (btnZoomReset) {
+        btnZoomReset.addEventListener('click', () => {
+            if (insightsImage && insightsImage.style.display === 'block') {
+                resetZoom();
+            }
+        });
+    }
+
+    if (btnZoomExpand) {
+        btnZoomExpand.addEventListener('click', () => {
+            if (insightsImage && insightsImage.style.display === 'block') {
+                const modalContent = modal.querySelector('.modal-content');
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    if (modalContent.requestFullscreen) {
+                        modalContent.requestFullscreen();
+                    } else if (modalContent.webkitRequestFullscreen) {
+                        modalContent.webkitRequestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                }
+            }
+        });
+    }
+
+    const updateFullscreenIcon = () => {
+        if (!expandIconPath || !btnZoomExpand) return;
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+            expandIconPath.setAttribute('d', 'M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7');
+            btnZoomExpand.setAttribute('aria-label', 'Minimize Image');
+            btnZoomExpand.setAttribute('title', 'Minimize Image');
+            if (closeModalBtn) closeModalBtn.style.display = 'none';
+        } else {
+            expandIconPath.setAttribute('d', 'M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7');
+            btnZoomExpand.setAttribute('aria-label', 'Expand Image');
+            btnZoomExpand.setAttribute('title', 'Expand Image');
+            if (closeModalBtn) closeModalBtn.style.display = 'flex';
+        }
+    };
+
+    document.addEventListener('fullscreenchange', updateFullscreenIcon);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
 
     // Zoom & Pan Event Listeners
     if (insightsImage) {
