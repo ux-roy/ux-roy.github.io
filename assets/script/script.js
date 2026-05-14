@@ -368,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomControls = document.getElementById('zoom-controls');
     const btnZoomIn = document.getElementById('btn-zoom-in');
     const btnZoomOut = document.getElementById('btn-zoom-out');
-    const btnZoomReset = document.getElementById('btn-zoom-reset');
     const btnZoomExpand = document.getElementById('btn-zoom-expand');
     const expandIconPath = document.getElementById('expand-icon-path');
 
@@ -529,14 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 updateImageTransform();
                 insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
-            }
-        });
-    }
-
-    if (btnZoomReset) {
-        btnZoomReset.addEventListener('click', () => {
-            if (insightsImage && insightsImage.style.display === 'block') {
-                resetZoom();
             }
         });
     }
