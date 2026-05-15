@@ -10,16 +10,32 @@
   "orientation": "portrait",
   "icons": [
     {
+<<<<<<< HEAD
       "src": "assets/image/pwa-icon-trans.png",
       "sizes": "192x192 512x512",
+=======
+      "src": "assets/image/pwa-icon.png",
+      "sizes": "512x512",
+>>>>>>> parent of ee0fe1b (PWA)
       "type": "image/png",
       "purpose": "any"
     },
     {
+<<<<<<< HEAD
       "src": "assets/image/pwa-icon-solid.png",
       "sizes": "192x192 512x512",
+=======
+      "src": "assets/image/pwa-icon.png",
+      "sizes": "512x512",
+>>>>>>> parent of ee0fe1b (PWA)
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "assets/image/pwa-icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
