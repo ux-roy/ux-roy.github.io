@@ -10,22 +10,16 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "assets/image/pwa-icon.png",
+      "src": "assets/image/pwa-icon-trans.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/image/pwa-icon.png",
+      "src": "assets/image/pwa-icon-solid.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "assets/image/pwa-icon.png",
-      "sizes": "any",
-      "type": "image/png",
-      "purpose": "any"
     }
   ]
 }
