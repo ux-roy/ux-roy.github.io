@@ -439,7 +439,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const showVideo = () => {
         if (projectVideo && videoSource) {
-            if (insightsImage) insightsImage.style.display = 'none';
+            if (insightsImage) {
+                insightsImage.style.display = 'none';
+                resetZoom();
+            }
             
             projectVideo.style.display = 'block';
             videoSource.src = currentProjectData.videoUrl;
@@ -555,6 +558,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateFullscreenIcon = () => {
         if (!expandIconPath || !btnZoomExpand) return;
+        
+        resetZoom(); // Reset zoom on both entering and exiting fullscreen
+        
         if (document.fullscreenElement || document.webkitFullscreenElement) {
             expandIconPath.setAttribute('d', 'M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7');
             btnZoomExpand.setAttribute('aria-label', 'Minimize Image');
