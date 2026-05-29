@@ -1916,3 +1916,17 @@ h3 {
     transition: none !important;
     animation-play-state: paused !important;
 }
+
+/* Remove logo & menu outer stroke globally (both light and dark modes) */
+.hamburger-menu,
+.hamburger-menu.open,
+.floating-header.scrolling-up .hamburger-menu,
+.hamburger-menu:hover,
+.logo-trigger,
+.logo-wrapper.active .logo-trigger,
+.floating-header.scrolling-up .logo-trigger,
+.logo-wrapper:hover .logo-trigger,
+.side-panel,
+.logo-menu {
+    border-color: transparent !important;
+}
