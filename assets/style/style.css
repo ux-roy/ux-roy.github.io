@@ -1830,8 +1830,10 @@ h3 {
     }
 
     .carousel-controls {
-        top: -55px;
-        right: 0;
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 25px auto 0 auto;
         padding: 6px;
     }
 
