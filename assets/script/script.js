@@ -353,6 +353,11 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSlide(currentSlideIndex);
         });
     });
+
+    // Initialize slide counter dynamically
+    if (slides.length > 0) {
+        updateSlide(currentSlideIndex);
+    }
     // Modal Logic for multiple projects
     const modal = document.getElementById('project-modal');
     const projectVideo = document.getElementById('project-video');
@@ -455,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (closeModalBtn) closeModalBtn.style.display = 'flex';
 
             // Update button text
-            if (btnExpandModal) btnExpandModal.textContent = 'Key Insights';
+            if (btnExpandModal) btnExpandModal.textContent = 'View Details';
         }
     };
 

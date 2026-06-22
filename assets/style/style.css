@@ -937,7 +937,18 @@ h3 {
     gap: 16px;
 }
 
+.project-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .carousel-controls {
+    position: absolute;
+    top: -65px;
+    right: 0;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -945,7 +956,6 @@ h3 {
     background-color: var(--card-bg);
     border-radius: 40px;
     padding: 3px 4px;
-    margin: 20px auto 0;
     width: fit-content;
     box-shadow: 0 4px 15px var(--shadow-color);
     border: 1px solid var(--border-color);
@@ -1008,14 +1018,21 @@ h3 {
 }
 
 .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     background-color: var(--accent-light);
     border: 1px solid var(--accent-color);
     color: var(--text-primary);
-    padding: 10px 15px;
+    padding: 0 15px;
+    height: 38px;
     letter-spacing: 1px;
     border-radius: 6px;
     font-weight: 500;
     font-size: .9rem;
+    font-family: inherit;
+    line-height: 1;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -1813,6 +1830,8 @@ h3 {
     }
 
     .carousel-controls {
+        top: -55px;
+        right: 0;
         padding: 6px;
     }
 
