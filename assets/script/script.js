@@ -495,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (closeModalBtn) closeModalBtn.style.display = 'flex';
 
             // Update button text
-            if (btnExpandModal) btnExpandModal.textContent = 'View Details';
+            if (btnExpandModal) btnExpandModal.textContent = 'Key Insights';
         }
     };
 
