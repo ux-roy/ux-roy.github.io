@@ -66,8 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetContent = document.getElementById(targetId);
             
             if (targetContent) {
-                // Close panel first for better visual feedback
-                closePanel();
+                const isMobile = window.innerWidth <= 768;
+
+                // Close panel first for better visual feedback (mobile/tablet only)
+                if (isMobile) {
+                    closePanel();
+                }
                 
                 // Temporarily disable hiding header during smooth scroll
                 isScrollingToSection = true;
@@ -80,10 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 
-                // Allow a tiny delay before scrolling
+                // Allow a tiny delay before scrolling (only on mobile/tablet to wait for panel retraction)
+                const delay = isMobile ? 300 : 0;
                 setTimeout(() => {
                     targetContent.scrollIntoView({ behavior: 'smooth' });
-                }, 300); // Slightly more delay for mobile panel retraction
+                }, delay);
 
                 // Reset scrolling to section flag when scroll ends
                 const handleScrollEnd = () => {

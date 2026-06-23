@@ -211,6 +211,7 @@ button,
     z-index: 998;
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1537,6 +1538,7 @@ h3 {
         background-color: rgba(0, 0, 0, 0.25);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(5px);
+        pointer-events: auto;
     }
 
     body.menu-open .logo-wrapper {
