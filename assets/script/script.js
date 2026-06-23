@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sidePanel = document.getElementById('side-panel');
     const menuOverlay = document.getElementById('menu-overlay');
+    const mobileHeader = document.getElementById('mobile-header');
+
+    let isScrollingToSection = false;
+    let scrollTimeout = null;
 
 
     // Toggle Side Panel
@@ -65,10 +69,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Close panel first for better visual feedback
                 closePanel();
                 
+                // Temporarily disable hiding header during smooth scroll
+                isScrollingToSection = true;
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+
+                if (mobileHeader) {
+                    mobileHeader.classList.remove('header-hidden');
+                    if (window.scrollY > 20) {
+                        mobileHeader.classList.add('scrolling-up');
+                    }
+                }
+                
                 // Allow a tiny delay before scrolling
                 setTimeout(() => {
                     targetContent.scrollIntoView({ behavior: 'smooth' });
                 }, 300); // Slightly more delay for mobile panel retraction
+
+                // Reset scrolling to section flag when scroll ends
+                const handleScrollEnd = () => {
+                    isScrollingToSection = false;
+                    window.removeEventListener('scrollend', handleScrollEnd);
+                };
+                window.addEventListener('scrollend', handleScrollEnd);
+
+                scrollTimeout = setTimeout(() => {
+                    isScrollingToSection = false;
+                    window.removeEventListener('scrollend', handleScrollEnd);
+                }, 1500);
             }
         });
     });
@@ -139,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Header Visibility on Scroll (Mobile Specific)
     let lastScrollY = window.scrollY;
     const headerThreshold = 80;
-    const mobileHeader = document.getElementById('mobile-header');
 
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
@@ -153,7 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Visibility toggle logic
-        if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
+        if (isScrollingToSection) {
+            if (mobileHeader) {
+                mobileHeader.classList.remove('header-hidden');
+            }
+        } else if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
             // Scrolling Down - Hide
             if (mobileHeader) {
                 mobileHeader.classList.add('header-hidden');
