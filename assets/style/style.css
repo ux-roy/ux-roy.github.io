@@ -231,10 +231,10 @@ button,
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid var(--border-color);
-    border-radius: 50px;
+    border-radius: 100px;
     box-shadow: 0 15px 50px var(--shadow-color), 0 0 20px rgba(var(--accent-rgb), 0.05);
     z-index: 999;
-    padding: 15px 40px;
+    padding: 15px 45px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -243,7 +243,7 @@ button,
 }
 
 .side-panel.open {
-    top: 25px;
+    top: 20px;
 }
 
 .panel-nav {
@@ -257,9 +257,9 @@ button,
     border: none;
     text-align: center;
     font-family: var(--font-body);
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-    font-weight: 550;
+    font-size: 1.1rem;
+    letter-spacing: 0.8px;
+    font-weight: 500;
     color: var(--text-primary);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -516,6 +516,7 @@ h3 {
     font-size: 2.5rem;
     font-weight: 700;
     margin-top: 20px;
+    letter-spacing: 0.1rem;
 }
 
 .edu-header-wrapper {
@@ -560,9 +561,10 @@ h3 {
 }
 
 .role-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 400;
     color: var(--text-primary);
+    letter-spacing: 0.05rem;
 }
 
 .mt-30 {
@@ -1202,7 +1204,8 @@ h3 {
     }
 }
 
-.close-modal, .overlay-icon-btn {
+.close-modal,
+.overlay-icon-btn {
     cursor: pointer;
     color: var(--text-primary);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1228,7 +1231,8 @@ h3 {
     height: 18px;
 }
 
-.close-modal:hover, .overlay-icon-btn:hover {
+.close-modal:hover,
+.overlay-icon-btn:hover {
     box-shadow: 0 6px 15px rgba(var(--accent-rgb), 0.25);
     background-color: var(--accent-color);
     color: #ffffff;
@@ -1248,17 +1252,21 @@ h3 {
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
-    display: none; /* Controlled by script */
+    display: none;
+    /* Controlled by script */
 }
 
 #insights-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    background-color: #ffffff; /* Always white background for SVGs */
+    background-color: #ffffff;
+    /* Always white background for SVGs */
     border-radius: 8px;
-    display: none; /* Controlled by script */
-    transition: transform 0.1s ease-out; /* Smooth zoom transition */
+    display: none;
+    /* Controlled by script */
+    transition: transform 0.1s ease-out;
+    /* Smooth zoom transition */
     cursor: grab;
     transform-origin: center;
     user-select: none;
@@ -1673,7 +1681,7 @@ h3 {
     }
 
     .panel-link {
-        font-size: 1.2rem;
+        font-size: 1.05rem;
         padding: 8px 0;
         width: 100%;
         text-align: center;
@@ -1958,6 +1966,7 @@ h3 {
     .hamburger-menu:hover {
         border-color: rgba(0, 0, 0, 0.12) !important;
     }
+
     [data-theme="dark"] .hamburger-menu:hover {
         border-color: rgba(255, 255, 255, 0.15) !important;
     }
@@ -1966,6 +1975,7 @@ h3 {
     .logo-wrapper:hover .logo-trigger {
         border-color: rgba(0, 0, 0, 0.12) !important;
     }
+
     [data-theme="dark"] .logo-trigger:hover,
     [data-theme="dark"] .logo-wrapper:hover .logo-trigger {
         border-color: rgba(255, 255, 255, 0.15) !important;
