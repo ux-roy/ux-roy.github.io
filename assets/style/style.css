@@ -1945,12 +1945,29 @@ h3 {
 .hamburger-menu,
 .hamburger-menu.open,
 .floating-header.scrolling-up .hamburger-menu,
-.hamburger-menu:hover,
 .logo-trigger,
 .logo-wrapper.active .logo-trigger,
 .floating-header.scrolling-up .logo-trigger,
-.logo-wrapper:hover .logo-trigger,
 .side-panel,
 .logo-menu {
     border-color: transparent !important;
+}
+
+/* Thin light border for menu and logo icons on hover */
+@media (hover: hover) {
+    .hamburger-menu:hover {
+        border-color: rgba(0, 0, 0, 0.12) !important;
+    }
+    [data-theme="dark"] .hamburger-menu:hover {
+        border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .logo-trigger:hover,
+    .logo-wrapper:hover .logo-trigger {
+        border-color: rgba(0, 0, 0, 0.12) !important;
+    }
+    [data-theme="dark"] .logo-trigger:hover,
+    [data-theme="dark"] .logo-wrapper:hover .logo-trigger {
+        border-color: rgba(255, 255, 255, 0.15) !important;
+    }
 }
