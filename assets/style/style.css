@@ -137,7 +137,7 @@ button,
     width: 48px;
     height: 48px;
     background: transparent;
-    border: 1px transparent;
+    border: 1px solid transparent;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -159,7 +159,6 @@ button,
     backdrop-filter: blur(2px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
@@ -226,7 +225,7 @@ button,
     left: 50%;
     transform: translateX(-50%);
     width: max-content;
-    height: auto;
+    height: 48px;
     background-color: var(--panel-bg);
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
@@ -234,7 +233,7 @@ button,
     border-radius: 50px;
     box-shadow: 0 15px 50px var(--shadow-color), 0 0 20px rgba(var(--accent-rgb), 0.05);
     z-index: 999;
-    padding: 15px 40px;
+    padding: 0 40px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -243,7 +242,7 @@ button,
 }
 
 .side-panel.open {
-    top: 25px;
+    top: 30px;
 }
 
 .panel-nav {
@@ -322,7 +321,6 @@ button,
     backdrop-filter: blur(2px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
@@ -1356,7 +1354,6 @@ h3 {
         backdrop-filter: blur(12px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
         border: 1px solid var(--accent-light);
-        transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
     }
 
@@ -1365,7 +1362,6 @@ h3 {
         backdrop-filter: blur(2px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
         border: 1px solid var(--accent-light);
-        transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
     }
 
@@ -1945,12 +1941,29 @@ h3 {
 .hamburger-menu,
 .hamburger-menu.open,
 .floating-header.scrolling-up .hamburger-menu,
-.hamburger-menu:hover,
 .logo-trigger,
 .logo-wrapper.active .logo-trigger,
 .floating-header.scrolling-up .logo-trigger,
-.logo-wrapper:hover .logo-trigger,
 .side-panel,
 .logo-menu {
     border-color: transparent !important;
+}
+
+/* Thin light border for menu and logo icons on hover */
+@media (hover: hover) {
+    .hamburger-menu:hover {
+        border-color: rgba(0, 0, 0, 0.12) !important;
+    }
+    [data-theme="dark"] .hamburger-menu:hover {
+        border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .logo-trigger:hover,
+    .logo-wrapper:hover .logo-trigger {
+        border-color: rgba(0, 0, 0, 0.12) !important;
+    }
+    [data-theme="dark"] .logo-trigger:hover,
+    [data-theme="dark"] .logo-wrapper:hover .logo-trigger {
+        border-color: rgba(255, 255, 255, 0.15) !important;
+    }
 }
