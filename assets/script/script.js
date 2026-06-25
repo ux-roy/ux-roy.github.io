@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (menuOverlay) menuOverlay.classList.remove('open');
             document.body.classList.remove('menu-open');
             document.body.style.overflow = '';
-            hamburgerMenu.setAttribute('title', 'Open menu');
-            hamburgerMenu.setAttribute('aria-label', 'Open menu');
+            hamburgerMenu.setAttribute('title', 'Menu');
+            hamburgerMenu.setAttribute('aria-label', 'Menu');
         } else {
             // Close logo dropdown when opening side panel
             if (logoDropdown) {
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = 'hidden';
             }
             
-            hamburgerMenu.setAttribute('title', 'Home');
-            hamburgerMenu.setAttribute('aria-label', 'Home');
+            hamburgerMenu.setAttribute('title', 'Menu');
+            hamburgerMenu.setAttribute('aria-label', 'Menu');
 
             startMenuTimeout();
         }
@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (menuOverlay) menuOverlay.classList.remove('open');
         document.body.classList.remove('menu-open');
         document.body.style.overflow = '';
-        hamburgerMenu.setAttribute('title', 'Open menu');
-        hamburgerMenu.setAttribute('aria-label', 'Open menu');
+        hamburgerMenu.setAttribute('title', 'Menu');
+        hamburgerMenu.setAttribute('aria-label', 'Menu');
     };
 
     hamburgerMenu.addEventListener('click', togglePanel);
