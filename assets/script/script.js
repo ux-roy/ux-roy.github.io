@@ -723,6 +723,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Back to Top Button
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    if (backToTopBtn) {
+        // Smooth scroll to top on click
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
 });
 
 // Service Worker Registration for PWA (Independent of DOMContentLoaded)

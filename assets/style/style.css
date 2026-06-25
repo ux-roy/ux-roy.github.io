@@ -186,9 +186,12 @@ button,
 
 /* Keyframe for reverse loading animation */
 @keyframes reverseLoader {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scaleX(1);
     }
+
     50% {
         transform: scaleX(0.35);
     }
@@ -2009,17 +2012,33 @@ h3 {
 /* Footer Styles */
 .site-footer {
     width: 100%;
-    max-width: 1200px;
+    max-width: 100%;
+    /* Spans full viewport to align button with menu icon */
     margin: 0 auto 40px;
-    padding: 40px 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    text-align: center;
+    padding: 40px;
     position: relative;
     z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-[data-theme="light"] .site-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
+/* Centered border line to match original 1200px max-width design */
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 80px);
+    /* Account for padding */
+    max-width: 1200px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .site-footer::before {
+    background-color: rgba(0, 0, 0, 0.08);
 }
 
 .footer-text {
@@ -2028,18 +2047,83 @@ h3 {
     font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.8;
+    text-align: center;
 }
 
-.mobile-break {
+.footer-symbol {
+    color: var(--accent-color);
+    font-size: 16px;
+    display: inline-block;
+    margin: 0 8px;
+    vertical-align: middle;
+}
+
+.footer-break {
     display: none;
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .site-footer {
-        padding: 40px 20px 40px;
+        padding: 40px 20px;
     }
-    .mobile-break {
+
+    .site-footer::before {
+        width: calc(100% - 40px);
+        /* Adapt border line padding on mobile */
+    }
+
+    .footer-break {
         display: block;
+    }
+
+    .footer-symbol {
+        font-size: 24px;
+        /* Matches the scaled orange star in the reference image */
+        margin: 16px 0;
+        /* Creates distinct layout margins around the star */
+        display: inline-block;
+    }
+}
+
+
+
+/* Back to Top Button */
+.back-to-top {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: var(--accent-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.back-to-top:hover {
+    background-color: var(--panel-bg);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-color: var(--accent-light);
+    transform: translateY(-50%) translateY(-2px);
+    box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
+}
+
+.back-to-top:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Hide back to top button on mobile displays */
+@media (max-width: 768px) {
+    .back-to-top {
+        display: none;
     }
 }
