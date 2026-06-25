@@ -10,11 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let scrollTimeout = null;
 
 
+    let menuTimeout = null;
+
+    const startMenuTimeout = () => {
+        clearMenuTimeout();
+        menuTimeout = setTimeout(() => {
+            closePanel();
+        }, 3000);
+    };
+
+    const clearMenuTimeout = () => {
+        if (menuTimeout) {
+            clearTimeout(menuTimeout);
+            menuTimeout = null;
+        }
+    };
+
     // Toggle Side Panel
     const togglePanel = () => {
         const isOpen = sidePanel.classList.contains('open');
 
         if (isOpen) {
+            clearMenuTimeout();
             sidePanel.classList.remove('open');
             hamburgerMenu.classList.remove('open');
             if (menuOverlay) menuOverlay.classList.remove('open');
@@ -41,10 +58,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             hamburgerMenu.setAttribute('title', 'Home');
             hamburgerMenu.setAttribute('aria-label', 'Home');
+
+            startMenuTimeout();
         }
     };
 
     const closePanel = () => {
+        clearMenuTimeout();
         sidePanel.classList.remove('open');
         hamburgerMenu.classList.remove('open');
         if (menuOverlay) menuOverlay.classList.remove('open');
@@ -56,6 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hamburgerMenu.addEventListener('click', togglePanel);
     if (menuOverlay) menuOverlay.addEventListener('click', closePanel);
+
+    // Reset auto-close timer on hover
+    [hamburgerMenu, sidePanel].forEach(element => {
+        if (element) {
+            element.addEventListener('mouseenter', clearMenuTimeout);
+            element.addEventListener('mouseleave', () => {
+                if (sidePanel && sidePanel.classList.contains('open')) {
+                    startMenuTimeout();
+                }
+            });
+        }
+    });
 
 
 

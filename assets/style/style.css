@@ -184,19 +184,49 @@ button,
     opacity: 1;
 }
 
+/* Keyframe for reverse loading animation */
+@keyframes reverseLoader {
+    0%, 100% {
+        transform: scaleX(1);
+    }
+    50% {
+        transform: scaleX(0.35);
+    }
+}
+
+/* Hover state (closed) - staggered loading animation */
+.hamburger-menu:not(.open):hover .hamburger-line:nth-child(1) {
+    animation: reverseLoader 0.9s infinite ease-in-out;
+    animation-delay: 0.1s;
+    transform-origin: left;
+}
+
+.hamburger-menu:not(.open):hover .hamburger-line:nth-child(2) {
+    animation: reverseLoader 1.2s infinite ease-in-out;
+    animation-delay: 0.3s;
+    transform-origin: right;
+}
+
+.hamburger-menu:not(.open):hover .hamburger-line:nth-child(3) {
+    animation: reverseLoader 1.0s infinite ease-in-out;
+    animation-delay: 0.2s;
+    transform-origin: left;
+}
+
+/* Open state - static cross shape */
 .hamburger-menu.open .hamburger-line:nth-child(1) {
-    width: 13px;
-    transform: translate(-4.2px, 1.5px) rotate(-45deg);
+    width: 20px;
+    transform: translateY(7px) rotate(45deg);
 }
 
 .hamburger-menu.open .hamburger-line:nth-child(2) {
-    width: 13px;
-    transform: translate(4.2px, -5px) rotate(45deg);
+    opacity: 0;
+    transform: scaleX(0);
 }
 
 .hamburger-menu.open .hamburger-line:nth-child(3) {
-    width: 17px;
-    transform: translateY(2.5px);
+    width: 20px;
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 .menu-overlay {
@@ -1979,5 +2009,43 @@ h3 {
     [data-theme="dark"] .logo-trigger:hover,
     [data-theme="dark"] .logo-wrapper:hover .logo-trigger {
         border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+}
+
+/* Footer Styles */
+.site-footer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 40px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+[data-theme="light"] .site-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.footer-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.mobile-break {
+    display: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .site-footer {
+        padding: 40px 20px 40px;
+    }
+    .mobile-break {
+        display: block;
     }
 }
