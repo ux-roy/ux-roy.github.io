@@ -2166,3 +2166,114 @@ h3 {
         display: none !important;
     }
 }
+
+/* Safari Install Modal */
+.safari-install-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(13, 15, 20, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
+}
+
+.safari-install-modal.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.safari-install-content {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 40px var(--shadow-color);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 440px;
+    padding: 30px;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.safari-install-modal.open .safari-install-content {
+    transform: scale(1);
+}
+
+.safari-install-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.safari-install-close:hover {
+    color: var(--accent-color);
+}
+
+.safari-install-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.safari-instruction-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.safari-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.safari-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.safari-steps .step-num {
+    background-color: var(--accent-light);
+    color: var(--accent-color);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.safari-steps .step-desc {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.safari-steps strong {
+    color: var(--accent-color);
+    font-weight: 600;
+}

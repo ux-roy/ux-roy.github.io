@@ -750,21 +750,120 @@ if ('serviceWorker' in navigator) {
 // PWA Installation Handling
 let deferredPrompt;
 const pwaInstallBtn = document.getElementById('pwa-install');
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+// Function to show Safari-specific installation instructions modal
+const showSafariInstallModal = () => {
+    let modal = document.getElementById('safari-install-modal');
+    
+    if (!modal) {
+        // Create modal container
+        modal = document.createElement('div');
+        modal.id = 'safari-install-modal';
+        modal.className = 'safari-install-modal';
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('role', 'dialog');
+        
+        // Detect if macOS or iOS Safari
+        const isMac = /Mac/i.test(navigator.userAgent) && !/iPhone|iPad|iPod/i.test(navigator.userAgent);
+        
+        const instructions = isMac 
+            ? `
+                <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your Mac:</p>
+                <ol class="safari-steps">
+                    <li>
+                        <span class="step-num">1</span>
+                        <span class="step-desc">Click the <strong>Share</strong> icon in the Safari toolbar (or open the <strong>File</strong> menu).</span>
+                    </li>
+                    <li>
+                        <span class="step-num">2</span>
+                        <span class="step-desc">Select <strong>Add to Dock</strong> to launch it natively from your Dock.</span>
+                    </li>
+                </ol>
+            `
+            : `
+                <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your iOS device:</p>
+                <ol class="safari-steps">
+                    <li>
+                        <span class="step-num">1</span>
+                        <span class="step-desc">Tap the <strong>Share</strong> icon in Safari's bottom toolbar.</span>
+                    </li>
+                    <li>
+                        <span class="step-num">2</span>
+                        <span class="step-desc">Scroll down and tap <strong>Add to Home Screen</strong>.</span>
+                    </li>
+                </ol>
+            `;
+            
+        modal.innerHTML = `
+            <div class="safari-install-content">
+                <button class="safari-install-close" id="safari-install-close" aria-label="Close dialog">&times;</button>
+                <div class="safari-install-header">
+                    <h3>Install Application</h3>
+                </div>
+                <div class="safari-install-body">
+                    ${instructions}
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Event listener for close button
+        const closeBtn = modal.querySelector('#safari-install-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        // Event listener for clicking outside the content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Event listener for Escape key to close the modal
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('open')) {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Show the modal with transition
+    modal.offsetHeight; // force reflow
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+};
+
+// Show the install button on page load in Safari if not already installed/standalone
+if (isSafari && !isStandalone && pwaInstallBtn) {
+    pwaInstallBtn.style.display = 'flex';
+}
 
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent the mini-infobar from appearing on mobile
     e.preventDefault();
     // Stash the event so it can be triggered later.
     deferredPrompt = e;
-    // Update UI notify the user they can install the PWA
-    if (pwaInstallBtn) {
+
+    // Update UI to notify the user they can install the PWA (only if not Safari)
+    if (pwaInstallBtn && !isSafari) {
         pwaInstallBtn.style.display = 'flex';
     }
 });
 
 if (pwaInstallBtn) {
     pwaInstallBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
+        if (isSafari) {
+            showSafariInstallModal();
+        } else if (deferredPrompt) {
             // Show the install prompt
             deferredPrompt.prompt();
             // Wait for the user to respond to the prompt
