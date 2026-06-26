@@ -50,12 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
             hamburgerMenu.classList.add('open');
             if (menuOverlay) menuOverlay.classList.add('open');
             document.body.classList.add('menu-open');
-            
+
             // Only disable scrolling on mobile
             if (window.innerWidth <= 768) {
                 document.body.style.overflow = 'hidden';
             }
-            
+
             hamburgerMenu.setAttribute('title', 'Menu');
             hamburgerMenu.setAttribute('aria-label', 'Menu');
 
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const targetId = button.getAttribute('data-target');
             const targetContent = document.getElementById(targetId);
-            
+
             if (targetContent) {
                 const isMobile = window.innerWidth <= 768;
 
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isMobile) {
                     closePanel();
                 }
-                
+
                 // Temporarily disable hiding header during smooth scroll
                 isScrollingToSection = true;
                 if (scrollTimeout) clearTimeout(scrollTimeout);
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         mobileHeader.classList.add('scrolling-up');
                     }
                 }
-                
+
                 // Allow a tiny delay before scrolling (only on mobile/tablet to wait for panel retraction)
                 const delay = isMobile ? 300 : 0;
                 setTimeout(() => {
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 // Remove active from all tabs
                 tabButtons.forEach(btn => btn.classList.remove('active'));
-                
+
                 // Add active to current section's button
                 const activeId = entry.target.getAttribute('id');
                 const activeButton = document.querySelector(`.panel-link[data-target="${activeId}"]`);
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
-    
+
     // Smooth scroll to top on load/refresh
     window.onload = () => {
         setTimeout(() => {
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
         const isMenuOpen = sidePanel && sidePanel.classList.contains('open');
-        
+
         // Background logic - separate from visibility
         if (currentScrollY > 10) { // Small threshold for background
             if (mobileHeader) mobileHeader.classList.add('header-floating');
@@ -244,24 +244,24 @@ document.addEventListener('DOMContentLoaded', () => {
             logoDropdown.classList.remove('active');
             if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
         }
-        
+
         lastScrollY = currentScrollY;
     }, { passive: true });
 
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
     const bgBackdrop = document.querySelector('.bg-typography-backdrop');
-    
+
 
     const designProcessImg = document.getElementById('design-process-img');
     const savedTheme = localStorage.getItem('theme');
-    
+
     // Check system preference if no saved theme
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || 'dark'; // Updated to default to dark theme as requested
-    
+
     const profileImg = document.querySelector('.hero-profile-img');
-    
+
     // Function to update images based on theme
     const updateThemeImages = (theme) => {
         if (designProcessImg) {
@@ -294,11 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const runner = () => {
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
+
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 updateThemeImages(newTheme);
-                
+
                 // Close menu after selection
                 if (logoDropdown) {
                     logoDropdown.classList.remove('active');
@@ -314,9 +314,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Suppress all existing transitions during capture to avoid "ghosting"
             document.documentElement.classList.add('theme-transitioning');
-            
+
             const transition = document.startViewTransition(runner);
-            
+
             // Clean up when transition finishes
             transition.finished.finally(() => {
                 document.documentElement.classList.remove('theme-transitioning');
@@ -327,10 +327,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Animation Toggle Logic
     const animationToggle = document.getElementById('animation-toggle');
     const animationStatusKey = 'animation_hidden';
-    
+
     const updateAnimationState = (isHidden) => {
         if (!bgBackdrop) return;
-        
+
         const logo = document.querySelector('.site-logo');
 
         if (isHidden) {
@@ -358,10 +358,10 @@ document.addEventListener('DOMContentLoaded', () => {
         animationToggle.addEventListener('click', () => {
             const isCurrentlyHidden = bgBackdrop.classList.contains('bg-hidden');
             const newState = !isCurrentlyHidden;
-            
+
             updateAnimationState(newState);
             localStorage.setItem(animationStatusKey, newState);
-            
+
             // Close dropdown
             if (logoDropdown) {
                 logoDropdown.classList.remove('active');
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoSource = projectVideo ? projectVideo.querySelector('source') : null;
     const openModalButtons = document.querySelectorAll('.open-project-modal');
     const closeModalBtn = document.querySelector('.close-modal');
-    
+
     // Action buttons inside modal
     const btnOpenPrototype = document.getElementById('btn-open-prototype');
     const btnExpandModal = document.getElementById('btn-expand-modal');
@@ -484,9 +484,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Default view: Show Video
             showVideo();
-            
+
             modal.classList.add('open');
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
         }
     };
 
@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (projectVideo && insightsImage) {
             projectVideo.style.display = 'none';
             projectVideo.pause();
-            
+
             insightsImage.style.display = 'block';
             insightsImage.src = currentProjectData.insightsImageUrl;
             resetZoom(); // Reset zoom when showing new insights
@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 insightsImage.style.display = 'none';
                 resetZoom();
             }
-            
+
             projectVideo.style.display = 'block';
             videoSource.src = currentProjectData.videoUrl;
             projectVideo.load();
@@ -630,9 +630,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateFullscreenIcon = () => {
         if (!expandIconPath || !btnZoomExpand) return;
-        
+
         resetZoom(); // Reset zoom on both entering and exiting fullscreen
-        
+
         if (document.fullscreenElement || document.webkitFullscreenElement) {
             expandIconPath.setAttribute('d', 'M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7');
             btnZoomExpand.setAttribute('aria-label', 'Minimize Image');
@@ -654,18 +654,18 @@ document.addEventListener('DOMContentLoaded', () => {
         insightsImage.addEventListener('wheel', (e) => {
             if (insightsImage.style.display !== 'block') return;
             e.preventDefault();
-            
+
             const zoomSpeed = 0.1;
             const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
             const prevScale = zoomScale;
             zoomScale = Math.min(Math.max(1, zoomScale + delta), 5);
-            
+
             // Adjust translation to zoom towards center or maintain feel
             if (zoomScale === 1) {
                 translateX = 0;
                 translateY = 0;
             }
-            
+
             updateImageTransform();
             insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
         }, { passive: false });
@@ -756,7 +756,7 @@ const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
 // Function to show Safari-specific installation instructions modal
 const showSafariInstallModal = () => {
     let modal = document.getElementById('safari-install-modal');
-    
+
     if (!modal) {
         // Create modal container
         modal = document.createElement('div');
@@ -764,11 +764,11 @@ const showSafariInstallModal = () => {
         modal.className = 'safari-install-modal';
         modal.setAttribute('aria-modal', 'true');
         modal.setAttribute('role', 'dialog');
-        
+
         // Detect if macOS or iOS Safari
         const isMac = /Mac/i.test(navigator.userAgent) && !/iPhone|iPad|iPod/i.test(navigator.userAgent);
-        
-        const instructions = isMac 
+
+        const instructions = isMac
             ? `
                 <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your Mac:</p>
                 <ol class="safari-steps">
@@ -795,7 +795,7 @@ const showSafariInstallModal = () => {
                     </li>
                 </ol>
             `;
-            
+
         modal.innerHTML = `
             <div class="safari-install-content">
                 <button class="safari-install-close" id="safari-install-close" aria-label="Close dialog">&times;</button>
@@ -807,9 +807,9 @@ const showSafariInstallModal = () => {
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(modal);
-        
+
         // Event listener for close button
         const closeBtn = modal.querySelector('#safari-install-close');
         if (closeBtn) {
@@ -818,7 +818,7 @@ const showSafariInstallModal = () => {
                 document.body.style.overflow = '';
             });
         }
-        
+
         // Event listener for clicking outside the content
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
@@ -835,7 +835,7 @@ const showSafariInstallModal = () => {
             }
         });
     }
-    
+
     // Show the modal with transition
     modal.offsetHeight; // force reflow
     modal.classList.add('open');

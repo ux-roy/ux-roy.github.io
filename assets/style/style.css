@@ -2148,7 +2148,8 @@ h3 {
     background-color: transparent;
     border: 1px solid transparent;
     color: var(--accent-color);
-    display: none; /* Hidden by default, displayed via script when PWA is installable */
+    display: none;
+    /* Hidden by default, displayed via script when PWA is installable */
     justify-content: center;
     align-items: center;
     cursor: pointer;
