@@ -739,6 +739,8 @@ h3 {
     font-family: var(--font-body);
     font-size: 1rem;
     font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 2px;
 }
 
 .timeline-content h5 {
@@ -746,11 +748,14 @@ h3 {
     font-size: 1.4rem;
     font-weight: 600;
     color: var(--text-primary);
+    line-height: 1.25;
+    margin-bottom: 4px;
 }
 
 .timeline-content .date {
     font-size: 1rem;
     color: var(--text-secondary);
+    line-height: 1.2;
 }
 
 .edu-item {
@@ -763,11 +768,14 @@ h3 {
     font-size: 1.2rem;
     font-weight: 500;
     color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 2px;
 }
 
 .edu-item p {
     font-size: 1rem;
     color: var(--text-secondary);
+    line-height: 1.35;
 }
 
 .edu-section--row {
