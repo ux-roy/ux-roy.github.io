@@ -1602,6 +1602,29 @@ h3 {
     body.menu-open .floating-header>* {
         pointer-events: auto;
     }
+
+    /* Mobile Cross Icon when menu is open */
+    .hamburger-menu.open .hamburger-line {
+        animation: none !important;
+        position: absolute;
+        top: calc(50% - 1px);
+        left: calc(50% - 10px);
+        margin: 0;
+        transform-origin: center !important;
+    }
+
+    .hamburger-menu.open .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) !important;
+    }
+
+    .hamburger-menu.open .hamburger-line:nth-child(2) {
+        opacity: 0 !important;
+        transform: scale(0) !important;
+    }
+
+    .hamburger-menu.open .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) !important;
+    }
 }
 
 @media screen and (max-width: 600px) {

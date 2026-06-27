@@ -14,9 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const startMenuTimeout = () => {
         clearMenuTimeout();
-        menuTimeout = setTimeout(() => {
-            closePanel();
-        }, 3000);
+        if (window.innerWidth > 768) {
+            menuTimeout = setTimeout(() => {
+                closePanel();
+            }, 3000);
+        }
     };
 
     const clearMenuTimeout = () => {
@@ -56,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = 'hidden';
             }
 
-            hamburgerMenu.setAttribute('title', 'Menu');
-            hamburgerMenu.setAttribute('aria-label', 'Menu');
+            hamburgerMenu.setAttribute('title', 'Close Menu');
+            hamburgerMenu.setAttribute('aria-label', 'Close Menu');
 
             startMenuTimeout();
         }
