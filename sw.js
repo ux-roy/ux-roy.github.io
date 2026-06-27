@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ux-roy-portfolio-v5';
+const CACHE_NAME = 'ux-roy-portfolio-v7';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -11,10 +11,18 @@ const ASSETS_TO_CACHE = [
   '/assets/icon/design-process-black.svg',
   '/assets/icon/mobile-process-white.svg',
   '/assets/icon/mobile-process-black.svg',
-  '/assets/icon/proficiency.svg',
-  '/assets/icon/competency.svg',
-  '/assets/icon/research.svg',
-  '/assets/icon/frontend.svg',
+  '/assets/icon/Skill_1.svg',
+  '/assets/icon/Skill_2.svg',
+  '/assets/icon/Skill_3.svg',
+  '/assets/icon/Skill_4.svg',
+  '/assets/icon/Card_1.svg',
+  '/assets/icon/Card_2.svg',
+  '/assets/icon/Card_3.svg',
+  '/assets/icon/Social_1.svg',
+  '/assets/icon/Social_2.svg',
+  '/assets/icon/Social_3.svg',
+  '/assets/icon/Social_4.svg',
+  '/assets/icon/Social_5.svg',
   '/assets/image/profile-dark.png',
   '/assets/image/profile-light.png'
 ];
