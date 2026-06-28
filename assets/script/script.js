@@ -738,6 +738,92 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Custom Interactive Cursor System
+    const cursorDot = document.getElementById('custom-cursor-dot');
+    const cursorRing = document.getElementById('custom-cursor-ring');
+
+    if (cursorDot && cursorRing && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        let mouseX = -100;
+        let mouseY = -100;
+        let ringX = -100;
+        let ringY = -100;
+        let dotX = -100;
+        let dotY = -100;
+        let isCursorActive = false;
+
+        const lerp = (start, end, amt) => (1 - amt) * start + amt * end;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            if (!isCursorActive) {
+                isCursorActive = true;
+                document.body.classList.add('cursor-active');
+                ringX = mouseX;
+                ringY = mouseY;
+                dotX = mouseX;
+                dotY = mouseY;
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            isCursorActive = false;
+            document.body.classList.remove('cursor-active');
+        });
+
+        window.addEventListener('mouseenter', () => {
+            isCursorActive = true;
+            document.body.classList.add('cursor-active');
+        });
+
+        window.addEventListener('mousedown', () => {
+            document.body.classList.add('cursor-click');
+        });
+
+        window.addEventListener('mouseup', () => {
+            document.body.classList.remove('cursor-click');
+        });
+
+        // Event Delegation for Hover Target Detection
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .project-card, .skill-card, .menu-item, .panel-link, .logo-trigger, .hamburger-menu, .tab-btn, .filter-chip, .btn, .nav-link';
+        
+        document.body.addEventListener('mouseover', (e) => {
+            if (e.target.closest(interactiveSelector)) {
+                document.body.classList.add('cursor-hover');
+            }
+        });
+
+        document.body.addEventListener('mouseout', (e) => {
+            if (e.target.closest(interactiveSelector)) {
+                const relatedTarget = e.relatedTarget;
+                if (!relatedTarget || !relatedTarget.closest(interactiveSelector)) {
+                    document.body.classList.remove('cursor-hover');
+                }
+            }
+        });
+
+        // Render loop for smooth interpolation
+        const renderCursor = () => {
+            if (isCursorActive) {
+                // Dot follows closely with high precision
+                dotX = lerp(dotX, mouseX, 0.4);
+                dotY = lerp(dotY, mouseY, 0.4);
+                cursorDot.style.left = `${dotX}px`;
+                cursorDot.style.top = `${dotY}px`;
+
+                // Ring follows with smooth lerp delay
+                ringX = lerp(ringX, mouseX, 0.15);
+                ringY = lerp(ringY, mouseY, 0.15);
+                cursorRing.style.left = `${ringX}px`;
+                cursorRing.style.top = `${ringY}px`;
+            }
+            requestAnimationFrame(renderCursor);
+        };
+
+        requestAnimationFrame(renderCursor);
+    }
+
 });
 
 // Service Worker Registration for PWA (Independent of DOMContentLoaded)
