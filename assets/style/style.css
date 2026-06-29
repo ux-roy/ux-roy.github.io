@@ -481,14 +481,14 @@ body {
     top: calc(100% + 15px);
     left: 0;
     transform-origin: top left;
-    width: 195px;
+    width: max-content;
     background: var(--card-bg);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: 0 15px 40px var(--shadow-color);
-    padding: 10px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -522,9 +522,9 @@ body {
 .menu-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+    padding: 10px 14px;
     width: 100%;
+    white-space: nowrap;
     background: transparent;
     border: none;
     border-radius: 8px;
@@ -536,25 +536,40 @@ body {
     text-align: left;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 }
 
-.menu-item:hover {
+.menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 3px;
+    height: 18px;
+    background-color: var(--accent-color);
+    border-radius: 0;
+    opacity: 0;
+    transform: translateY(-50%) scaleY(0);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+}
+
+.menu-item:hover,
+.menu-item:focus-visible {
     background: transparent;
     color: var(--accent-color);
+    transform: translateX(4px);
+    outline: none;
 }
 
-.menu-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
-
-.menu-item:hover .menu-icon {
+.menu-item:hover::before,
+.menu-item:focus-visible::before {
     opacity: 1;
+    transform: translateY(-50%) scaleY(1);
+}
+
+.menu-item:active {
+    transform: translateX(2px) scale(0.98);
 }
 
 .content-container {

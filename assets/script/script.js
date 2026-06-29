@@ -285,6 +285,14 @@ document.addEventListener('DOMContentLoaded', () => {
         themeColorMetas.forEach(meta => {
             meta.setAttribute('content', theme === 'dark' ? '#0D0F14' : '#fcfbf5');
         });
+
+        // Update Theme Toggle Text
+        if (themeToggle) {
+            const span = themeToggle.querySelector('span');
+            if (span) {
+                span.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
+            }
+        }
     };
 
     // Apply initial theme
