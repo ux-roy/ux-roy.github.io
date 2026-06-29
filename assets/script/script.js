@@ -736,9 +736,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Custom Interactive Cursor System
+    // Custom Interactive Cursor System with Light Tail
     const cursorDot = document.getElementById('custom-cursor-dot');
     const cursorRing = document.getElementById('custom-cursor-ring');
+    const cursorTrail = document.getElementById('custom-cursor-trail');
 
     if (cursorDot && cursorRing && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         let mouseX = -100;
@@ -748,6 +749,30 @@ document.addEventListener('DOMContentLoaded', () => {
         let dotX = -100;
         let dotY = -100;
         let isCursorActive = false;
+
+        let ctx = cursorTrail ? cursorTrail.getContext('2d') : null;
+
+        const resizeCanvas = () => {
+            if (cursorTrail) {
+                cursorTrail.width = window.innerWidth;
+                cursorTrail.height = window.innerHeight;
+            }
+        };
+        if (cursorTrail) {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+
+        const trailHistory = [];
+        const maxTrailLength = 20;
+        const particles = [];
+        let lastMouseX = -100;
+        let lastMouseY = -100;
+
+        const getAccentRGB = () => {
+            const rgb = getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb').trim();
+            return rgb || '226, 114, 58';
+        };
 
         const lerp = (start, end, amt) => (1 - amt) * start + amt * end;
 
@@ -762,6 +787,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ringY = mouseY;
                 dotX = mouseX;
                 dotY = mouseY;
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
             }
         });
 
@@ -801,7 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Render loop for smooth interpolation
+        // Render loop for smooth cursor interpolation and glowing light tail
         const renderCursor = () => {
             if (isCursorActive) {
                 // Dot follows closely with high precision
@@ -815,6 +842,103 @@ document.addEventListener('DOMContentLoaded', () => {
                 ringY = lerp(ringY, mouseY, 0.15);
                 cursorRing.style.left = `${ringX}px`;
                 cursorRing.style.top = `${ringY}px`;
+
+                if (ctx && cursorTrail) {
+                    const isMotionHidden = document.documentElement.classList.contains('motion-hidden');
+
+                    if (isMotionHidden) {
+                        ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
+                        trailHistory.length = 0;
+                        particles.length = 0;
+                    } else {
+                        ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
+
+                        // Add point to trail history
+                        trailHistory.unshift({ x: dotX, y: dotY });
+                        if (trailHistory.length > maxTrailLength) {
+                            trailHistory.pop();
+                        }
+
+                        // Check mouse movement speed to spawn light tail particles
+                        const dx = mouseX - lastMouseX;
+                        const dy = mouseY - lastMouseY;
+                        const dist = Math.hypot(dx, dy);
+
+                        if (dist > 1.5) {
+                            const count = Math.min(Math.floor(dist / 5), 3) + 1;
+                            for (let i = 0; i < count; i++) {
+                                particles.push({
+                                    x: dotX + (Math.random() - 0.5) * 6,
+                                    y: dotY + (Math.random() - 0.5) * 6,
+                                    vx: (Math.random() - 0.5) * 1.2 - dx * 0.04,
+                                    vy: (Math.random() - 0.5) * 1.2 - dy * 0.04,
+                                    size: Math.random() * 2.5 + 1.5,
+                                    alpha: 1,
+                                    maxLife: Math.random() * 18 + 18,
+                                    life: 0
+                                });
+                            }
+                        }
+                        lastMouseX = mouseX;
+                        lastMouseY = mouseY;
+
+                        const accentRGB = getAccentRGB();
+
+                        // 1. Draw glowing continuous light ribbon tail
+                        if (trailHistory.length > 2) {
+                            ctx.save();
+                            ctx.shadowBlur = 10;
+                            ctx.shadowColor = `rgba(${accentRGB}, 0.8)`;
+                            ctx.lineCap = 'round';
+                            ctx.lineJoin = 'round';
+
+                            for (let i = 0; i < trailHistory.length - 1; i++) {
+                                const p1 = trailHistory[i];
+                                const p2 = trailHistory[i + 1];
+                                const progress = i / trailHistory.length;
+                                const alpha = (1 - progress) * 0.65;
+                                const width = (1 - progress) * 4 + 0.5;
+
+                                ctx.beginPath();
+                                ctx.moveTo(p1.x, p1.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.strokeStyle = `rgba(${accentRGB}, ${alpha})`;
+                                ctx.lineWidth = width;
+                                ctx.stroke();
+                            }
+                            ctx.restore();
+                        }
+
+                        // 2. Draw glowing light particles tail
+                        for (let i = particles.length - 1; i >= 0; i--) {
+                            const p = particles[i];
+                            p.life++;
+                            p.x += p.vx;
+                            p.y += p.vy;
+                            const lifeProgress = p.life / p.maxLife;
+                            p.alpha = 1 - lifeProgress;
+                            p.size *= 0.96;
+
+                            if (lifeProgress >= 1 || p.size <= 0.2) {
+                                particles.splice(i, 1);
+                                continue;
+                            }
+
+                            ctx.save();
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                            ctx.fillStyle = `rgba(${accentRGB}, ${p.alpha * 0.85})`;
+                            ctx.shadowBlur = 8;
+                            ctx.shadowColor = `rgba(${accentRGB}, ${p.alpha})`;
+                            ctx.fill();
+                            ctx.restore();
+                        }
+                    }
+                }
+            } else if (ctx && cursorTrail) {
+                ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
+                trailHistory.length = 0;
+                particles.length = 0;
             }
             requestAnimationFrame(renderCursor);
         };

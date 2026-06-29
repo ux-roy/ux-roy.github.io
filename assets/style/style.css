@@ -53,6 +53,18 @@ body {
         cursor: none !important;
     }
 
+    #custom-cursor-trail {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 99997;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+
     #custom-cursor-dot {
         position: fixed;
         top: 0;
@@ -91,7 +103,8 @@ body {
     }
 
     body.cursor-active #custom-cursor-dot,
-    body.cursor-active #custom-cursor-ring {
+    body.cursor-active #custom-cursor-ring,
+    body.cursor-active #custom-cursor-trail {
         opacity: 1;
     }
 
@@ -124,7 +137,8 @@ body {
 
 @media (hover: none), (pointer: coarse) {
     #custom-cursor-dot,
-    #custom-cursor-ring {
+    #custom-cursor-ring,
+    #custom-cursor-trail {
         display: none !important;
     }
 }
@@ -2427,6 +2441,11 @@ html.motion-hidden .skill-card:hover {
 html.motion-hidden .back-to-top:hover,
 html.motion-hidden .pwa-install:hover {
     transform: translateY(-50%) !important;
+}
+
+/* Disable mouse light tail effect only when motion is disabled (keep cursor dot & ring) */
+html.motion-hidden #custom-cursor-trail {
+    display: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
