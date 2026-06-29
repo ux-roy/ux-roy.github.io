@@ -331,19 +331,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const animationStatusKey = 'animation_hidden';
 
     const updateAnimationState = (isHidden) => {
-        if (!bgBackdrop) return;
-
         const logo = document.querySelector('.site-logo');
 
         if (isHidden) {
-            bgBackdrop.classList.add('bg-hidden');
+            if (bgBackdrop) bgBackdrop.classList.add('bg-hidden');
             document.documentElement.classList.add('motion-hidden');
             if (logo) logo.classList.remove('logo-animate');
             if (animationToggle) {
                 animationToggle.querySelector('span').textContent = 'Enable Motion';
             }
         } else {
-            bgBackdrop.classList.remove('bg-hidden');
+            if (bgBackdrop) bgBackdrop.classList.remove('bg-hidden');
             document.documentElement.classList.remove('motion-hidden');
             if (logo) logo.classList.add('logo-animate');
             if (animationToggle) {
@@ -358,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (animationToggle) {
         animationToggle.addEventListener('click', () => {
-            const isCurrentlyHidden = bgBackdrop.classList.contains('bg-hidden');
+            const isCurrentlyHidden = document.documentElement.classList.contains('motion-hidden');
             const newState = !isCurrentlyHidden;
 
             updateAnimationState(newState);

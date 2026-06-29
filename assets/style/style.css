@@ -57,26 +57,25 @@ body {
         position: fixed;
         top: 0;
         left: 0;
-        color: var(--accent-color);
-        font-size: 16px;
-        line-height: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent-color);
+        border-radius: 50%;
         pointer-events: none;
         z-index: 99999;
-        transform: translate3d(-50%, -50%, 0) rotate(0deg);
-        transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s ease, opacity 0.25s ease;
+        transform: translate3d(-50%, -50%, 0);
+        transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease, opacity 0.25s ease;
         opacity: 0;
         user-select: none;
+        box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
     }
 
     #custom-cursor-ring {
         position: fixed;
         top: 0;
         left: 0;
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
         border: 1.5px solid rgba(var(--accent-rgb), 0.6);
         border-radius: 50%;
         pointer-events: none;
@@ -98,13 +97,13 @@ body {
 
     /* Hovered State over Interactive Elements */
     body.cursor-hover #custom-cursor-dot {
-        transform: translate3d(-50%, -50%, 0) rotate(45deg) scale(0.75);
-        color: var(--accent-color);
+        transform: translate3d(-50%, -50%, 0) scale(0.75);
+        background-color: var(--accent-color);
     }
 
     body.cursor-hover #custom-cursor-ring {
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 14px;
         border-color: var(--accent-color);
         background-color: transparent;
         box-shadow: none;
@@ -112,12 +111,12 @@ body {
 
     /* Click State */
     body.cursor-click #custom-cursor-dot {
-        transform: translate3d(-50%, -50%, 0) rotate(90deg) scale(0.9);
+        transform: translate3d(-50%, -50%, 0) scale(1.25);
     }
 
     body.cursor-click #custom-cursor-ring {
-        width: 24px;
-        height: 24px;
+        width: 18px;
+        height: 18px;
         border-color: var(--accent-color);
         background-color: rgba(var(--accent-rgb), 0.25);
     }
@@ -445,22 +444,22 @@ body {
         stroke-dashoffset: 1;
     }
 
-    40% {
+    33.3% {
         stroke-dashoffset: 0;
     }
 
-    60% {
+    66.6% {
         stroke-dashoffset: 0;
     }
 
     100% {
-        stroke-dashoffset: -1;
+        stroke-dashoffset: 1;
     }
 }
 
 .site-logo.logo-animate path {
     stroke-dashoffset: 1;
-    animation: logoDraw 4s linear infinite;
+    animation: logoDraw 9s ease-in-out infinite;
 }
 
 .logo-menu {
@@ -2182,11 +2181,7 @@ h3 {
     }
 
     .footer-symbol {
-        font-size: 24px;
-        /* Matches the scaled orange star in the reference image */
-        margin: 16px 0;
-        /* Creates distinct layout margins around the star */
-        display: inline-block;
+        display: none;
     }
 }
 
@@ -2381,4 +2376,106 @@ h3 {
 .safari-steps strong {
     color: var(--accent-color);
     font-weight: 600;
+}
+
+/* Motion Control for Menu Hover Animations, Overlay Motion & Hover Uplifting */
+html.motion-hidden .menu-item,
+html.motion-hidden .menu-item::before,
+html.motion-hidden .panel-link,
+html.motion-hidden .panel-link::after,
+html.motion-hidden .logo-menu,
+html.motion-hidden .side-panel,
+html.motion-hidden .menu-overlay,
+html.motion-hidden .hamburger-menu,
+html.motion-hidden .hamburger-line,
+html.motion-hidden .social-icon-btn,
+html.motion-hidden .logo-trigger,
+html.motion-hidden .site-logo,
+html.motion-hidden .back-to-top,
+html.motion-hidden .pwa-install {
+    transition: none !important;
+    animation: none !important;
+}
+
+html.motion-hidden .menu-item:hover {
+    padding-left: 16px !important;
+}
+
+html.motion-hidden .menu-item:hover::before {
+    height: 0 !important;
+}
+
+/* Disable Hover Uplifting Transformations */
+html.motion-hidden .social-icon-btn:hover,
+html.motion-hidden .hamburger-menu:hover,
+html.motion-hidden .logo-trigger:hover,
+html.motion-hidden .logo-wrapper:hover .logo-trigger,
+html.motion-hidden .btn:hover,
+html.motion-hidden .btn-primary:hover,
+html.motion-hidden .btn-secondary:hover,
+html.motion-hidden .btn-outline:hover,
+html.motion-hidden .nav-btn:hover,
+html.motion-hidden .overlay-icon-btn:hover,
+html.motion-hidden .modal-action-btn:hover,
+html.motion-hidden .filter-chip:hover,
+html.motion-hidden .tab-btn:hover,
+html.motion-hidden .project-card:hover,
+html.motion-hidden .skill-card:hover {
+    transform: none !important;
+}
+
+html.motion-hidden .back-to-top:hover,
+html.motion-hidden .pwa-install:hover {
+    transform: translateY(-50%) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menu-item,
+    .menu-item::before,
+    .panel-link,
+    .panel-link::after,
+    .logo-menu,
+    .side-panel,
+    .menu-overlay,
+    .hamburger-menu,
+    .hamburger-line,
+    .social-icon-btn,
+    .logo-trigger,
+    .site-logo,
+    .back-to-top,
+    .pwa-install {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .menu-item:hover {
+        padding-left: 16px !important;
+    }
+
+    .menu-item:hover::before {
+        height: 0 !important;
+    }
+
+    .social-icon-btn:hover,
+    .hamburger-menu:hover,
+    .logo-trigger:hover,
+    .logo-wrapper:hover .logo-trigger,
+    .btn:hover,
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-outline:hover,
+    .nav-btn:hover,
+    .overlay-icon-btn:hover,
+    .modal-action-btn:hover,
+    .filter-chip:hover,
+    .tab-btn:hover,
+    .project-card:hover,
+    .skill-card:hover {
+        transform: none !important;
+    }
+
+    .back-to-top:hover,
+    .pwa-install:hover {
+        transform: translateY(-50%) !important;
+    }
 }
