@@ -1491,7 +1491,7 @@ h3 {
 
     .logo-wrapper:hover .logo-trigger {
         background-color: var(--panel-bg);
-        backdrop-filter: blur(2px) saturate(180%);
+        backdrop-filter: blur(12px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
         border: 1px solid var(--accent-light);
         transform: translateY(-2px);
@@ -2419,11 +2419,23 @@ html.motion-hidden .menu-item:hover::before {
     height: 0 !important;
 }
 
-/* Disable Hover Uplifting Transformations */
+/* Disable Hover & Click Transformations when Motion is Disabled */
+html.motion-hidden .social-icon-btn,
 html.motion-hidden .social-icon-btn:hover,
+html.motion-hidden .social-icon-btn:active,
+html.motion-hidden .hamburger-menu,
 html.motion-hidden .hamburger-menu:hover,
+html.motion-hidden .hamburger-menu:active,
+html.motion-hidden .hamburger-menu.open,
+html.motion-hidden .hamburger-menu.open:hover,
+html.motion-hidden .floating-header.scrolling-up .hamburger-menu,
+html.motion-hidden .logo-trigger,
 html.motion-hidden .logo-trigger:hover,
+html.motion-hidden .logo-trigger:active,
+html.motion-hidden .logo-wrapper.active .logo-trigger,
+html.motion-hidden .logo-wrapper.active:hover .logo-trigger,
 html.motion-hidden .logo-wrapper:hover .logo-trigger,
+html.motion-hidden .floating-header.scrolling-up .logo-trigger,
 html.motion-hidden .btn:hover,
 html.motion-hidden .btn-primary:hover,
 html.motion-hidden .btn-secondary:hover,
@@ -2438,8 +2450,12 @@ html.motion-hidden .skill-card:hover {
     transform: none !important;
 }
 
+html.motion-hidden .back-to-top,
 html.motion-hidden .back-to-top:hover,
-html.motion-hidden .pwa-install:hover {
+html.motion-hidden .back-to-top:active,
+html.motion-hidden .pwa-install,
+html.motion-hidden .pwa-install:hover,
+html.motion-hidden .pwa-install:active {
     transform: translateY(-50%) !important;
 }
 
@@ -2475,10 +2491,22 @@ html.motion-hidden #custom-cursor-trail {
         height: 0 !important;
     }
 
+    .social-icon-btn,
     .social-icon-btn:hover,
+    .social-icon-btn:active,
+    .hamburger-menu,
     .hamburger-menu:hover,
+    .hamburger-menu:active,
+    .hamburger-menu.open,
+    .hamburger-menu.open:hover,
+    .floating-header.scrolling-up .hamburger-menu,
+    .logo-trigger,
     .logo-trigger:hover,
+    .logo-trigger:active,
+    .logo-wrapper.active .logo-trigger,
+    .logo-wrapper.active:hover .logo-trigger,
     .logo-wrapper:hover .logo-trigger,
+    .floating-header.scrolling-up .logo-trigger,
     .btn:hover,
     .btn-primary:hover,
     .btn-secondary:hover,
@@ -2493,8 +2521,12 @@ html.motion-hidden #custom-cursor-trail {
         transform: none !important;
     }
 
+    .back-to-top,
     .back-to-top:hover,
-    .pwa-install:hover {
+    .back-to-top:active,
+    .pwa-install,
+    .pwa-install:hover,
+    .pwa-install:active {
         transform: translateY(-50%) !important;
     }
 }
