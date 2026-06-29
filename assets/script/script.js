@@ -338,14 +338,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.add('motion-hidden');
             if (logo) logo.classList.remove('logo-animate');
             if (animationToggle) {
-                animationToggle.querySelector('span').textContent = 'Enable Motion';
+                animationToggle.querySelector('span').textContent = 'Enable Effect';
             }
         } else {
             if (bgBackdrop) bgBackdrop.classList.remove('bg-hidden');
             document.documentElement.classList.remove('motion-hidden');
             if (logo) logo.classList.add('logo-animate');
             if (animationToggle) {
-                animationToggle.querySelector('span').textContent = 'Disable Motion';
+                animationToggle.querySelector('span').textContent = 'Disable Effect';
             }
         }
     };

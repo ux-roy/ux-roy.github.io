@@ -481,7 +481,7 @@ body {
     top: calc(100% + 15px);
     left: 0;
     transform-origin: top left;
-    width: 180px;
+    width: 195px;
     background: var(--card-bg);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
@@ -505,6 +505,20 @@ body {
     transform: translateY(0);
 }
 
+.logo-menu::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 34px;
+    width: 10px;
+    height: 10px;
+    background: var(--card-bg);
+    border-left: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
 .menu-item {
     display: flex;
     align-items: center;
@@ -526,32 +540,17 @@ body {
     position: relative;
 }
 
-.menu-item::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 0;
-    background-color: var(--accent-color);
-    transition: height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
 .menu-item:hover {
     background: transparent;
     color: var(--accent-color);
-    padding-left: 22px;
-}
-
-.menu-item:hover::before {
-    height: 18px;
 }
 
 .menu-icon {
     width: 18px;
     height: 18px;
+    flex-shrink: 0;
     opacity: 0.8;
+    transition: opacity 0.3s ease;
 }
 
 .menu-item:hover .menu-icon {
@@ -2394,7 +2393,6 @@ h3 {
 
 /* Motion Control for Menu Hover Animations, Overlay Motion & Hover Uplifting */
 html.motion-hidden .menu-item,
-html.motion-hidden .menu-item::before,
 html.motion-hidden .panel-link,
 html.motion-hidden .panel-link::after,
 html.motion-hidden .logo-menu,
@@ -2409,14 +2407,6 @@ html.motion-hidden .back-to-top,
 html.motion-hidden .pwa-install {
     transition: none !important;
     animation: none !important;
-}
-
-html.motion-hidden .menu-item:hover {
-    padding-left: 16px !important;
-}
-
-html.motion-hidden .menu-item:hover::before {
-    height: 0 !important;
 }
 
 /* Disable Hover & Click Transformations when Motion is Disabled */
@@ -2466,7 +2456,6 @@ html.motion-hidden #custom-cursor-trail {
 
 @media (prefers-reduced-motion: reduce) {
     .menu-item,
-    .menu-item::before,
     .panel-link,
     .panel-link::after,
     .logo-menu,
@@ -2481,14 +2470,6 @@ html.motion-hidden #custom-cursor-trail {
     .pwa-install {
         transition: none !important;
         animation: none !important;
-    }
-
-    .menu-item:hover {
-        padding-left: 16px !important;
-    }
-
-    .menu-item:hover::before {
-        height: 0 !important;
     }
 
     .social-icon-btn,
