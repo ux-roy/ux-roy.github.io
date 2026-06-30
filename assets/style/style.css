@@ -1696,7 +1696,7 @@ h3 {
         left: 50%;
         transform: translate(-50%, -50%);
         width: 85vw;
-        max-width: 270px;
+        max-width: 250px;
         height: auto;
         background-color: var(--panel-bg);
         backdrop-filter: blur(20px) saturate(180%);
