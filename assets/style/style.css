@@ -14,6 +14,8 @@
     --border-color: rgba(0, 0, 0, 0.10);
     --card-bg: #ffffff;
     --modal-overlay: rgba(10, 10, 10, 0.5);
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(0, 0, 0, 0.08);
 }
 
 [data-theme="dark"] {
@@ -27,6 +29,8 @@
     --border-color: rgba(255, 255, 255, 0.08);
     --card-bg: #23262E;
     --modal-overlay: rgba(100, 100, 100, 0.5);
+    --glass-bg: rgba(13, 15, 20, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -242,7 +246,7 @@ body {
 .hamburger-menu.open,
 .floating-header.scrolling-up .hamburger-menu {
     background-color: var(--panel-bg);
-    backdrop-filter: blur(2px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
@@ -432,7 +436,7 @@ body {
 .logo-wrapper.active .logo-trigger,
 .floating-header.scrolling-up .logo-trigger {
     background-color: var(--panel-bg);
-    backdrop-filter: blur(2px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
@@ -482,12 +486,12 @@ body {
     left: 0;
     transform-origin: top left;
     width: max-content;
-    background: var(--card-bg);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    border: 1px solid var(--border-color);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
     border-radius: 12px;
-    box-shadow: 0 15px 40px var(--shadow-color);
+    box-shadow: 0 15px 40px var(--shadow-color), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     padding: 8px;
     display: flex;
     flex-direction: column;
@@ -512,9 +516,9 @@ body {
     left: 34px;
     width: 10px;
     height: 10px;
-    background: var(--card-bg);
-    border-left: 1px solid var(--border-color);
-    border-top: 1px solid var(--border-color);
+    background: var(--glass-bg);
+    border-left: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-border);
     transform: rotate(45deg);
     z-index: 1;
 }
@@ -2114,8 +2118,7 @@ h3 {
 .logo-trigger,
 .logo-wrapper.active .logo-trigger,
 .floating-header.scrolling-up .logo-trigger,
-.side-panel,
-.logo-menu {
+.side-panel {
     border-color: transparent !important;
 }
 
