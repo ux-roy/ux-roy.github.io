@@ -2420,7 +2420,6 @@ html.motion-hidden .logo-trigger,
 html.motion-hidden .site-logo,
 html.motion-hidden .back-to-top,
 html.motion-hidden .pwa-install {
-    transition: none !important;
     animation: none !important;
 }
 
