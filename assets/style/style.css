@@ -214,7 +214,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 10000;
     pointer-events: none;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -302,22 +302,22 @@ body {
     }
 }
 
-/* Hover state (closed) - staggered loading animation */
+/* Hover state (closed) - staggered loading animation (starts after scale up transition) */
 .hamburger-menu:not(.open):hover .hamburger-line:nth-child(1) {
     animation: reverseLoader 0.9s infinite ease-in-out;
-    animation-delay: 0.1s;
+    animation-delay: 0.3s;
     transform-origin: left;
 }
 
 .hamburger-menu:not(.open):hover .hamburger-line:nth-child(2) {
     animation: reverseLoader 1.2s infinite ease-in-out;
-    animation-delay: 0.3s;
+    animation-delay: 0.5s;
     transform-origin: right;
 }
 
 .hamburger-menu:not(.open):hover .hamburger-line:nth-child(3) {
     animation: reverseLoader 1.0s infinite ease-in-out;
-    animation-delay: 0.2s;
+    animation-delay: 0.4s;
     transform-origin: left;
 }
 
@@ -373,6 +373,12 @@ body {
 .side-panel.header-hidden {
     top: -150px;
     opacity: 0;
+}
+
+.side-panel.logo-hidden {
+    top: -150px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 .panel-nav {
@@ -446,6 +452,13 @@ body {
 
 .logo-link:hover {
     opacity: 0.85;
+}
+
+@media (hover: hover) {
+    .logo-link:hover .site-logo,
+    .hamburger-menu:hover {
+        transform: scale(1.08);
+    }
 }
 
 /* Hover styles moved to consolidated block */
@@ -1677,7 +1690,73 @@ h3 {
     }
 
     .side-panel {
-        display: none !important;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 85vw;
+        max-width: 320px;
+        height: auto;
+        background-color: var(--panel-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px var(--shadow-color);
+        z-index: 9999;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 20px;
+        opacity: 1;
+        transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+    }
+
+    .side-panel.header-hidden {
+        transform: translate(-50%, -150vh);
+        opacity: 0;
+    }
+
+    .side-panel.logo-hidden {
+        transform: translate(-50%, -150vh) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    .panel-nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 60px;
+        width: 100%;
+        height: auto;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .panel-link {
+        font-size: 1.5rem;
+        font-weight: 500;   
+        letter-spacing: 0.8px;
+        padding: 8px 16px;
+        width: auto;
+        color: var(--text-primary);
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .panel-link:hover,
+    .panel-link.active {
+        color: var(--accent-color);
+        transform: scale(1.05);
+    }
+
+    body.nav-menu-open .logo-wrapper,
+    body.nav-menu-open .hamburger-wrapper {
+        pointer-events: none !important;
+        opacity: 0.6 !important;
+        filter: grayscale(0.5) !important;
     }
 
 
@@ -1771,9 +1850,7 @@ h3 {
         height: 68px;
     }
 
-    .side-panel {
-        display: none !important;
-    }
+    /* Removed redundant side-panel hiding */
 
     .hero-layout {
         flex-direction: column-reverse;
@@ -1792,27 +1869,7 @@ h3 {
         margin: 20px 0 30px 0;
     }
 
-    .panel-nav {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        gap: 0;
-    }
-
-    .panel-link {
-        font-size: 0.82rem;
-        padding: 6px 4px;
-        width: auto;
-        text-align: center;
-        letter-spacing: 0.2px;
-    }
-
-    .panel-link::after {
-        left: 50%;
-        transform: translateX(-50%);
-        height: 2px;
-    }
+    /* Removed redundant horizontal flex menu layout and link styles on small screens */
 
     .main-title {
         font-size: 2.5rem;
@@ -2515,4 +2572,9 @@ html.motion-hidden #custom-cursor-trail {
     .pwa-install:active {
         transform: translateY(-50%) !important;
     }
+}
+
+/* Scroll Lock Helper */
+body.nav-menu-open {
+    overflow: hidden !important;
 }

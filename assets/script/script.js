@@ -8,6 +8,73 @@ document.addEventListener('DOMContentLoaded', () => {
     let isScrollingToSection = false;
     let scrollTimeout = null;
 
+    // Helper to lock/unlock scroll on mobile based on navigation menu visibility
+    const updateBodyScrollLock = () => {
+        if (window.innerWidth <= 768 && sidePanel) {
+            const isMenuVisible = !sidePanel.classList.contains('logo-hidden') && !sidePanel.classList.contains('header-hidden');
+            if (isMenuVisible) {
+                document.body.classList.add('nav-menu-open');
+            } else {
+                document.body.classList.remove('nav-menu-open');
+            }
+        } else {
+            document.body.classList.remove('nav-menu-open');
+        }
+    };
+
+    // Branding Logo click logic to toggle navigation panel
+    const logoLink = document.querySelector('.logo-link');
+    if (logoLink && sidePanel) {
+        logoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            sidePanel.classList.toggle('logo-hidden');
+            updateBodyScrollLock();
+        });
+    }
+
+    // Touch swipe gestures for closing mobile panel (slide by finger to go back)
+    let touchStartY = 0;
+    let touchCurrentY = 0;
+    let isDragging = false;
+
+    if (sidePanel) {
+        sidePanel.addEventListener('touchstart', (e) => {
+            if (window.innerWidth <= 768) {
+                touchStartY = e.touches[0].clientY;
+                touchCurrentY = touchStartY;
+                isDragging = true;
+                sidePanel.style.transition = 'none'; // Disable transition during drag
+            }
+        }, { passive: true });
+
+        sidePanel.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            touchCurrentY = e.touches[0].clientY;
+            const diffY = touchCurrentY - touchStartY;
+            
+            // Only allow dragging upwards (negative diffY)
+            if (diffY < 0) {
+                sidePanel.style.transform = `translate(-50%, calc(-50% + ${diffY}px))`;
+            }
+        }, { passive: true });
+
+        sidePanel.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            sidePanel.style.transition = ''; // Restore transitions
+            
+            const diffY = touchCurrentY - touchStartY;
+            // Close if dragged up by more than 60px
+            if (diffY < -60) {
+                sidePanel.classList.add('logo-hidden');
+                updateBodyScrollLock();
+            }
+            
+            // Snap back or transition out completely
+            sidePanel.style.transform = '';
+        });
+    }
+
     // Hamburger Dropdown (Options Menu) Logic
     const hamburgerDropdown = document.getElementById('hamburger-dropdown');
 
@@ -23,10 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth <= 768 && sidePanel) {
                 if (isExpanded) {
                     sidePanel.classList.add('header-hidden');
+                    updateBodyScrollLock();
                 } else {
                     const currentScrollY = window.scrollY;
                     if (currentScrollY <= headerThreshold || currentScrollY < lastScrollY) {
                         sidePanel.classList.remove('header-hidden');
+                        updateBodyScrollLock();
                     }
                 }
             }
@@ -45,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const currentScrollY = window.scrollY;
                     if (currentScrollY <= headerThreshold || currentScrollY < lastScrollY) {
                         sidePanel.classList.remove('header-hidden');
+                        updateBodyScrollLock();
                     }
                 }
             }
@@ -72,6 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 targetContent.scrollIntoView({ behavior: 'smooth' });
+
+                // Auto-close navigation panel on mobile section click
+                if (window.innerWidth <= 768 && sidePanel) {
+                    sidePanel.classList.add('logo-hidden');
+                    updateBodyScrollLock();
+                }
 
                 // Reset scrolling to section flag when scroll ends
                 const handleScrollEnd = () => {
@@ -127,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 top: 0,
                 behavior: 'smooth'
             });
+            updateBodyScrollLock();
         }, 100);
     };
 
@@ -195,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                updateBodyScrollLock();
                 lastScrollY = currentScrollY;
                 scrollTicking = false;
             });
@@ -356,6 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         updateThemeImages(currentTheme);
+        updateBodyScrollLock();
     }, { passive: true });
 
     // Carousel Logic
