@@ -41,6 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Close mobile side panel when clicking the background backdrop overlay
+    const navOverlay = document.getElementById('nav-overlay');
+    if (navOverlay) {
+        navOverlay.addEventListener('click', () => {
+            if (sidePanel) {
+                sidePanel.classList.add('logo-hidden');
+                updateBodyScrollLock();
+            }
+        });
+    }
+
     // Touch swipe gestures for closing mobile panel (slide by finger to go back)
     let touchStartY = 0;
     let touchCurrentY = 0;
