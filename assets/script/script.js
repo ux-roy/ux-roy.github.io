@@ -5,6 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidePanel = document.getElementById('side-panel');
     const mobileHeader = document.getElementById('mobile-header');
 
+    // Ensure side-panel starts hidden on mobile and visible on desktop by default
+    if (sidePanel) {
+        if (window.innerWidth <= 768) {
+            sidePanel.classList.add('logo-hidden');
+        } else {
+            sidePanel.classList.remove('logo-hidden');
+        }
+    }
+
     let isScrollingToSection = false;
     let scrollTimeout = null;
 
@@ -431,7 +440,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Update images on resize (for mobile/desktop process diagram swap)
+    let lastWidth = window.innerWidth;
     window.addEventListener('resize', () => {
+        const currentWidth = window.innerWidth;
+        if (lastWidth > 768 && currentWidth <= 768 && sidePanel) {
+            sidePanel.classList.add('logo-hidden');
+        } else if (lastWidth <= 768 && currentWidth > 768 && sidePanel) {
+            sidePanel.classList.remove('logo-hidden');
+        }
+        lastWidth = currentWidth;
+
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         updateThemeImages(currentTheme);
         updateBodyScrollLock();

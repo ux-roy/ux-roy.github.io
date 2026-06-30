@@ -1696,7 +1696,7 @@ h3 {
         left: 50%;
         transform: translate(-50%, -50%);
         width: 85vw;
-        max-width: 320px;
+        max-width: 270px;
         height: auto;
         background-color: var(--panel-bg);
         backdrop-filter: blur(20px) saturate(180%);
@@ -1709,7 +1709,7 @@ h3 {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 30px 20px;
+        padding: 20px 15px;
         opacity: 1;
         transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
     }
@@ -1730,17 +1730,17 @@ h3 {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 40px;
+        gap: 30px;
         width: 100%;
         height: auto;
-        padding: 30px 0;
+        padding: 15px 0;
     }
 
     .panel-link {
-        font-size: 1.5rem;
+        font-size: 1.15rem;
         font-weight: 500;
         letter-spacing: 0.8px;
-        padding: 8px 16px;
+        padding: 6px 12px;
         width: auto;
         color: var(--text-primary);
         transition: color 0.3s ease, transform 0.3s ease;
