@@ -499,6 +499,11 @@ body {
     animation: logoDraw 9s ease-in-out infinite;
 }
 
+.logo-link:hover .site-logo.logo-animate path,
+.site-logo.logo-animate:hover path {
+    animation-play-state: paused;
+}
+
 .logo-menu {
     position: absolute;
     top: calc(100% + 15px);
