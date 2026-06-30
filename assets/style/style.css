@@ -716,10 +716,9 @@ h3 {
     object-fit: cover;
 }
 
-.italic-desc {
+.summary-text {
     font-family: var(--font-body);
     font-size: 1.1rem;
-    font-style: italic;
     color: var(--text-secondary);
     line-height: 1.8;
 }
