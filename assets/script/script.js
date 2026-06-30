@@ -1118,7 +1118,7 @@ const showPWAInstallModal = () => {
                 <p class="safari-instruction-text">Install Suman Kanti Roy's portfolio on your home screen for offline access and a native app experience.</p>
                 <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
                     <button class="btn btn-secondary" id="pwa-later-btn" style="padding: 10px 20px; border-radius: 8px; font-weight: 500; font-size: 0.95rem; border: 1px solid var(--border-color); background: transparent; color: var(--text-primary); cursor: pointer;">Maybe Later</button>
-                    <button class="btn btn-primary" id="pwa-now-btn" style="padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: var(--accent-color); color: #fff; border: none; cursor: pointer;">Install</button>
+                    <button class="btn btn-primary" id="pwa-now-btn" style="padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: var(--accent-color); color: #fff; border: none; cursor: pointer;">Let's Install</button>
                 </div>
             `;
         }
