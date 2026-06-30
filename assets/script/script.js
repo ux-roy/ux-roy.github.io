@@ -3,93 +3,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabContents = document.querySelectorAll('.tab-content');
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sidePanel = document.getElementById('side-panel');
-    const menuOverlay = document.getElementById('menu-overlay');
     const mobileHeader = document.getElementById('mobile-header');
 
     let isScrollingToSection = false;
     let scrollTimeout = null;
 
+    // Hamburger Dropdown (Options Menu) Logic
+    const hamburgerDropdown = document.getElementById('hamburger-dropdown');
 
-    let menuTimeout = null;
+    if (hamburgerMenu && hamburgerDropdown) {
+        hamburgerMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hamburgerDropdown.classList.toggle('active');
+            const isExpanded = hamburgerDropdown.classList.contains('active');
+            hamburgerMenu.setAttribute('aria-expanded', isExpanded);
+            hamburgerMenu.classList.toggle('open', isExpanded);
+        });
 
-    const startMenuTimeout = () => {
-        clearMenuTimeout();
-        if (window.innerWidth > 768) {
-            menuTimeout = setTimeout(() => {
-                closePanel();
-            }, 3000);
-        }
-    };
-
-    const clearMenuTimeout = () => {
-        if (menuTimeout) {
-            clearTimeout(menuTimeout);
-            menuTimeout = null;
-        }
-    };
-
-    // Toggle Side Panel
-    const togglePanel = () => {
-        const isOpen = sidePanel.classList.contains('open');
-
-        if (isOpen) {
-            clearMenuTimeout();
-            sidePanel.classList.remove('open');
-            hamburgerMenu.classList.remove('open');
-            if (menuOverlay) menuOverlay.classList.remove('open');
-            document.body.classList.remove('menu-open');
-            document.body.style.overflow = '';
-            hamburgerMenu.setAttribute('title', 'Menu');
-            hamburgerMenu.setAttribute('aria-label', 'Menu');
-        } else {
-            // Close logo dropdown when opening side panel
-            if (logoDropdown) {
-                logoDropdown.classList.remove('active');
-                if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburgerDropdown.contains(e.target)) {
+                hamburgerDropdown.classList.remove('active');
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
+                hamburgerMenu.classList.remove('open');
             }
-
-            sidePanel.classList.add('open');
-            hamburgerMenu.classList.add('open');
-            if (menuOverlay) menuOverlay.classList.add('open');
-            document.body.classList.add('menu-open');
-
-            // Only disable scrolling on mobile
-            if (window.innerWidth <= 768) {
-                document.body.style.overflow = 'hidden';
-            }
-
-            hamburgerMenu.setAttribute('title', 'Close Menu');
-            hamburgerMenu.setAttribute('aria-label', 'Close Menu');
-
-            startMenuTimeout();
-        }
-    };
-
-    const closePanel = () => {
-        clearMenuTimeout();
-        sidePanel.classList.remove('open');
-        hamburgerMenu.classList.remove('open');
-        if (menuOverlay) menuOverlay.classList.remove('open');
-        document.body.classList.remove('menu-open');
-        document.body.style.overflow = '';
-        hamburgerMenu.setAttribute('title', 'Menu');
-        hamburgerMenu.setAttribute('aria-label', 'Menu');
-    };
-
-    hamburgerMenu.addEventListener('click', togglePanel);
-    if (menuOverlay) menuOverlay.addEventListener('click', closePanel);
-
-    // Reset auto-close timer on hover
-    [hamburgerMenu, sidePanel].forEach(element => {
-        if (element) {
-            element.addEventListener('mouseenter', clearMenuTimeout);
-            element.addEventListener('mouseleave', () => {
-                if (sidePanel && sidePanel.classList.contains('open')) {
-                    startMenuTimeout();
-                }
-            });
-        }
-    });
+        });
+    }
 
 
 
@@ -100,13 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetContent = document.getElementById(targetId);
 
             if (targetContent) {
-                const isMobile = window.innerWidth <= 768;
-
-                // Close panel first for better visual feedback (mobile/tablet only)
-                if (isMobile) {
-                    closePanel();
-                }
-
                 // Temporarily disable hiding header during smooth scroll
                 isScrollingToSection = true;
                 if (scrollTimeout) clearTimeout(scrollTimeout);
@@ -118,11 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // Allow a tiny delay before scrolling (only on mobile/tablet to wait for panel retraction)
-                const delay = isMobile ? 300 : 0;
-                setTimeout(() => {
-                    targetContent.scrollIntoView({ behavior: 'smooth' });
-                }, delay);
+                targetContent.scrollIntoView({ behavior: 'smooth' });
 
                 // Reset scrolling to section flag when scroll ends
                 const handleScrollEnd = () => {
@@ -181,34 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     };
 
-    // Logo Dropdown Logic
-    const logoDropdown = document.getElementById('logo-dropdown');
-    const logoTrigger = logoDropdown ? logoDropdown.querySelector('.logo-trigger') : null;
-
-    if (logoTrigger && logoDropdown) {
-        logoTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            logoDropdown.classList.toggle('active');
-            const isExpanded = logoDropdown.classList.contains('active');
-            logoTrigger.setAttribute('aria-expanded', isExpanded);
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!logoDropdown.contains(e.target)) {
-                logoDropdown.classList.remove('active');
-                logoTrigger.setAttribute('aria-expanded', 'false');
-            }
-        });
-    }
-
-    // Header Visibility on Scroll (Mobile Specific)
+    // Header & Side Panel Visibility on Scroll
     let lastScrollY = window.scrollY;
     const headerThreshold = 80;
 
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
-        const isMenuOpen = sidePanel && sidePanel.classList.contains('open');
 
         // Background logic - separate from visibility
         if (currentScrollY > 10) { // Small threshold for background
@@ -222,11 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mobileHeader) {
                 mobileHeader.classList.remove('header-hidden');
             }
-        } else if (currentScrollY > lastScrollY && currentScrollY > headerThreshold && !isMenuOpen) {
+            if (sidePanel) {
+                sidePanel.classList.remove('header-hidden');
+            }
+        } else if (currentScrollY > lastScrollY && currentScrollY > headerThreshold) {
             // Scrolling Down - Hide
             if (mobileHeader) {
                 mobileHeader.classList.add('header-hidden');
                 mobileHeader.classList.remove('scrolling-up');
+            }
+            if (sidePanel) {
+                sidePanel.classList.add('header-hidden');
             }
         } else if (currentScrollY < lastScrollY) {
             // Scrolling Up - Show
@@ -239,12 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     mobileHeader.classList.remove('scrolling-up');
                 }
             }
+            if (sidePanel) {
+                sidePanel.classList.remove('header-hidden');
+            }
         }
 
-        // Close logo dropdown on scroll
-        if (logoDropdown && logoDropdown.classList.contains('active')) {
-            logoDropdown.classList.remove('active');
-            if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+        // Close options dropdown on scroll
+        if (hamburgerDropdown && hamburgerDropdown.classList.contains('active')) {
+            hamburgerDropdown.classList.remove('active');
+            if (hamburgerMenu) {
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
+                hamburgerMenu.classList.remove('open');
+            }
         }
 
         lastScrollY = currentScrollY;
@@ -286,11 +204,17 @@ document.addEventListener('DOMContentLoaded', () => {
             meta.setAttribute('content', theme === 'dark' ? '#0D0F14' : '#fcfbf5');
         });
 
-        // Update Theme Toggle Text
+        // Update Theme Toggle Icon and Text
         if (themeToggle) {
-            const span = themeToggle.querySelector('span');
-            if (span) {
-                span.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
+            const textSpan = themeToggle.querySelector('.menu-item-text');
+            const iconSpan = themeToggle.querySelector('.menu-item-icon');
+            if (textSpan) {
+                textSpan.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
+            }
+            if (iconSpan) {
+                iconSpan.innerHTML = theme === 'dark'
+                    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`
+                    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
             }
         }
     };
@@ -310,9 +234,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateThemeImages(newTheme);
 
                 // Close menu after selection
-                if (logoDropdown) {
-                    logoDropdown.classList.remove('active');
-                    if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+                if (hamburgerDropdown) {
+                    hamburgerDropdown.classList.remove('active');
+                    if (hamburgerMenu) {
+                        hamburgerMenu.setAttribute('aria-expanded', 'false');
+                        hamburgerMenu.classList.remove('open');
+                    }
                 }
             };
 
@@ -346,14 +273,24 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.add('motion-hidden');
             if (logo) logo.classList.remove('logo-animate');
             if (animationToggle) {
-                animationToggle.querySelector('span').textContent = 'Enable Effect';
+                const textSpan = animationToggle.querySelector('.menu-item-text');
+                const iconSpan = animationToggle.querySelector('.menu-item-icon');
+                if (textSpan) textSpan.textContent = 'Enable Effect';
+                if (iconSpan) {
+                    iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
+                }
             }
         } else {
             if (bgBackdrop) bgBackdrop.classList.remove('bg-hidden');
             document.documentElement.classList.remove('motion-hidden');
             if (logo) logo.classList.add('logo-animate');
             if (animationToggle) {
-                animationToggle.querySelector('span').textContent = 'Disable Effect';
+                const textSpan = animationToggle.querySelector('.menu-item-text');
+                const iconSpan = animationToggle.querySelector('.menu-item-icon');
+                if (textSpan) textSpan.textContent = 'Disable Effect';
+                if (iconSpan) {
+                    iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>`;
+                }
             }
         }
     };
@@ -371,9 +308,12 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem(animationStatusKey, newState);
 
             // Close dropdown
-            if (logoDropdown) {
-                logoDropdown.classList.remove('active');
-                if (logoTrigger) logoTrigger.setAttribute('aria-expanded', 'false');
+            if (hamburgerDropdown) {
+                hamburgerDropdown.classList.remove('active');
+                if (hamburgerMenu) {
+                    hamburgerMenu.setAttribute('aria-expanded', 'false');
+                    hamburgerMenu.classList.remove('open');
+                }
             }
         });
     }

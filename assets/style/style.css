@@ -53,7 +53,24 @@ body {
 
 /* Custom Interactive Cursor System */
 @media (hover: hover) and (pointer: fine) {
-    body, a, button, input, textarea, select, [role="button"], .project-card, .skill-card, .menu-item, .panel-link, .logo-trigger, .hamburger-menu, .tab-btn, .filter-chip, .btn, .nav-link {
+
+    body,
+    a,
+    button,
+    input,
+    textarea,
+    select,
+    [role="button"],
+    .project-card,
+    .skill-card,
+    .menu-item,
+    .panel-link,
+    .logo-trigger,
+    .hamburger-menu,
+    .tab-btn,
+    .filter-chip,
+    .btn,
+    .nav-link {
         cursor: none !important;
     }
 
@@ -97,11 +114,11 @@ body {
         pointer-events: none;
         z-index: 99998;
         transform: translate3d(-50%, -50%, 0);
-        transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
-                    height 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
-                    border-color 0.25s ease, 
-                    background-color 0.25s ease, 
-                    opacity 0.25s ease;
+        transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+            height 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+            border-color 0.25s ease,
+            background-color 0.25s ease,
+            opacity 0.25s ease;
         opacity: 0;
         box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.15);
     }
@@ -139,7 +156,9 @@ body {
     }
 }
 
-@media (hover: none), (pointer: coarse) {
+@media (hover: none),
+(pointer: coarse) {
+
     #custom-cursor-dot,
     #custom-cursor-ring,
     #custom-cursor-trail {
@@ -200,7 +219,7 @@ body {
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hamburger-menu,
+.hamburger-wrapper,
 .logo-wrapper {
     pointer-events: auto;
 }
@@ -220,14 +239,26 @@ body {
     opacity: 0;
 }
 
-.hamburger-menu {
+.hamburger-wrapper {
     position: absolute;
     top: 30px;
     right: 40px;
+    z-index: 1001;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-wrapper.header-hidden {
+    transform: translateY(-150px);
+}
+
+.hamburger-menu {
+    position: relative;
+    top: 0;
+    right: 0;
     width: 48px;
     height: 48px;
     background: transparent;
-    border: 1px transparent;
+    border: 1px solid transparent;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -239,24 +270,8 @@ body {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hamburger-menu.header-hidden {
-    transform: translateY(-150px);
-}
-
-.hamburger-menu.open,
-.floating-header.scrolling-up .hamburger-menu {
-    background-color: var(--panel-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-/* Hover styles moved to consolidated block */
-
 .hamburger-menu:active {
-    transform: translateY(0) scale(0.95);
+    transform: scale(0.95);
 }
 
 .hamburger-line {
@@ -339,7 +354,7 @@ body {
 
 .side-panel {
     position: fixed;
-    top: -150px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: max-content;
@@ -356,11 +371,12 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    transition: top 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    transition: top 0.4s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.side-panel.open {
-    top: 20px;
+.side-panel.header-hidden {
+    top: -150px;
+    opacity: 0;
 }
 
 .panel-nav {
@@ -418,29 +434,22 @@ body {
     transform: translateY(-150px);
 }
 
-.logo-trigger {
-    background: transparent;
-    border: 1.5px solid transparent;
-    border-radius: 12px;
-    width: 78px;
-    height: 48px;
-    display: flex;
+.logo-link {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
+    transition: opacity 0.3s ease;
     z-index: 1002;
+    height: 48px;
 }
 
-.logo-wrapper.active .logo-trigger,
-.floating-header.scrolling-up .logo-trigger {
-    background-color: var(--panel-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+.logo-link:hover {
+    opacity: 0.85;
 }
 
 /* Hover styles moved to consolidated block */
@@ -483,8 +492,9 @@ body {
 .logo-menu {
     position: absolute;
     top: calc(100% + 15px);
-    left: 0;
-    transform-origin: top left;
+    right: 0;
+    left: auto;
+    transform-origin: top right;
     width: max-content;
     background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(180%);
@@ -503,7 +513,7 @@ body {
     z-index: 1001;
 }
 
-.logo-wrapper.active .logo-menu {
+.hamburger-wrapper.active .logo-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -513,7 +523,8 @@ body {
     content: '';
     position: absolute;
     top: -6px;
-    left: 34px;
+    right: 19px;
+    left: auto;
     width: 10px;
     height: 10px;
     background: var(--glass-bg);
@@ -526,6 +537,7 @@ body {
 .menu-item {
     display: flex;
     align-items: center;
+    gap: 12px;
     padding: 10px 14px;
     width: 100%;
     white-space: nowrap;
@@ -544,19 +556,20 @@ body {
     position: relative;
 }
 
-.menu-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 3px;
-    height: 18px;
-    background-color: var(--accent-color);
-    border-radius: 0;
-    opacity: 0;
-    transform: translateY(-50%) scaleY(0);
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+.menu-item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    width: 16px;
+    height: 16px;
 }
+
+.menu-icon {
+    display: block;
+    stroke: var(--text-secondary);
+}
+
 
 .menu-item:hover,
 .menu-item:focus-visible {
@@ -1497,22 +1510,18 @@ h3 {
 
 /* Consolidated Hover Styles */
 @media (hover: hover) {
-    .hamburger-menu:hover {
+
+    .back-to-top:hover,
+    .pwa-install:hover {
         background-color: var(--panel-bg);
         backdrop-filter: blur(12px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
-        border: 1px solid var(--accent-light);
-        transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
     }
 
-    .logo-wrapper:hover .logo-trigger {
-        background-color: var(--panel-bg);
-        backdrop-filter: blur(12px) saturate(180%);
-        -webkit-backdrop-filter: blur(12px) saturate(180%);
-        border: 1px solid var(--accent-light);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
+    .back-to-top:hover,
+    .pwa-install:hover {
+        transform: translateY(-50%) translateY(-2px);
     }
 
     .process-badge:hover {
@@ -1747,8 +1756,8 @@ h3 {
         font-weight: 500;
     }
 
-    .logo-trigger {
-        width: 60px;
+    .logo-link {
+        width: auto;
         height: 48px;
     }
 
@@ -1756,12 +1765,15 @@ h3 {
         width: 40px;
     }
 
+    .hamburger-wrapper {
+        right: 20px;
+        left: auto;
+    }
+
     .hamburger-menu {
         width: 48px;
         height: 48px;
         gap: 4px;
-        right: 20px;
-        left: auto;
     }
 
     .logo-wrapper {
@@ -1773,7 +1785,7 @@ h3 {
         pointer-events: auto;
     }
 
-    .hamburger-menu.header-hidden,
+    .hamburger-wrapper.header-hidden,
     .logo-wrapper.header-hidden {
         transform: none !important;
     }
@@ -1795,26 +1807,30 @@ h3 {
 
     .side-panel {
         position: fixed;
-        width: 250px;
-        padding: 40px;
-        background-color: var(--card-bg);
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(10px) saturate(180%);
-        border: 1px solid var(--border-color);
-        border-radius: 30px;
-        box-shadow: 0 30px 60px var(--shadow-color);
         left: 50%;
-        top: -60%;
-        transform: translate(-50%, -50%);
-        transition: top 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-        z-index: 1100;
+        bottom: 24px;
+        top: auto;
+        transform: translateX(-50%);
+        width: calc(100% - 32px);
+        max-width: 450px;
+        padding: 10px 16px;
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid var(--border-color);
+        border-radius: 100px;
+        box-shadow: 0 12px 40px var(--shadow-color);
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
+        z-index: 999;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
     }
 
-    .side-panel.open {
-        top: 50%;
+    .side-panel.header-hidden {
+        transform: translate(-50%, 100px) !important;
+        opacity: 0;
     }
 
     .hero-layout {
@@ -1835,17 +1851,19 @@ h3 {
     }
 
     .panel-nav {
-        flex-direction: column;
-        gap: 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         width: 100%;
-        align-items: center;
+        gap: 0;
     }
 
     .panel-link {
-        font-size: 1.05rem;
-        padding: 8px 0;
-        width: 100%;
+        font-size: 0.82rem;
+        padding: 6px 4px;
+        width: auto;
         text-align: center;
+        letter-spacing: 0.2px;
     }
 
     .panel-link::after {
@@ -2110,34 +2128,24 @@ h3 {
     animation-play-state: paused !important;
 }
 
-/* Remove logo & menu outer stroke globally (both light and dark modes) */
+/* Remove menu and panel outer stroke globally (both light and dark modes) */
 .hamburger-menu,
 .hamburger-menu.open,
 .floating-header.scrolling-up .hamburger-menu,
-.logo-trigger,
-.logo-wrapper.active .logo-trigger,
-.floating-header.scrolling-up .logo-trigger,
 .side-panel {
     border-color: transparent !important;
 }
 
-/* Thin light border for menu and logo icons on hover */
+/* Thin light border for menu, back-to-top, and PWA install buttons on hover */
 @media (hover: hover) {
-    .hamburger-menu:hover {
+
+    .back-to-top:hover,
+    .pwa-install:hover {
         border-color: rgba(0, 0, 0, 0.12) !important;
     }
 
-    [data-theme="dark"] .hamburger-menu:hover {
-        border-color: rgba(255, 255, 255, 0.15) !important;
-    }
-
-    .logo-trigger:hover,
-    .logo-wrapper:hover .logo-trigger {
-        border-color: rgba(0, 0, 0, 0.12) !important;
-    }
-
-    [data-theme="dark"] .logo-trigger:hover,
-    [data-theme="dark"] .logo-wrapper:hover .logo-trigger {
+    [data-theme="dark"] .back-to-top:hover,
+    [data-theme="dark"] .pwa-install:hover {
         border-color: rgba(255, 255, 255, 0.15) !important;
     }
 }
@@ -2152,7 +2160,7 @@ h3 {
     position: relative;
     z-index: 10;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -2181,6 +2189,9 @@ h3 {
     color: var(--text-secondary);
     line-height: 1.8;
     text-align: center;
+    width: 100%;
+    /* This forces it to take full width */
+    margin-top: -2rem;
 }
 
 .footer-symbol {
@@ -2289,6 +2300,41 @@ h3 {
 
 .pwa-install:active {
     transform: translateY(-50%) scale(0.95);
+}
+
+/* Custom Tooltip Styling for Icon Buttons */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    pointer-events: none;
+    z-index: 100;
+}
+
+@media (hover: hover) {
+    [data-tooltip]:hover::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 @media (max-width: 768px) {
@@ -2471,6 +2517,7 @@ html.motion-hidden #custom-cursor-trail {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .menu-item,
     .panel-link,
     .panel-link::after,

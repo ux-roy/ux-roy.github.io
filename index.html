@@ -110,8 +110,8 @@
     <!-- Floating Header -->
     <header class="floating-header" id="mobile-header">
         <!-- Branding Logo -->
-        <div class="logo-wrapper" id="logo-dropdown">
-            <button class="logo-trigger" aria-label="Website Actions" aria-haspopup="true" aria-expanded="false">
+        <div class="logo-wrapper">
+            <a href="#" class="logo-link" aria-label="Suman Kanti Roy - Home">
                 <svg width="147" height="57" viewBox="0 0 147 57" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="site-logo">
                     <path
@@ -125,30 +125,54 @@
                         d="M3 54.002H10H29.5C38.6127 54.002 46 46.6147 46 37.502C46 28.3893 38.6127 21.002 29.5 21.002H20"
                         stroke="#E2723A" stroke-width="6" stroke-linecap="round" pathLength="1" />
                 </svg>
+            </a>
+        </div>
+
+        <!-- Hamburger Menu Options Wrapper -->
+        <div class="hamburger-wrapper" id="hamburger-dropdown">
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu" title="Menu" aria-haspopup="true"
+                aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
             </button>
-            <div class="logo-menu">
+            <div class="logo-menu hamburger-menu-dropdown">
                 <button class="menu-item" id="theme-toggle">
-                    <span>Light Theme</span>
+                    <span class="menu-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </span>
+                    <span class="menu-item-text">Dark Theme</span>
                 </button>
                 <button class="menu-item" id="animation-toggle">
-                    <span>Disable Effect</span>
+                    <span class="menu-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </span>
+                    <span class="menu-item-text">Disable Effect</span>
                 </button>
                 <a href="assets/doc/Suman-Kanti-Roy_Resume.pdf" target="_blank" class="menu-item">
-                    <span>View Resume</span>
+                    <span class="menu-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                    </span>
+                    <span class="menu-item-text">View Resume</span>
                 </a>
             </div>
         </div>
-
-        <!-- Hamburger Menu -->
-        <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu" title="Menu">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-        </button>
     </header>
 
     <!-- Navigation Panel -->
-    <div class="menu-overlay" id="menu-overlay"></div>
     <aside class="side-panel" id="side-panel">
         <nav class="panel-nav">
             <button class="panel-link active" data-target="intro">About</button>
@@ -888,12 +912,12 @@
 
     </main>
 
+
     <!-- Copyright Footer -->
     <footer class="site-footer">
-        <p class="footer-text">Designed and developed by Suman Kanti Roy <span
-                class="footer-symbol">✦</span> <br class="footer-break">Copyright © 2026</p>
-        <!-- Click to Install Button -->
-        <button id="pwa-install" class="pwa-install" aria-label="Click to Install" title="Click to Install">
+        <!-- Click to Install -->
+        <button id="pwa-install" class="pwa-install" aria-label="Click to Install" title="Click to Install"
+            data-tooltip="Click to Install">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -901,8 +925,14 @@
                 <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
         </button>
-        <!-- Back to Top Button -->
-        <button id="back-to-top" class="back-to-top" aria-label="Back to Top" title="Back to Top">
+
+        <!-- Copyright Text -->
+        <p class="footer-text">Designed and developed by Suman Kanti Roy <span class="footer-symbol">✦</span> <br
+                class="footer-break">Copyright © 2026</p>
+
+        <!-- Back to Top -->
+        <button id="back-to-top" class="back-to-top" aria-label="Back to Top" title="Back to Top"
+            data-tooltip="Back to Top">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 20V8" />
@@ -964,7 +994,7 @@
         </div>
     </div>
 
-    <!-- Custom Interactive Cursor -->
+    <!-- Interactive Cursor -->
     <canvas id="custom-cursor-trail" aria-hidden="true"></canvas>
     <div id="custom-cursor-dot" aria-hidden="true"></div>
     <div id="custom-cursor-ring" aria-hidden="true"></div>
