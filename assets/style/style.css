@@ -302,55 +302,51 @@ body {
     }
 }
 
-/* Hover state (closed) and open state - staggered loading animation */
-.hamburger-menu:not(.open):hover .hamburger-line:nth-child(1),
-.hamburger-menu.open .hamburger-line:nth-child(1) {
+/* Hover state (closed) - staggered loading animation */
+.hamburger-menu:not(.open):hover .hamburger-line:nth-child(1) {
     animation: reverseLoader 0.9s infinite ease-in-out;
     animation-delay: 0.1s;
     transform-origin: left;
 }
 
-.hamburger-menu:not(.open):hover .hamburger-line:nth-child(2),
-.hamburger-menu.open .hamburger-line:nth-child(2) {
+.hamburger-menu:not(.open):hover .hamburger-line:nth-child(2) {
     animation: reverseLoader 1.2s infinite ease-in-out;
     animation-delay: 0.3s;
     transform-origin: right;
 }
 
-.hamburger-menu:not(.open):hover .hamburger-line:nth-child(3),
-.hamburger-menu.open .hamburger-line:nth-child(3) {
+.hamburger-menu:not(.open):hover .hamburger-line:nth-child(3) {
     animation: reverseLoader 1.0s infinite ease-in-out;
     animation-delay: 0.2s;
     transform-origin: left;
 }
 
-/* Freeze animation in place when open (like a statue) */
+/* Open state - Cross Icon */
 .hamburger-menu.open .hamburger-line {
-    animation-play-state: paused !important;
+    animation: none !important;
+    position: absolute;
+    top: calc(50% - 1px);
+    left: calc(50% - 10px);
+    margin: 0;
+    transform-origin: center !important;
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) !important;
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(2) {
+    opacity: 0 !important;
+    transform: scale(0) !important;
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) !important;
 }
 
 
 
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    z-index: 998;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-.menu-overlay.open {
-    opacity: 1;
-    visibility: visible;
-}
 
 .side-panel {
     position: fixed;
@@ -519,20 +515,7 @@ body {
     transform: translateY(0);
 }
 
-.logo-menu::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    right: 19px;
-    left: auto;
-    width: 10px;
-    height: 10px;
-    background: var(--glass-bg);
-    border-left: 1px solid var(--glass-border);
-    border-top: 1px solid var(--glass-border);
-    transform: rotate(45deg);
-    z-index: 1;
-}
+
 
 .menu-item {
     display: flex;
@@ -568,8 +551,8 @@ body {
 .menu-icon {
     display: block;
     stroke: var(--text-secondary);
+    transition: stroke 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 
 .menu-item:hover,
 .menu-item:focus-visible {
@@ -577,6 +560,11 @@ body {
     color: var(--accent-color);
     transform: translateX(4px);
     outline: none;
+}
+
+.menu-item:hover .menu-icon,
+.menu-item:focus-visible .menu-icon {
+    stroke: var(--accent-color);
 }
 
 .menu-item:hover::before,
@@ -1688,12 +1676,11 @@ h3 {
         aspect-ratio: 16 / 9;
     }
 
-    .menu-overlay.open {
-        background-color: rgba(0, 0, 0, 0.25);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(5px);
-        pointer-events: auto;
+    .side-panel {
+        display: none !important;
     }
+
+
 
     body.menu-open .logo-wrapper {
         pointer-events: none;
@@ -1715,28 +1702,7 @@ h3 {
         pointer-events: auto;
     }
 
-    /* Mobile Cross Icon when menu is open */
-    .hamburger-menu.open .hamburger-line {
-        animation: none !important;
-        position: absolute;
-        top: calc(50% - 1px);
-        left: calc(50% - 10px);
-        margin: 0;
-        transform-origin: center !important;
-    }
 
-    .hamburger-menu.open .hamburger-line:nth-child(1) {
-        transform: rotate(45deg) !important;
-    }
-
-    .hamburger-menu.open .hamburger-line:nth-child(2) {
-        opacity: 0 !important;
-        transform: scale(0) !important;
-    }
-
-    .hamburger-menu.open .hamburger-line:nth-child(3) {
-        transform: rotate(-45deg) !important;
-    }
 }
 
 @media screen and (max-width: 600px) {
@@ -1806,31 +1772,7 @@ h3 {
     }
 
     .side-panel {
-        position: fixed;
-        left: 50%;
-        bottom: 24px;
-        top: auto;
-        transform: translateX(-50%);
-        width: calc(100% - 32px);
-        max-width: 450px;
-        padding: 10px 16px;
-        background-color: var(--glass-bg);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid var(--border-color);
-        border-radius: 100px;
-        box-shadow: 0 12px 40px var(--shadow-color);
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        z-index: 999;
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
-    }
-
-    .side-panel.header-hidden {
-        transform: translate(-50%, 100px) !important;
-        opacity: 0;
+        display: none !important;
     }
 
     .hero-layout {
@@ -2154,17 +2096,16 @@ h3 {
 .site-footer {
     width: 100%;
     max-width: 100%;
-    /* Spans full viewport to align button with menu icon */
     margin: 0 auto 40px;
     padding: 40px;
     position: relative;
     z-index: 10;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
 }
 
-/* Centered border line to match original 1200px max-width design */
+/* Centered border line to match original design */
 .site-footer::before {
     content: '';
     position: absolute;
@@ -2173,7 +2114,6 @@ h3 {
     transform: translateX(-50%);
     width: calc(100% - 80px);
     /* Account for padding */
-    max-width: 1200px;
     height: 1px;
     background-color: rgba(255, 255, 255, 0.08);
 }
@@ -2183,15 +2123,15 @@ h3 {
 }
 
 .footer-text {
+    grid-column: 2;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.8;
     text-align: center;
+    margin: 0;
     width: 100%;
-    /* This forces it to take full width */
-    margin-top: -2rem;
 }
 
 .footer-symbol {
@@ -2209,12 +2149,21 @@ h3 {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .site-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         padding: 40px 20px;
+        gap: 15px;
     }
 
     .site-footer::before {
         width: calc(100% - 40px);
         /* Adapt border line padding on mobile */
+    }
+
+    .footer-text {
+        grid-column: auto;
     }
 
     .footer-break {
@@ -2230,10 +2179,9 @@ h3 {
 
 /* Back to Top Button */
 .back-to-top {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
+    grid-column: 3;
+    justify-self: end;
+    position: relative;
     width: 48px;
     height: 48px;
     border-radius: 12px;
@@ -2253,12 +2201,12 @@ h3 {
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     border-color: var(--accent-light);
-    transform: translateY(-50%) translateY(-2px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
 }
 
 .back-to-top:active {
-    transform: translateY(-50%) scale(0.95);
+    transform: scale(0.95);
 }
 
 /* Hide back to top button on mobile displays */
@@ -2270,10 +2218,9 @@ h3 {
 
 /* Click to Install Button */
 .pwa-install {
-    position: absolute;
-    left: 40px;
-    top: 50%;
-    transform: translateY(-50%);
+    grid-column: 1;
+    justify-self: start;
+    position: relative;
     width: 48px;
     height: 48px;
     border-radius: 12px;
@@ -2294,12 +2241,12 @@ h3 {
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     border-color: var(--accent-light);
-    transform: translateY(-50%) translateY(-2px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
 }
 
 .pwa-install:active {
-    transform: translateY(-50%) scale(0.95);
+    transform: scale(0.95);
 }
 
 /* Custom Tooltip Styling for Icon Buttons */
@@ -2460,7 +2407,6 @@ html.motion-hidden .panel-link,
 html.motion-hidden .panel-link::after,
 html.motion-hidden .logo-menu,
 html.motion-hidden .side-panel,
-html.motion-hidden .menu-overlay,
 html.motion-hidden .hamburger-menu,
 html.motion-hidden .hamburger-line,
 html.motion-hidden .social-icon-btn,
@@ -2498,17 +2444,14 @@ html.motion-hidden .modal-action-btn:hover,
 html.motion-hidden .filter-chip:hover,
 html.motion-hidden .tab-btn:hover,
 html.motion-hidden .project-card:hover,
-html.motion-hidden .skill-card:hover {
-    transform: none !important;
-}
-
+html.motion-hidden .skill-card:hover,
 html.motion-hidden .back-to-top,
 html.motion-hidden .back-to-top:hover,
 html.motion-hidden .back-to-top:active,
 html.motion-hidden .pwa-install,
 html.motion-hidden .pwa-install:hover,
 html.motion-hidden .pwa-install:active {
-    transform: translateY(-50%) !important;
+    transform: none !important;
 }
 
 /* Disable mouse light tail effect only when motion is disabled (keep cursor dot & ring) */
@@ -2523,7 +2466,6 @@ html.motion-hidden #custom-cursor-trail {
     .panel-link::after,
     .logo-menu,
     .side-panel,
-    .menu-overlay,
     .hamburger-menu,
     .hamburger-line,
     .social-icon-btn,

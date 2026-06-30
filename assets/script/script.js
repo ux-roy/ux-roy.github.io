@@ -18,14 +18,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const isExpanded = hamburgerDropdown.classList.contains('active');
             hamburgerMenu.setAttribute('aria-expanded', isExpanded);
             hamburgerMenu.classList.toggle('open', isExpanded);
+
+            // Hide/Show navigation panel with the hamburger menu toggle on mobile
+            if (window.innerWidth <= 768 && sidePanel) {
+                if (isExpanded) {
+                    sidePanel.classList.add('header-hidden');
+                } else {
+                    const currentScrollY = window.scrollY;
+                    if (currentScrollY <= headerThreshold || currentScrollY < lastScrollY) {
+                        sidePanel.classList.remove('header-hidden');
+                    }
+                }
+            }
         });
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (!hamburgerDropdown.contains(e.target)) {
+                const wasActive = hamburgerDropdown.classList.contains('active');
                 hamburgerDropdown.classList.remove('active');
                 hamburgerMenu.setAttribute('aria-expanded', 'false');
                 hamburgerMenu.classList.remove('open');
+
+                // Restore navigation panel visibility if menu was closed
+                if (wasActive && window.innerWidth <= 768 && sidePanel) {
+                    const currentScrollY = window.scrollY;
+                    if (currentScrollY <= headerThreshold || currentScrollY < lastScrollY) {
+                        sidePanel.classList.remove('header-hidden');
+                    }
+                }
             }
         });
     }
@@ -109,63 +130,76 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     };
 
-    // Header & Side Panel Visibility on Scroll
+    // Header & Side Panel Visibility on Scroll (requestAnimationFrame optimized)
     let lastScrollY = window.scrollY;
     const headerThreshold = 80;
+    let scrollTicking = false;
 
     window.addEventListener('scroll', () => {
-        const currentScrollY = window.scrollY;
+        if (!scrollTicking) {
+            window.requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
 
-        // Background logic - separate from visibility
-        if (currentScrollY > 10) { // Small threshold for background
-            if (mobileHeader) mobileHeader.classList.add('header-floating');
-        } else {
-            if (mobileHeader) mobileHeader.classList.remove('header-floating');
-        }
-
-        // Visibility toggle logic
-        if (isScrollingToSection) {
-            if (mobileHeader) {
-                mobileHeader.classList.remove('header-hidden');
-            }
-            if (sidePanel) {
-                sidePanel.classList.remove('header-hidden');
-            }
-        } else if (currentScrollY > lastScrollY && currentScrollY > headerThreshold) {
-            // Scrolling Down - Hide
-            if (mobileHeader) {
-                mobileHeader.classList.add('header-hidden');
-                mobileHeader.classList.remove('scrolling-up');
-            }
-            if (sidePanel) {
-                sidePanel.classList.add('header-hidden');
-            }
-        } else if (currentScrollY < lastScrollY) {
-            // Scrolling Up - Show
-            if (mobileHeader) {
-                mobileHeader.classList.remove('header-hidden');
-                // Apply floating background style only when scrolled away from top
-                if (currentScrollY > 20) {
-                    mobileHeader.classList.add('scrolling-up');
+                // Background logic - separate from visibility
+                if (currentScrollY > 10) { // Small threshold for background
+                    if (mobileHeader) mobileHeader.classList.add('header-floating');
                 } else {
-                    mobileHeader.classList.remove('scrolling-up');
+                    if (mobileHeader) mobileHeader.classList.remove('header-floating');
                 }
-            }
-            if (sidePanel) {
-                sidePanel.classList.remove('header-hidden');
-            }
-        }
 
-        // Close options dropdown on scroll
-        if (hamburgerDropdown && hamburgerDropdown.classList.contains('active')) {
-            hamburgerDropdown.classList.remove('active');
-            if (hamburgerMenu) {
-                hamburgerMenu.setAttribute('aria-expanded', 'false');
-                hamburgerMenu.classList.remove('open');
-            }
-        }
+                // Visibility toggle logic
+                if (isScrollingToSection) {
+                    if (mobileHeader) {
+                        mobileHeader.classList.remove('header-hidden');
+                    }
+                    if (sidePanel) {
+                        sidePanel.classList.remove('header-hidden');
+                    }
+                } else if (currentScrollY > lastScrollY && currentScrollY > headerThreshold) {
+                    // Scrolling Down - Hide
+                    if (mobileHeader) {
+                        mobileHeader.classList.add('header-hidden');
+                        mobileHeader.classList.remove('scrolling-up');
+                    }
+                    if (sidePanel) {
+                        sidePanel.classList.add('header-hidden');
+                    }
+                } else if (currentScrollY < lastScrollY) {
+                    // Scrolling Up - Show
+                    if (mobileHeader) {
+                        mobileHeader.classList.remove('header-hidden');
+                        // Apply floating background style only when scrolled away from top
+                        if (currentScrollY > 20) {
+                            mobileHeader.classList.add('scrolling-up');
+                        } else {
+                            mobileHeader.classList.remove('scrolling-up');
+                        }
+                    }
+                    if (sidePanel) {
+                        sidePanel.classList.remove('header-hidden');
+                    }
+                }
 
-        lastScrollY = currentScrollY;
+                // Close options dropdown on scroll
+                if (hamburgerDropdown && hamburgerDropdown.classList.contains('active')) {
+                    hamburgerDropdown.classList.remove('active');
+                    if (hamburgerMenu) {
+                        hamburgerMenu.setAttribute('aria-expanded', 'false');
+                        hamburgerMenu.classList.remove('open');
+                    }
+                    // Restore navigation panel visibility if we auto-closed it on scroll
+                    if (window.innerWidth <= 768 && sidePanel) {
+                        if (currentScrollY <= headerThreshold || currentScrollY < lastScrollY) {
+                            sidePanel.classList.remove('header-hidden');
+                        }
+                    }
+                }
+
+                lastScrollY = currentScrollY;
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
     }, { passive: true });
 
     // Theme Toggle Logic
@@ -289,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const iconSpan = animationToggle.querySelector('.menu-item-icon');
                 if (textSpan) textSpan.textContent = 'Disable Effect';
                 if (iconSpan) {
-                    iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>`;
+                    iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon><line x1="2" y1="2" x2="22" y2="22"></line></svg>`;
                 }
             }
         }
@@ -697,6 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let dotX = -100;
         let dotY = -100;
         let isCursorActive = false;
+        let isLoopRunning = false;
 
         let ctx = cursorTrail ? cursorTrail.getContext('2d') : null;
 
@@ -706,9 +741,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 cursorTrail.height = window.innerHeight;
             }
         };
+
+        // Debounce utility to optimize resize events
+        const debounce = (func, delay) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func(...args), delay);
+            };
+        };
+
         if (cursorTrail) {
             resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('resize', debounce(resizeCanvas, 100));
         }
 
         const trailHistory = [];
@@ -724,6 +769,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const lerp = (start, end, amt) => (1 - amt) * start + amt * end;
 
+        const startRenderLoop = () => {
+            if (!isLoopRunning) {
+                isLoopRunning = true;
+                requestAnimationFrame(renderCursor);
+            }
+        };
+
         window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -738,6 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastMouseX = mouseX;
                 lastMouseY = mouseY;
             }
+            startRenderLoop();
         });
 
         window.addEventListener('mouseleave', () => {
@@ -748,6 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('mouseenter', () => {
             isCursorActive = true;
             document.body.classList.add('cursor-active');
+            startRenderLoop();
         });
 
         window.addEventListener('mousedown', () => {
@@ -758,136 +812,142 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('cursor-click');
         });
 
-        // Event Delegation for Hover Target Detection
+        // Event Delegation for Hover Target Detection (with safety type checks)
         const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .project-card, .skill-card, .menu-item, .panel-link, .logo-trigger, .hamburger-menu, .tab-btn, .filter-chip, .btn, .nav-link';
-        
+
         document.body.addEventListener('mouseover', (e) => {
-            if (e.target.closest(interactiveSelector)) {
+            if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
                 document.body.classList.add('cursor-hover');
             }
         });
 
         document.body.addEventListener('mouseout', (e) => {
-            if (e.target.closest(interactiveSelector)) {
+            if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
                 const relatedTarget = e.relatedTarget;
-                if (!relatedTarget || !relatedTarget.closest(interactiveSelector)) {
+                if (!relatedTarget || !(relatedTarget instanceof Element) || !relatedTarget.closest || !relatedTarget.closest(interactiveSelector)) {
                     document.body.classList.remove('cursor-hover');
                 }
             }
         });
 
-        // Render loop for smooth cursor interpolation and glowing light tail
+        // Render loop for smooth cursor interpolation and glowing light tail (on-demand optimized)
         const renderCursor = () => {
-            if (isCursorActive) {
-                // Dot follows closely with high precision
-                dotX = lerp(dotX, mouseX, 0.4);
-                dotY = lerp(dotY, mouseY, 0.4);
-                cursorDot.style.left = `${dotX}px`;
-                cursorDot.style.top = `${dotY}px`;
-
-                // Ring follows with smooth lerp delay
-                ringX = lerp(ringX, mouseX, 0.15);
-                ringY = lerp(ringY, mouseY, 0.15);
-                cursorRing.style.left = `${ringX}px`;
-                cursorRing.style.top = `${ringY}px`;
-
+            if (!isCursorActive) {
+                // If inactive, clear canvas, reset arrays and stop the loop
                 if (ctx && cursorTrail) {
-                    const isMotionHidden = document.documentElement.classList.contains('motion-hidden');
-
-                    if (isMotionHidden) {
-                        ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
-                        trailHistory.length = 0;
-                        particles.length = 0;
-                    } else {
-                        ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
-
-                        // Add point to trail history
-                        trailHistory.unshift({ x: dotX, y: dotY });
-                        if (trailHistory.length > maxTrailLength) {
-                            trailHistory.pop();
-                        }
-
-                        // Check mouse movement speed to spawn light tail particles
-                        const dx = mouseX - lastMouseX;
-                        const dy = mouseY - lastMouseY;
-                        const dist = Math.hypot(dx, dy);
-
-                        if (dist > 1.5) {
-                            const count = Math.min(Math.floor(dist / 5), 3) + 1;
-                            for (let i = 0; i < count; i++) {
-                                particles.push({
-                                    x: dotX + (Math.random() - 0.5) * 6,
-                                    y: dotY + (Math.random() - 0.5) * 6,
-                                    vx: (Math.random() - 0.5) * 1.2 - dx * 0.04,
-                                    vy: (Math.random() - 0.5) * 1.2 - dy * 0.04,
-                                    size: Math.random() * 2.5 + 1.5,
-                                    alpha: 1,
-                                    maxLife: Math.random() * 18 + 18,
-                                    life: 0
-                                });
-                            }
-                        }
-                        lastMouseX = mouseX;
-                        lastMouseY = mouseY;
-
-                        const accentRGB = getAccentRGB();
-
-                        // 1. Draw glowing continuous light ribbon tail
-                        if (trailHistory.length > 2) {
-                            ctx.save();
-                            ctx.shadowBlur = 10;
-                            ctx.shadowColor = `rgba(${accentRGB}, 0.8)`;
-                            ctx.lineCap = 'round';
-                            ctx.lineJoin = 'round';
-
-                            for (let i = 0; i < trailHistory.length - 1; i++) {
-                                const p1 = trailHistory[i];
-                                const p2 = trailHistory[i + 1];
-                                const progress = i / trailHistory.length;
-                                const alpha = (1 - progress) * 0.65;
-                                const width = (1 - progress) * 4 + 0.5;
-
-                                ctx.beginPath();
-                                ctx.moveTo(p1.x, p1.y);
-                                ctx.lineTo(p2.x, p2.y);
-                                ctx.strokeStyle = `rgba(${accentRGB}, ${alpha})`;
-                                ctx.lineWidth = width;
-                                ctx.stroke();
-                            }
-                            ctx.restore();
-                        }
-
-                        // 2. Draw glowing light particles tail
-                        for (let i = particles.length - 1; i >= 0; i--) {
-                            const p = particles[i];
-                            p.life++;
-                            p.x += p.vx;
-                            p.y += p.vy;
-                            const lifeProgress = p.life / p.maxLife;
-                            p.alpha = 1 - lifeProgress;
-                            p.size *= 0.96;
-
-                            if (lifeProgress >= 1 || p.size <= 0.2) {
-                                particles.splice(i, 1);
-                                continue;
-                            }
-
-                            ctx.save();
-                            ctx.beginPath();
-                            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                            ctx.fillStyle = `rgba(${accentRGB}, ${p.alpha * 0.85})`;
-                            ctx.shadowBlur = 8;
-                            ctx.shadowColor = `rgba(${accentRGB}, ${p.alpha})`;
-                            ctx.fill();
-                            ctx.restore();
-                        }
-                    }
+                    ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
                 }
-            } else if (ctx && cursorTrail) {
-                ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
                 trailHistory.length = 0;
                 particles.length = 0;
+                isLoopRunning = false;
+                return;
             }
+
+            // Dot follows closely with high precision
+            dotX = lerp(dotX, mouseX, 0.4);
+            dotY = lerp(dotY, mouseY, 0.4);
+            cursorDot.style.left = `${dotX}px`;
+            cursorDot.style.top = `${dotY}px`;
+
+            // Ring follows with smooth lerp delay
+            ringX = lerp(ringX, mouseX, 0.15);
+            ringY = lerp(ringY, mouseY, 0.15);
+            cursorRing.style.left = `${ringX}px`;
+            cursorRing.style.top = `${ringY}px`;
+
+            if (ctx && cursorTrail) {
+                const isMotionHidden = document.documentElement.classList.contains('motion-hidden');
+
+                if (isMotionHidden) {
+                    ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
+                    trailHistory.length = 0;
+                    particles.length = 0;
+                } else {
+                    ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
+
+                    // Add point to trail history
+                    trailHistory.unshift({ x: dotX, y: dotY });
+                    if (trailHistory.length > maxTrailLength) {
+                        trailHistory.pop();
+                    }
+
+                    // Check mouse movement speed to spawn light tail particles
+                    const dx = mouseX - lastMouseX;
+                    const dy = mouseY - lastMouseY;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist > 1.5) {
+                        const count = Math.min(Math.floor(dist / 5), 3) + 1;
+                        for (let i = 0; i < count; i++) {
+                            particles.push({
+                                x: dotX + (Math.random() - 0.5) * 6,
+                                y: dotY + (Math.random() - 0.5) * 6,
+                                vx: (Math.random() - 0.5) * 1.2 - dx * 0.04,
+                                vy: (Math.random() - 0.5) * 1.2 - dy * 0.04,
+                                size: Math.random() * 2.5 + 1.5,
+                                alpha: 1,
+                                maxLife: Math.random() * 18 + 18,
+                                life: 0
+                            });
+                        }
+                    }
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+
+                    const accentRGB = getAccentRGB();
+
+                    // 1. Draw glowing continuous light ribbon tail
+                    if (trailHistory.length > 2) {
+                        ctx.save();
+                        ctx.shadowBlur = 10;
+                        ctx.shadowColor = `rgba(${accentRGB}, 0.8)`;
+                        ctx.lineCap = 'round';
+                        ctx.lineJoin = 'round';
+
+                        for (let i = 0; i < trailHistory.length - 1; i++) {
+                            const p1 = trailHistory[i];
+                            const p2 = trailHistory[i + 1];
+                            const progress = i / trailHistory.length;
+                            const alpha = (1 - progress) * 0.65;
+                            const width = (1 - progress) * 4 + 0.5;
+
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = `rgba(${accentRGB}, ${alpha})`;
+                            ctx.lineWidth = width;
+                            ctx.stroke();
+                        }
+                        ctx.restore();
+                    }
+
+                    // 2. Draw glowing light particles tail
+                    for (let i = particles.length - 1; i >= 0; i--) {
+                        const p = particles[i];
+                        p.life++;
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        const lifeProgress = p.life / p.maxLife;
+                        p.alpha = 1 - lifeProgress;
+                        p.size *= 0.96;
+
+                        if (lifeProgress >= 1 || p.size <= 0.2) {
+                            particles.splice(i, 1);
+                            continue;
+                        }
+
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(${accentRGB}, ${p.alpha * 0.85})`;
+                        ctx.shadowBlur = 8;
+                        ctx.shadowColor = `rgba(${accentRGB}, ${p.alpha})`;
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+            }
+
             requestAnimationFrame(renderCursor);
         };
 
