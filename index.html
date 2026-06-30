@@ -174,7 +174,7 @@
     </header>
 
     <!-- Navigation Panel -->
-    <aside class="side-panel" id="side-panel">
+    <aside class="side-panel logo-hidden" id="side-panel">
         <nav class="panel-nav">
             <button class="panel-link active" data-target="intro">About</button>
             <button class="panel-link" data-target="experience">Career</button>
@@ -184,6 +184,11 @@
             <button class="panel-link" data-target="contact">Contact</button>
         </nav>
     </aside>
+    <script>
+        if (window.innerWidth > 768) {
+            document.getElementById('side-panel').classList.remove('logo-hidden');
+        }
+    </script>
 
     <!-- Main Container -->
     <main class="content-container">
