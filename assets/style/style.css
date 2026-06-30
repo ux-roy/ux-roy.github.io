@@ -1695,8 +1695,8 @@ h3 {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 85vw;
-        max-width: 270px;
+        width: 80vw;
+        max-width: 230px;
         height: auto;
         background-color: var(--panel-bg);
         backdrop-filter: blur(20px) saturate(180%);
@@ -1738,7 +1738,7 @@ h3 {
 
     .panel-link {
         font-size: 1.15rem;
-        font-weight: 500;
+        font-weight: 400;
         letter-spacing: 0.8px;
         padding: 6px 12px;
         width: auto;
