@@ -1678,6 +1678,8 @@ h3 {
 
     .section-title {
         font-size: 2.2rem;
+        font-weight: 500;
+        letter-spacing: 0.02rem;
     }
 
     .timeline-content h5 {
