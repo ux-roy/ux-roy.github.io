@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Apply initial animation state
-    const isAnimationHidden = localStorage.getItem(animationStatusKey) === 'true';
+    const isAnimationHidden = localStorage.getItem(animationStatusKey) !== 'false';
     updateAnimationState(isAnimationHidden);
 
     if (animationToggle) {
