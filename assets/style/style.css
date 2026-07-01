@@ -1525,15 +1525,7 @@ h3 {
 
     .back-to-top:hover,
     .pwa-install:hover {
-        background-color: var(--panel-bg);
-        backdrop-filter: blur(12px) saturate(180%);
-        -webkit-backdrop-filter: blur(12px) saturate(180%);
-        box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
-    }
-
-    .back-to-top:hover,
-    .pwa-install:hover {
-        transform: translateY(-50%) translateY(-2px);
+        transform: translateY(-2px);
     }
 
     .process-badge:hover {
@@ -2170,19 +2162,7 @@ h3 {
     border-color: transparent !important;
 }
 
-/* Thin light border for menu, back-to-top, and PWA install buttons on hover */
-@media (hover: hover) {
-
-    .back-to-top:hover,
-    .pwa-install:hover {
-        border-color: rgba(0, 0, 0, 0.12) !important;
-    }
-
-    [data-theme="dark"] .back-to-top:hover,
-    [data-theme="dark"] .pwa-install:hover {
-        border-color: rgba(255, 255, 255, 0.15) !important;
-    }
-}
+/* Thin light border for menu, back-to-top, and PWA install buttons on hover removed */
 
 /* Footer Styles */
 .site-footer {
@@ -2289,12 +2269,7 @@ h3 {
 }
 
 .back-to-top:hover {
-    background-color: var(--panel-bg);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    border-color: var(--accent-light);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
 }
 
 .back-to-top:active {
@@ -2329,12 +2304,7 @@ h3 {
 }
 
 .pwa-install:hover {
-    background-color: var(--panel-bg);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    border-color: var(--accent-light);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.25);
 }
 
 .pwa-install:active {
