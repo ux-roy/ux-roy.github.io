@@ -267,7 +267,7 @@ body {
     gap: 5px;
     cursor: pointer;
     z-index: 1000;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .hamburger-menu:active {
@@ -456,9 +456,12 @@ body {
 
 @media (hover: hover) {
 
-    .logo-link:hover .site-logo,
-    .hamburger-menu:hover {
+    .logo-link:hover .site-logo {
         transform: scale(1.08);
+    }
+
+    .hamburger-menu:hover {
+        transform: scale(1.15);
     }
 }
 
@@ -2510,12 +2513,6 @@ html.motion-hidden .pwa-install {
 html.motion-hidden .social-icon-btn,
 html.motion-hidden .social-icon-btn:hover,
 html.motion-hidden .social-icon-btn:active,
-html.motion-hidden .hamburger-menu,
-html.motion-hidden .hamburger-menu:hover,
-html.motion-hidden .hamburger-menu:active,
-html.motion-hidden .hamburger-menu.open,
-html.motion-hidden .hamburger-menu.open:hover,
-html.motion-hidden .floating-header.scrolling-up .hamburger-menu,
 html.motion-hidden .logo-trigger,
 html.motion-hidden .logo-trigger:hover,
 html.motion-hidden .logo-trigger:active,
