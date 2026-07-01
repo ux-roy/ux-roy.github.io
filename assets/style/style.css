@@ -518,6 +518,8 @@ body {
     border-radius: 12px;
     box-shadow: 0 15px 40px var(--shadow-color), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     padding: 8px;
+    margin: 0;
+    list-style: none;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -1722,7 +1724,7 @@ h3 {
         position: fixed;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -150vh) !important;
         width: 85vw;
         max-width: 250px;
         height: auto;
@@ -1738,19 +1740,21 @@ h3 {
         justify-content: center;
         align-items: center;
         padding: 20px 15px;
-        opacity: 1;
+        opacity: 0 !important;
+        pointer-events: none !important;
         transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
     }
 
     .side-panel.header-hidden {
-        transform: translate(-50%, -150vh);
-        opacity: 0;
-    }
-
-    .side-panel.logo-hidden {
         transform: translate(-50%, -150vh) !important;
         opacity: 0 !important;
         pointer-events: none !important;
+    }
+
+    .side-panel.active {
+        transform: translate(-50%, -50%) !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
     }
 
     .panel-nav {

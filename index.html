@@ -114,7 +114,7 @@
         <div class="logo-wrapper">
             <a href="#" class="logo-link" aria-label="Suman Kanti Roy - Home">
                 <svg width="147" height="57" viewBox="0 0 147 57" fill="none" xmlns="http://www.w3.org/2000/svg"
-                     class="site-logo">
+                    class="site-logo">
                     <path
                         d="M126.483 19.846H98.758V54L67 28.7184L94.3086 3H124.342C135.639 3 144 8.19529 144 18.985C144 31.5296 134.956 34.5483 125.974 34.5483H114.164C114.164 34.5483 144 31.5 144 54"
                         stroke="#E2723A" stroke-width="6" stroke-miterlimit="1.5" stroke-linecap="round"
@@ -138,60 +138,61 @@
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
             </button>
-            <div class="logo-menu hamburger-menu-dropdown">
-                <button class="menu-item" id="theme-toggle">
-                    <span class="menu-item-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                    </span>
-                    <span class="menu-item-text">Dark Theme</span>
-                </button>
-                <button class="menu-item" id="animation-toggle">
-                    <span class="menu-item-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                    </span>
-                    <span class="menu-item-text">Enable Effect</span>
-                </button>
-                <a href="assets/doc/Suman-Kanti-Roy_Resume.pdf" target="_blank" class="menu-item">
-                    <span class="menu-item-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                        </svg>
-                    </span>
-                    <span class="menu-item-text">View Resume</span>
-                </a>
-            </div>
+            <ul class="logo-menu hamburger-menu-dropdown" role="menu">
+                <li role="none">
+                    <button class="menu-item" id="theme-toggle" role="menuitem">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Dark Theme</span>
+                    </button>
+                </li>
+                <li role="none">
+                    <button class="menu-item" id="animation-toggle" role="menuitem">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">Enable Effect</span>
+                    </button>
+                </li>
+                <li role="none">
+                    <a href="assets/doc/Suman-Kanti-Roy_Resume.pdf" target="_blank" class="menu-item" role="menuitem">
+                        <span class="menu-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </span>
+                        <span class="menu-item-text">View Resume</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </header>
 
-    <!-- Navigation Panel Backdrop Overlay -->
+    <!-- Mobile Navigation -->
     <div class="nav-overlay" id="nav-overlay"></div>
 
-    <!-- Navigation Panel -->
-    <aside class="side-panel logo-hidden" id="side-panel">
-        <nav class="panel-nav">
+    <!-- Desktop Navigation -->
+    <nav class="side-panel" id="side-panel" aria-label="Side Navigation">
+        <div class="panel-nav">
             <button class="panel-link active" data-target="intro">About</button>
             <button class="panel-link" data-target="experience">Career</button>
             <button class="panel-link" data-target="skills">Skills</button>
             <button class="panel-link" data-target="process">Process</button>
             <button class="panel-link" data-target="projects">Works</button>
             <button class="panel-link" data-target="contact">Contact</button>
-        </nav>
-    </aside>
-    <script>
-        if (window.innerWidth > 768) {
-            document.getElementById('side-panel').classList.remove('logo-hidden');
-        }
-    </script>
+        </div>
+    </nav>
 
     <!-- Main Container -->
     <main class="content-container">
@@ -423,10 +424,10 @@
             <div class="line-decorator"></div>
 
             <p class="summary-text">
-                My approach starts at the intersection of analytical thinking and creative precision. 
-                I break down complex problem spaces to expose underlying friction points and deeply 
-                understand the context. Then, I shape solutions that actively balance business 
-                viability and technical feasibility. Through rigorous, iterative validation, I ensure raw 
+                My approach starts at the intersection of analytical thinking and creative precision.
+                I break down complex problem spaces to expose underlying friction points and deeply
+                understand the context. Then, I shape solutions that actively balance business
+                viability and technical feasibility. Through rigorous, iterative validation, I ensure raw
                 concept matures into a scalable, production-ready outcome.
             </p>
 
@@ -923,7 +924,6 @@
 
     </main>
 
-
     <!-- Copyright Footer -->
     <footer class="site-footer">
         <!-- Click to Install -->
@@ -1005,7 +1005,7 @@
         </div>
     </div>
 
-    <!-- Interactive Cursor -->
+    <!-- Custom Cursor -->
     <canvas id="custom-cursor-trail" aria-hidden="true"></canvas>
     <div id="custom-cursor-dot" aria-hidden="true"></div>
     <div id="custom-cursor-ring" aria-hidden="true"></div>

@@ -5,22 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidePanel = document.getElementById('side-panel');
     const mobileHeader = document.getElementById('mobile-header');
 
-    // Ensure side-panel starts hidden on mobile and visible on desktop by default
-    if (sidePanel) {
-        if (window.innerWidth <= 768) {
-            sidePanel.classList.add('logo-hidden');
-        } else {
-            sidePanel.classList.remove('logo-hidden');
-        }
-    }
-
     let isScrollingToSection = false;
     let scrollTimeout = null;
 
     // Helper to lock/unlock scroll on mobile based on navigation menu visibility
     const updateBodyScrollLock = () => {
         if (window.innerWidth <= 768 && sidePanel) {
-            const isMenuVisible = !sidePanel.classList.contains('logo-hidden') && !sidePanel.classList.contains('header-hidden');
+            const isMenuVisible = sidePanel.classList.contains('active') && !sidePanel.classList.contains('header-hidden');
             if (isMenuVisible) {
                 document.body.classList.add('nav-menu-open');
             } else {
@@ -36,7 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoLink && sidePanel) {
         logoLink.addEventListener('click', (e) => {
             e.preventDefault();
-            sidePanel.classList.toggle('logo-hidden');
+            if (window.innerWidth <= 768) {
+                sidePanel.classList.toggle('active');
+            } else {
+                sidePanel.classList.toggle('logo-hidden');
+            }
             updateBodyScrollLock();
         });
     }
@@ -46,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navOverlay) {
         navOverlay.addEventListener('click', () => {
             if (sidePanel) {
-                sidePanel.classList.add('logo-hidden');
+                sidePanel.classList.remove('active');
                 updateBodyScrollLock();
             }
         });
@@ -86,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const diffY = touchCurrentY - touchStartY;
             // Close if dragged up by more than 60px
             if (diffY < -60) {
-                sidePanel.classList.add('logo-hidden');
+                sidePanel.classList.remove('active');
                 updateBodyScrollLock();
             }
             
@@ -165,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Auto-close navigation panel on mobile section click
                 if (window.innerWidth <= 768 && sidePanel) {
-                    sidePanel.classList.add('logo-hidden');
+                    sidePanel.classList.remove('active');
                     updateBodyScrollLock();
                 }
 
@@ -454,9 +449,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastWidth = window.innerWidth;
     window.addEventListener('resize', () => {
         const currentWidth = window.innerWidth;
-        if (lastWidth > 768 && currentWidth <= 768 && sidePanel) {
-            sidePanel.classList.add('logo-hidden');
-        } else if (lastWidth <= 768 && currentWidth > 768 && sidePanel) {
+        if (sidePanel) {
+            sidePanel.classList.remove('active');
             sidePanel.classList.remove('logo-hidden');
         }
         lastWidth = currentWidth;
