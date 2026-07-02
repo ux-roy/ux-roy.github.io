@@ -2256,9 +2256,9 @@ h3 {
     position: relative;
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: 9px;
     background-color: transparent;
-    border: 1px solid transparent;
+    border: 1.2px solid rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
     display: flex;
     justify-content: center;
@@ -2290,9 +2290,9 @@ h3 {
     position: relative;
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: 9px;
     background-color: transparent;
-    border: 1px solid transparent;
+    border: 1.2px solid rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
     display: none;
     /* Hidden by default, displayed via script when PWA is installable */
