@@ -5,6 +5,8 @@
     --accent-color: #E2723A;
     --accent-rgb: 226, 114, 58;
     --accent-light: #ffd8bc;
+    --cursor-color: #000000;
+    --cursor-rgb: 0, 0, 0;
     --font-heading: 'Poppins', sans-serif;
     --font-body: 'Poppins', sans-serif;
     --font-section: 'Lora', serif;
@@ -23,6 +25,8 @@
     --text-primary: #F8FAFC;
     --text-secondary: #94A3B8;
     --accent-light: rgba(var(--accent-rgb), 0.15);
+    --cursor-color: #ffffff;
+    --cursor-rgb: 255, 255, 255;
     --bg-text-stroke: rgba(255, 255, 255, 0.05);
     --panel-bg: rgba(255, 255, 255, 0.08);
     --shadow-color: rgba(0, 0, 0, 0.6);
@@ -92,7 +96,7 @@ body {
         left: 0;
         width: 8px;
         height: 8px;
-        background-color: var(--accent-color);
+        background-color: var(--cursor-color);
         border-radius: 50%;
         pointer-events: none;
         z-index: 99999;
@@ -100,7 +104,7 @@ body {
         transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease, opacity 0.25s ease;
         opacity: 0;
         user-select: none;
-        box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+        box-shadow: 0 0 10px rgba(var(--cursor-rgb), 0.5);
         display: none !important; /* Center dot inside the circle is removed */
     }
 
@@ -110,7 +114,7 @@ body {
         left: 0;
         width: 14px;
         height: 14px;
-        border: 1.5px solid rgba(var(--accent-rgb), 0.6);
+        border: 1.5px solid rgba(var(--cursor-rgb), 0.6);
         border-radius: 50%;
         pointer-events: none;
         z-index: 99998;
@@ -121,7 +125,7 @@ body {
             background-color 0.25s ease,
             opacity 0.25s ease;
         opacity: 0;
-        box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.15);
+        box-shadow: 0 0 12px rgba(var(--cursor-rgb), 0.15);
     }
 
     body.cursor-active #custom-cursor-dot,
@@ -133,12 +137,12 @@ body {
     /* Hovered State over Interactive Elements */
     body.cursor-hover #custom-cursor-dot {
         transform: translate3d(-50%, -50%, 0) scale(0.75);
-        background-color: var(--accent-color);
+        background-color: var(--cursor-color);
     }
 
     body.cursor-hover #custom-cursor-ring {
         /* Scaling/enlarging effect on hover is completely removed, sizes remain 14px */
-        border-color: var(--accent-color);
+        border-color: var(--cursor-color);
         background-color: transparent;
         box-shadow: none;
     }
@@ -151,8 +155,8 @@ body {
     body.cursor-click #custom-cursor-ring {
         width: 10px;
         height: 10px;
-        border-color: var(--accent-color);
-        background-color: rgba(var(--accent-rgb), 0.25);
+        border-color: var(--cursor-color);
+        background-color: rgba(var(--cursor-rgb), 0.25);
     }
 
     /* When motion/effect is disabled: hide custom cursor elements & change native cursor to ✦ */
