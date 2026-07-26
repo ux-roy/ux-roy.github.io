@@ -101,14 +101,15 @@ body {
         opacity: 0;
         user-select: none;
         box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+        display: none !important; /* Center dot inside the circle is removed */
     }
 
     #custom-cursor-ring {
         position: fixed;
         top: 0;
         left: 0;
-        width: 22px;
-        height: 22px;
+        width: 14px;
+        height: 14px;
         border: 1.5px solid rgba(var(--accent-rgb), 0.6);
         border-radius: 50%;
         pointer-events: none;
@@ -136,8 +137,7 @@ body {
     }
 
     body.cursor-hover #custom-cursor-ring {
-        width: 14px;
-        height: 14px;
+        /* Scaling/enlarging effect on hover is completely removed, sizes remain 14px */
         border-color: var(--accent-color);
         background-color: transparent;
         box-shadow: none;
@@ -149,10 +149,35 @@ body {
     }
 
     body.cursor-click #custom-cursor-ring {
-        width: 18px;
-        height: 18px;
+        width: 10px;
+        height: 10px;
         border-color: var(--accent-color);
         background-color: rgba(var(--accent-rgb), 0.25);
+    }
+
+    /* When motion/effect is disabled: hide custom cursor elements & change native cursor to ✦ */
+    html.motion-hidden #custom-cursor-dot,
+    html.motion-hidden #custom-cursor-ring,
+    html.motion-hidden #custom-cursor-trail {
+        display: none !important;
+    }
+
+    html.motion-hidden,
+    html.motion-hidden body,
+    html.motion-hidden a,
+    html.motion-hidden button,
+    html.motion-hidden [role="button"],
+    html.motion-hidden .project-card,
+    html.motion-hidden .skill-card,
+    html.motion-hidden .menu-item,
+    html.motion-hidden .panel-link,
+    html.motion-hidden .logo-trigger,
+    html.motion-hidden .hamburger-menu,
+    html.motion-hidden .tab-btn,
+    html.motion-hidden .filter-chip,
+    html.motion-hidden .btn,
+    html.motion-hidden .nav-link {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ctext x='8' y='8' font-size='14' fill='%23E2723A' text-anchor='middle' dominant-baseline='central'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E") 8 8, auto !important;
     }
 }
 
@@ -2510,10 +2535,6 @@ html.motion-hidden .pwa-install:active {
     transform: none !important;
 }
 
-/* Disable mouse light tail effect only when motion is disabled (keep cursor dot & ring) */
-html.motion-hidden #custom-cursor-trail {
-    display: none !important;
-}
 
 @media (prefers-reduced-motion: reduce) {
 
