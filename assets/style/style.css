@@ -5,8 +5,8 @@
     --accent-color: #E2723A;
     --accent-rgb: 226, 114, 58;
     --accent-light: #ffd8bc;
-    --cursor-color: #000000;
-    --cursor-rgb: 0, 0, 0;
+    --cursor-color: #E2723A;
+    --cursor-rgb: 226, 114, 58;
     --font-heading: 'Poppins', sans-serif;
     --font-body: 'Poppins', sans-serif;
     --font-section: 'Lora', serif;
@@ -25,8 +25,8 @@
     --text-primary: #F8FAFC;
     --text-secondary: #94A3B8;
     --accent-light: rgba(var(--accent-rgb), 0.15);
-    --cursor-color: #ffffff;
-    --cursor-rgb: 255, 255, 255;
+    --cursor-color: #E2723A;
+    --cursor-rgb: 226, 114, 58;
     --bg-text-stroke: rgba(255, 255, 255, 0.05);
     --panel-bg: rgba(255, 255, 255, 0.08);
     --shadow-color: rgba(0, 0, 0, 0.6);
@@ -181,7 +181,7 @@ body {
     html.motion-hidden .filter-chip,
     html.motion-hidden .btn,
     html.motion-hidden .nav-link {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ctext x='8' y='8' font-size='14' fill='%23E2723A' text-anchor='middle' dominant-baseline='central'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E") 8 8, auto !important;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='4' fill='%23E2723A'/%3E%3C/svg%3E") 8 8, auto !important;
     }
 }
 
