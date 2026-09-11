@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDragging) return;
             touchCurrentY = e.touches[0].clientY;
             const diffY = touchCurrentY - touchStartY;
-            
+
             // Only allow dragging upwards (negative diffY)
             if (diffY < 0) {
                 sidePanel.style.transform = `translate(-50%, calc(-50% + ${diffY}px))`;
@@ -77,14 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDragging) return;
             isDragging = false;
             sidePanel.style.transition = ''; // Restore transitions
-            
+
             const diffY = touchCurrentY - touchStartY;
             // Close if dragged up by more than 60px
             if (diffY < -60) {
                 sidePanel.classList.remove('active');
                 updateBodyScrollLock();
             }
-            
+
             // Snap back or transition out completely
             sidePanel.style.transform = '';
         });

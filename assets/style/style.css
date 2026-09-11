@@ -105,7 +105,8 @@ body {
         opacity: 0;
         user-select: none;
         box-shadow: 0 0 10px rgba(var(--cursor-rgb), 0.5);
-        display: none !important; /* Center dot inside the circle is removed */
+        display: none !important;
+        /* Center dot inside the circle is removed */
     }
 
     #custom-cursor-ring {
