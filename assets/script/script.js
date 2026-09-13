@@ -307,8 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || 'dark'; // Updated to default to dark theme as requested
 
-    const profileImg = document.querySelector('.hero-profile-img');
-
     // Function to update images based on theme
     const updateThemeImages = (theme) => {
         if (designProcessImg) {
@@ -317,12 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? (theme === 'dark' ? 'assets/icon/mobile-process-white.svg' : 'assets/icon/mobile-process-black.svg')
                 : (theme === 'dark' ? 'assets/icon/design-process-white.svg' : 'assets/icon/design-process-black.svg');
             designProcessImg.src = src;
-        }
-
-        if (profileImg) {
-            profileImg.src = theme === 'dark'
-                ? 'assets/image/profile-dark.png'
-                : 'assets/image/profile-light.png';
         }
 
         // Update Theme Color Meta Tag

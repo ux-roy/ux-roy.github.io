@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ux-roy-portfolio-v8';
+const CACHE_NAME = 'ux-roy-portfolio-v9';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -26,8 +26,7 @@ const ASSETS_TO_CACHE = [
   '/assets/icon/Social_3.svg',
   '/assets/icon/Social_4.svg',
   '/assets/icon/Social_5.svg',
-  '/assets/image/profile-dark.png',
-  '/assets/image/profile-light.png'
+  '/assets/image/profile.webp'
 ];
 
 // Install Event
