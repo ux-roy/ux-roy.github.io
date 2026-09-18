@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const textSpan = themeToggle.querySelector('.menu-item-text');
             const iconSpan = themeToggle.querySelector('.menu-item-icon');
             if (textSpan) {
-                textSpan.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+                textSpan.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
             }
             if (iconSpan) {
                 iconSpan.innerHTML = theme === 'dark'
@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (animationToggle) {
                 const textSpan = animationToggle.querySelector('.menu-item-text');
                 const iconSpan = animationToggle.querySelector('.menu-item-icon');
-                if (textSpan) textSpan.textContent = 'Chill Effect';
+                if (textSpan) textSpan.textContent = 'Active Effect';
                 if (iconSpan) {
                     iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
                 }
@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (animationToggle) {
                 const textSpan = animationToggle.querySelector('.menu-item-text');
                 const iconSpan = animationToggle.querySelector('.menu-item-icon');
-                if (textSpan) textSpan.textContent = 'Zen Effect';
+                if (textSpan) textSpan.textContent = 'Pause Effect';
                 if (iconSpan) {
                     iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon><line x1="2" y1="2" x2="22" y2="22"></line></svg>`;
                 }
