@@ -94,8 +94,8 @@ body {
         position: fixed;
         top: 0;
         left: 0;
-        width: 8px;
-        height: 8px;
+        width: 4px;
+        height: 4px;
         background-color: var(--cursor-color);
         border-radius: 50%;
         pointer-events: none;
@@ -105,8 +105,6 @@ body {
         opacity: 0;
         user-select: none;
         box-shadow: 0 0 10px rgba(var(--cursor-rgb), 0.5);
-        display: none !important;
-        /* Center dot inside the circle is removed */
     }
 
     #custom-cursor-ring {
@@ -182,7 +180,7 @@ body {
     html.motion-hidden .filter-chip,
     html.motion-hidden .btn,
     html.motion-hidden .nav-link {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='4' fill='%23E2723A'/%3E%3C/svg%3E") 8 8, auto !important;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='2' fill='%23E2723A'/%3E%3Ccircle cx='12' cy='12' r='6.25' fill='none' stroke='rgba(226, 114, 58, 0.6)' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, auto !important;
     }
 }
 
