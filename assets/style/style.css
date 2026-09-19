@@ -146,6 +146,21 @@ body {
         box-shadow: none;
     }
 
+    /* Override cursor color on orange buttons to keep it visible */
+    body.cursor-hover:has(.btn-outline:hover) #custom-cursor-dot,
+    body.cursor-hover:has(.modal-action-btn:hover) #custom-cursor-dot,
+    body.cursor-hover:has(.close-modal:hover) #custom-cursor-dot,
+    body.cursor-hover:has(.overlay-icon-btn:hover) #custom-cursor-dot {
+        background-color: #ffffff;
+    }
+
+    body.cursor-hover:has(.btn-outline:hover) #custom-cursor-ring,
+    body.cursor-hover:has(.modal-action-btn:hover) #custom-cursor-ring,
+    body.cursor-hover:has(.close-modal:hover) #custom-cursor-ring,
+    body.cursor-hover:has(.overlay-icon-btn:hover) #custom-cursor-ring {
+        border-color: #ffffff;
+    }
+
     /* Click State */
     body.cursor-click #custom-cursor-dot {
         transform: translate3d(-50%, -50%, 0) scale(1.25);
