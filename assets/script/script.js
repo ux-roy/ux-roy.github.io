@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Smooth scroll to top on load/refresh
-    window.onload = () => {
+    window.addEventListener('load', () => {
         setTimeout(() => {
             window.scrollTo({
                 top: 0,
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             updateBodyScrollLock();
         }, 100);
-    };
+    });
 
     // Header & Side Panel Visibility on Scroll (requestAnimationFrame optimized)
     let lastScrollY = window.scrollY;
@@ -298,25 +298,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
     const bgBackdrop = document.querySelector('.bg-typography-backdrop');
-
-
-    const designProcessImg = document.getElementById('design-process-img');
     const savedTheme = localStorage.getItem('theme');
 
     // Check system preference if no saved theme
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || 'dark'; // Updated to default to dark theme as requested
+    const initialTheme = savedTheme || 'dark'; // Defaults to dark theme
 
-    // Function to update images based on theme
-    const updateThemeImages = (theme) => {
-        if (designProcessImg) {
-            const isMobile = window.innerWidth <= 600;
-            const src = isMobile
-                ? (theme === 'dark' ? 'assets/icon/mobile-process-white.svg' : 'assets/icon/mobile-process-black.svg')
-                : (theme === 'dark' ? 'assets/icon/design-process-white.svg' : 'assets/icon/design-process-black.svg');
-            designProcessImg.src = src;
-        }
-
+    // Function to update theme appearance (meta tags and toggle icon/text)
+    const updateThemeAppearance = (theme) => {
         // Update Theme Color Meta Tag
         const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
         themeColorMetas.forEach(meta => {
@@ -340,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Apply initial theme
     document.documentElement.setAttribute('data-theme', initialTheme);
-    updateThemeImages(initialTheme);
+    updateThemeAppearance(initialTheme);
 
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
@@ -350,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
-                updateThemeImages(newTheme);
+                updateThemeAppearance(newTheme);
 
                 // Close menu after selection
                 if (hamburgerDropdown) {
@@ -437,18 +426,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Update images on resize (for mobile/desktop process diagram swap)
-    let lastWidth = window.innerWidth;
+    // Update layout states on window resize
     window.addEventListener('resize', () => {
-        const currentWidth = window.innerWidth;
         if (sidePanel) {
             sidePanel.classList.remove('active');
             sidePanel.classList.remove('logo-hidden');
         }
-        lastWidth = currentWidth;
-
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        updateThemeImages(currentTheme);
         updateBodyScrollLock();
     }, { passive: true });
 
@@ -1040,6 +1023,33 @@ document.addEventListener('DOMContentLoaded', () => {
                         ctx.restore();
                     }
                 }
+            }
+
+            // Check if cursor has fully settled and particle tails have faded out
+            const isIdle =
+                Math.abs(dotX - mouseX) < 0.1 &&
+                Math.abs(dotY - mouseY) < 0.1 &&
+                Math.abs(ringX - mouseX) < 0.1 &&
+                Math.abs(ringY - mouseY) < 0.1 &&
+                particles.length === 0 &&
+                trailHistory.length <= 1;
+
+            if (isIdle) {
+                // Snap to exact coordinates and pause requestAnimationFrame loop until next mouse movement
+                dotX = mouseX;
+                dotY = mouseY;
+                ringX = mouseX;
+                ringY = mouseY;
+                cursorDot.style.left = `${dotX}px`;
+                cursorDot.style.top = `${dotY}px`;
+                cursorRing.style.left = `${ringX}px`;
+                cursorRing.style.top = `${ringY}px`;
+                if (ctx && cursorTrail) {
+                    ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
+                }
+                trailHistory.length = 0;
+                isLoopRunning = false;
+                return;
             }
 
             requestAnimationFrame(renderCursor);

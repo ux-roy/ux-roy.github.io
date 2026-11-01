@@ -1,0 +1,16 @@
+# macOS system metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows thumbnail caches
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment and logs
+*.log
+.spotlight-V100
+.Trashes
+

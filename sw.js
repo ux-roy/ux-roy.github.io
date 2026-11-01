@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ux-roy-portfolio-v10';
+const CACHE_NAME = 'ux-roy-portfolio-v11';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -7,10 +7,6 @@ const ASSETS_TO_CACHE = [
   '/manifest.json',
   '/assets/image/pwa-icon.png',
   '/assets/icon/logo.svg',
-  '/assets/icon/design-process-white.svg',
-  '/assets/icon/design-process-black.svg',
-  '/assets/icon/mobile-process-white.svg',
-  '/assets/icon/mobile-process-black.svg',
   '/assets/icon/Skill_1.svg',
   '/assets/icon/Skill_2.svg',
   '/assets/icon/Skill_3.svg',
