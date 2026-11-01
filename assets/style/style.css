@@ -855,11 +855,11 @@ h3 {
 }
 
 .work-column {
-    flex: 1.5;
+    flex: 1;
 }
 
 .subrow-column {
-    flex: 1;
+    flex: 1.5;
     display: flex;
     flex-direction: column;
 }
