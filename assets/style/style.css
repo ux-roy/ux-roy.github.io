@@ -899,6 +899,19 @@ h3 {
     background-color: var(--bg-color);
     border: 2px solid var(--accent-color);
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-node.has-dot::after,
+.timeline-dot {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
 }
 
 .degree-wrapper {
@@ -953,6 +966,11 @@ h3 {
 .edu-section--row {
     padding: 20px 20px 20px 10px;
     border-top: 1px solid var(--border-color);
+}
+
+.edu-section--row:first-child {
+    border-top: none;
+    padding-top: 0;
 }
 
 .carousel-container {
