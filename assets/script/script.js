@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sidePanel = document.getElementById('side-panel');
     const mobileHeader = document.getElementById('mobile-header');
+    const mobileBottomNav = document.getElementById('mobile-bottom-nav');
 
     let isScrollingToSection = false;
     let scrollTimeout = null;
@@ -165,6 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                if (mobileBottomNav) {
+                    mobileBottomNav.classList.remove('nav-hidden');
+                }
+
                 targetContent.scrollIntoView({ behavior: 'smooth' });
 
                 // Auto-close navigation panel on mobile section click
@@ -257,8 +262,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (sidePanel) {
                         sidePanel.classList.remove('header-hidden');
                     }
+                    if (mobileBottomNav) {
+                        mobileBottomNav.classList.remove('nav-hidden');
+                    }
                 } else if (currentScrollY > lastScrollY && currentScrollY > headerThreshold) {
-                    // Scrolling Down - Hide
+                    // Scrolling Down (Drag/Scroll Upward) - Hide
                     if (mobileHeader) {
                         mobileHeader.classList.add('header-hidden');
                         mobileHeader.classList.remove('scrolling-up');
@@ -266,8 +274,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (sidePanel) {
                         sidePanel.classList.add('header-hidden');
                     }
+                    if (mobileBottomNav) {
+                        mobileBottomNav.classList.add('nav-hidden');
+                    }
                 } else if (currentScrollY < lastScrollY) {
-                    // Scrolling Up - Show
+                    // Scrolling Up (Drag/Scroll Downward) - Show
                     if (mobileHeader) {
                         mobileHeader.classList.remove('header-hidden');
                         // Apply floating background style only when scrolled away from top
@@ -280,6 +291,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (sidePanel) {
                         sidePanel.classList.remove('header-hidden');
                     }
+                    if (mobileBottomNav) {
+                        mobileBottomNav.classList.remove('nav-hidden');
+                    }
+                }
+
+                // Always reveal nav when near the top of the page
+                if (currentScrollY <= headerThreshold && mobileBottomNav) {
+                    mobileBottomNav.classList.remove('nav-hidden');
                 }
 
                 // Close options dropdown on scroll
@@ -304,6 +323,55 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollTicking = true;
         }
     }, { passive: true });
+
+    // Touch drag tracking for mobile bottom navigation bar (drag upward to hide, drag downward to reveal)
+    let touchDragStartY = 0;
+    let touchDragStartX = 0;
+
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 0) {
+            touchDragStartY = e.touches[0].clientY;
+            touchDragStartX = e.touches[0].clientX;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!e.touches || e.touches.length === 0 || isScrollingToSection || !mobileBottomNav) return;
+        const currentY = e.touches[0].clientY;
+        const currentX = e.touches[0].clientX;
+        const diffY = currentY - touchDragStartY;
+        const diffX = Math.abs(currentX - touchDragStartX);
+
+        // Detect vertical drag when vertical movement is greater than horizontal
+        if (Math.abs(diffY) > diffX && Math.abs(diffY) > 12) {
+            if (diffY < -12 && window.scrollY > headerThreshold) {
+                // Dragging upward (moving down into content) -> Hide nav bar
+                mobileBottomNav.classList.add('nav-hidden');
+            } else if (diffY > 12) {
+                // Dragging downward (moving up towards top) -> Show nav bar
+                mobileBottomNav.classList.remove('nav-hidden');
+            }
+        }
+    }, { passive: true });
+
+    // Direct swipe on bottom nav bar itself
+    if (mobileBottomNav) {
+        let navBarTouchStartY = 0;
+        mobileBottomNav.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches.length > 0) {
+                navBarTouchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        mobileBottomNav.addEventListener('touchmove', (e) => {
+            if (!e.touches || e.touches.length === 0) return;
+            const diffY = e.touches[0].clientY - navBarTouchStartY;
+            // Swiping downward on the bottom bar hides it
+            if (diffY > 15) {
+                mobileBottomNav.classList.add('nav-hidden');
+            }
+        }, { passive: true });
+    }
 
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
