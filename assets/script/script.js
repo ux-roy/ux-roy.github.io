@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tabButtons = document.querySelectorAll('.panel-link');
+    const tabButtons = document.querySelectorAll('.panel-link, .mobile-nav-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sidePanel = document.getElementById('side-panel');
@@ -149,6 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 isScrollingToSection = true;
                 if (scrollTimeout) clearTimeout(scrollTimeout);
 
+                // Update active state immediately on all matching buttons
+                tabButtons.forEach(btn => {
+                    if (btn.getAttribute('data-target') === targetId) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
                 if (mobileHeader) {
                     mobileHeader.classList.remove('header-hidden');
                     if (window.scrollY > 20) {
@@ -189,15 +198,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Remove active from all tabs
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-
-                // Add active to current section's button
                 const activeId = entry.target.getAttribute('id');
-                const activeButton = document.querySelector(`.panel-link[data-target="${activeId}"]`);
-                if (activeButton) {
-                    activeButton.classList.add('active');
-                }
+
+                // Update active on all matching desktop & mobile buttons
+                tabButtons.forEach(btn => {
+                    if (btn.getAttribute('data-target') === activeId) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
             }
         });
     }, observerOptions);

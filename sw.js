@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ux-roy-portfolio-v11';
+const CACHE_NAME = 'ux-roy-portfolio-v13';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

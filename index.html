@@ -3,7 +3,7 @@
 
 <head>
     <!-- ========================================== -->
-    <!-- Essential Meta Tags                        -->
+    <!-- Essential Metadata Tags                    -->
     <!-- ========================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,20 +13,20 @@
     <link rel="canonical" href="https://ux-roy.github.io/">
 
     <!-- ========================================== -->
-    <!-- Security Policy                            -->
+    <!-- Internet Security Policy                   -->
     <!-- ========================================== -->
     <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://embed.figma.com https://xd.adobe.com; connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net;">
 
     <!-- ========================================== -->
-    <!-- Favicon & Web App Icons                    -->
+    <!-- Favicon & Website Icons                    -->
     <!-- ========================================== -->
     <link rel="icon" type="image/svg+xml" href="assets/icon/logo.svg">
     <link rel="apple-touch-icon" href="assets/image/pwa-icon.png">
     <link rel="manifest" href="manifest.json">
 
     <!-- ========================================== -->
-    <!-- PWA & Mobile Web App Meta                  -->
+    <!-- PWA & Mobile Web App                       -->
     <!-- ========================================== -->
     <meta name="theme-color" content="#fcfbf5" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0D0F14" media="(prefers-color-scheme: dark)">
@@ -36,9 +36,9 @@
     <meta name="mobile-web-app-capable" content="yes">
 
     <!-- ========================================== -->
-    <!-- Social Media (Open Graph & Twitter)        -->
+    <!-- Open Graph Social Media                    -->
     <!-- ========================================== -->
-    <!-- Open Graph / Facebook -->
+    <!-- Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ux-roy.github.io/">
     <meta property="og:title" content="Suman Kanti Roy ✦ Portfolio">
@@ -46,7 +46,7 @@
         content="Senior Product Designer & UX Consultant shaping business ideas into intuitive and scalable Actions.">
     <meta property="og:image" content="https://ux-roy.github.io/assets/image/profile.webp">
 
-    <!-- Twitter Card -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Suman Kanti Roy ✦ Portfolio">
     <meta name="twitter:description"
@@ -54,7 +54,7 @@
     <meta name="twitter:image" content="https://ux-roy.github.io/assets/image/profile.webp">
 
     <!-- ========================================== -->
-    <!-- Fonts & Performance Preconnects            -->
+    <!-- Fonts Performance Preconnects              -->
     <!-- ========================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,7 +63,7 @@
         rel="stylesheet">
 
     <!-- ========================================== -->
-    <!-- Stylesheets                                -->
+    <!-- Default Inbuild Stylesheets                -->
     <!-- ========================================== -->
     <link rel="stylesheet" href="assets/style/style.css">
 
@@ -80,7 +80,7 @@
     </script>
 
     <!-- ========================================== -->
-    <!-- Structured Data (JSON-LD)                  -->
+    <!-- Default Structured Data (JSON-LD)          -->
     <!-- ========================================== -->
     <script type="application/ld+json">
     {
@@ -102,7 +102,7 @@
     </script>
 
     <!-- ========================================== -->
-    <!-- Scripts (Deferred)                         -->
+    <!-- Local System Scripts (Deferred)            -->
     <!-- ========================================== -->
     <script src="assets/script/script.js" defer></script>
 </head>
@@ -228,6 +228,63 @@
     </nav>
 
     <!-- ========================================== -->
+    <!-- Mobile Navigation Bar                      -->
+    <!-- ========================================== -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+        <button class="mobile-nav-btn active" data-target="about" aria-label="About">
+            <span class="mobile-nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </span>
+            <span class="mobile-nav-label">About</span>
+        </button>
+        <button class="mobile-nav-btn" data-target="works" aria-label="Works">
+            <span class="mobile-nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+            </span>
+            <span class="mobile-nav-label">Works</span>
+        </button>
+        <button class="mobile-nav-btn" data-target="skills" aria-label="Skills">
+            <span class="mobile-nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                </svg>
+            </span>
+            <span class="mobile-nav-label">Skills</span>
+        </button>
+        <button class="mobile-nav-btn" data-target="career" aria-label="Career">
+            <span class="mobile-nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+            </span>
+            <span class="mobile-nav-label">Career</span>
+        </button>
+        <button class="mobile-nav-btn" data-target="contact" aria-label="Contact">
+            <span class="mobile-nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </span>
+            <span class="mobile-nav-label">Contact</span>
+        </button>
+    </nav>
+
+    <!-- ========================================== -->
     <!-- Main Content Container                     -->
     <!-- ========================================== -->
     <main class="content-container">
@@ -235,7 +292,7 @@
         <!-- ========================================== -->
         <!-- 1. Hero Background                         -->
         <!-- ========================================== -->
-        <section id="about" class="tab-content active" aria-label="About Suman Kanti Roy">
+        <section id="about" class="tab-content active" aria-label="About Me">
             <div class="two-column-layout hero-layout">
                 <div class="text-column hero-text">
                     <h3 class="subtitle">Hello I'm</h3>
@@ -738,7 +795,7 @@
         <!-- ========================================== -->
         <!-- 4. Education & Career                      -->
         <!-- ========================================== -->
-        <section id="career" class="tab-content" aria-label="Career Experience">
+        <section id="career" class="tab-content" aria-label="Education & Career">
             <h2 class="section-title">Education & Career</h2>
             <div class="line-decorator"></div>
 
