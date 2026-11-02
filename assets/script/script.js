@@ -387,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update Theme Color Meta Tag
         const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
         themeColorMetas.forEach(meta => {
-            meta.setAttribute('content', theme === 'dark' ? '#0D0F14' : '#fcfbf5');
+            meta.setAttribute('content', theme === 'dark' ? '#151922' : '#fcfbf5');
         });
 
         // Update Theme Toggle Icon and Text
