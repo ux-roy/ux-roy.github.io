@@ -1695,6 +1695,7 @@ h3 {
     }
 
     .bg-typography-track {
+        opacity: 0.5;
         font-size: clamp(2rem, 9.5vw, 5.5rem);
         gap: clamp(20px, 3.5vh, 36px);
         -webkit-text-stroke: 0.75px var(--bg-text-stroke);
@@ -1975,6 +1976,7 @@ h3 {
     }
 
     .bg-typography-track {
+        opacity: 0.5;
         font-size: clamp(1.6rem, 8.8vw, 3.6rem);
         gap: 22px;
         -webkit-text-stroke: 0.5px var(--bg-text-stroke);
