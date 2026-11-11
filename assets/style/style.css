@@ -880,7 +880,7 @@ h3 {
     font-family: var(--font-body);
     font-size: 1.2rem;
     font-style: italic;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--text-primary);
     line-height: 1.5;
 }
