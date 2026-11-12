@@ -447,11 +447,520 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Calm Mode Ambient Instrumental Engine (Warm Felt Piano / Rhodes + Soft Pad)
+    const createCalmAudioEngine = () => {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) {
+            return {
+                setEffectEnabled: () => {},
+                setMediaPaused: () => {}
+            };
+        }
+
+        const CHORD_DURATION = 6.4; // seconds per chord (calm, unhurried pace)
+        const FADE_IN_SECONDS = 2.0;
+        const FADE_OUT_SECONDS = 0.85;
+
+        // Warm Fmaj9 -> Dm9 -> Bbmaj9 -> C6/9 progression
+        const progression = [
+            {
+                pad: [174.61, 261.63, 329.63, 392.00], // F3, C4, E4, G4
+                bass: 174.61,
+                keys: [220.00, 261.63, 329.63, 392.00, 440.00, 523.25]
+            },
+            {
+                pad: [146.83, 220.00, 261.63, 329.63], // D3, A3, C4, E4
+                bass: 146.83,
+                keys: [174.61, 220.00, 261.63, 329.63, 349.23, 440.00]
+            },
+            {
+                pad: [116.54, 174.61, 261.63, 293.66], // Bb2, F3, C4, D4
+                bass: 116.54,
+                keys: [233.08, 261.63, 293.66, 349.23, 440.00, 523.25]
+            },
+            {
+                pad: [130.81, 196.00, 293.66, 329.63], // C3, G3, D4, E4
+                bass: 130.81,
+                keys: [196.00, 220.00, 293.66, 329.63, 392.00, 440.00]
+            }
+        ];
+
+        let ctx = null;
+        let masterGain = null;
+        let dryBus = null;
+        let reverbSend = null;
+        let delaySend = null;
+
+        let isEffectEnabled = false;
+        let isMediaPaused = false;
+        let currentSession = null;
+        let sessionCounter = 0;
+        let chordIndex = 0;
+        let barCount = 0;
+        let lastMelodicFreq = null;
+        let suspendTimer = null;
+        let unlockListenersAttached = false;
+
+        const createReverbImpulse = (audioCtx, duration = 3.2, decay = 2.6) => {
+            const sampleRate = audioCtx.sampleRate;
+            const length = Math.floor(sampleRate * duration);
+            const impulse = audioCtx.createBuffer(2, length, sampleRate);
+
+            for (let ch = 0; ch < 2; ch++) {
+                const data = impulse.getChannelData(ch);
+                let prev = 0;
+                for (let i = 0; i < length; i++) {
+                    const progress = i / length;
+                    const attack = Math.min(1, i / (sampleRate * 0.025));
+                    const envelope = attack * Math.pow(1 - progress, decay);
+                    const white = Math.random() * 2 - 1;
+                    prev = prev * 0.65 + white * 0.35;
+                    data[i] = prev * envelope;
+                }
+            }
+            return impulse;
+        };
+
+        const ensureGraph = () => {
+            if (ctx) return true;
+            try {
+                ctx = new AudioCtx();
+            } catch (err) {
+                return false;
+            }
+
+            masterGain = ctx.createGain();
+            masterGain.gain.setValueAtTime(0.68, ctx.currentTime);
+
+            const compressor = ctx.createDynamicsCompressor();
+            compressor.threshold.setValueAtTime(-18, ctx.currentTime);
+            compressor.knee.setValueAtTime(18, ctx.currentTime);
+            compressor.ratio.setValueAtTime(3, ctx.currentTime);
+            compressor.attack.setValueAtTime(0.02, ctx.currentTime);
+            compressor.release.setValueAtTime(0.25, ctx.currentTime);
+
+            const masterFilter = ctx.createBiquadFilter();
+            masterFilter.type = 'lowpass';
+            masterFilter.frequency.setValueAtTime(2100, ctx.currentTime);
+            masterFilter.Q.setValueAtTime(0.5, ctx.currentTime);
+
+            dryBus = ctx.createGain();
+            dryBus.gain.setValueAtTime(0.72, ctx.currentTime);
+
+            // Warm dark hall reverb
+            const convolver = ctx.createConvolver();
+            convolver.buffer = createReverbImpulse(ctx, 3.2, 2.6);
+
+            const reverbFilter = ctx.createBiquadFilter();
+            reverbFilter.type = 'lowpass';
+            reverbFilter.frequency.setValueAtTime(1350, ctx.currentTime);
+
+            const reverbReturn = ctx.createGain();
+            reverbReturn.gain.setValueAtTime(0.55, ctx.currentTime);
+
+            reverbSend = ctx.createGain();
+            reverbSend.gain.setValueAtTime(0.42, ctx.currentTime);
+            reverbSend.connect(convolver);
+            convolver.connect(reverbFilter);
+            reverbFilter.connect(reverbReturn);
+            reverbReturn.connect(masterFilter);
+
+            // Subtle warm stereo echo
+            const delayNode = ctx.createDelay(1.0);
+            delayNode.delayTime.setValueAtTime(0.42, ctx.currentTime);
+
+            const delayFilter = ctx.createBiquadFilter();
+            delayFilter.type = 'lowpass';
+            delayFilter.frequency.setValueAtTime(900, ctx.currentTime);
+
+            const delayFeedback = ctx.createGain();
+            delayFeedback.gain.setValueAtTime(0.24, ctx.currentTime);
+
+            const delayReturn = ctx.createGain();
+            delayReturn.gain.setValueAtTime(0.32, ctx.currentTime);
+
+            delaySend = ctx.createGain();
+            delaySend.gain.setValueAtTime(0.18, ctx.currentTime);
+            delaySend.connect(delayNode);
+            delayNode.connect(delayFilter);
+            delayFilter.connect(delayFeedback);
+            delayFeedback.connect(delayNode);
+            delayFilter.connect(delayReturn);
+            delayReturn.connect(masterFilter);
+
+            dryBus.connect(masterFilter);
+            masterFilter.connect(compressor);
+            compressor.connect(masterGain);
+            masterGain.connect(ctx.destination);
+
+            return true;
+        };
+
+        const registerSessionNode = (session, node, cleanupTarget = null) => {
+            session.nodes.add(node);
+            if (cleanupTarget) {
+                cleanupTarget.onended = () => {
+                    session.nodes.delete(node);
+                    try {
+                        node.disconnect();
+                    } catch (e) {
+                        // Node already disconnected
+                    }
+                };
+            }
+        };
+
+        const playPadChord = (session, frequencies, startTime, duration) => {
+            if (!ctx || !session.active) return;
+
+            const padFilter = ctx.createBiquadFilter();
+            padFilter.type = 'lowpass';
+            padFilter.Q.setValueAtTime(0.55, startTime);
+            padFilter.frequency.setValueAtTime(300, startTime);
+            padFilter.frequency.linearRampToValueAtTime(580, startTime + duration * 0.45);
+            padFilter.frequency.linearRampToValueAtTime(320, startTime + duration + 2.5);
+
+            const padGain = ctx.createGain();
+            const totalDuration = duration + 2.8;
+            padGain.gain.setValueAtTime(0.0001, startTime);
+            padGain.gain.linearRampToValueAtTime(0.068, startTime + 2.2);
+            padGain.gain.setValueAtTime(0.068, startTime + duration - 0.2);
+            padGain.gain.exponentialRampToValueAtTime(0.0001, startTime + totalDuration);
+
+            const padDry = ctx.createGain();
+            padDry.gain.setValueAtTime(0.45, startTime);
+            const padWet = ctx.createGain();
+            padWet.gain.setValueAtTime(0.75, startTime);
+
+            padFilter.connect(padGain);
+            padGain.connect(padDry);
+            padGain.connect(padWet);
+            padDry.connect(session.dryOut);
+            padWet.connect(session.reverbOut);
+
+            const perVoiceScale = 1 / Math.max(frequencies.length, 1);
+
+            frequencies.forEach((freq) => {
+                const voiceGain = ctx.createGain();
+                voiceGain.gain.setValueAtTime(perVoiceScale, startTime);
+                voiceGain.connect(padFilter);
+
+                const oscTriangle = ctx.createOscillator();
+                oscTriangle.type = 'triangle';
+                oscTriangle.frequency.setValueAtTime(freq, startTime);
+                oscTriangle.detune.setValueAtTime(-4, startTime);
+
+                const oscSine = ctx.createOscillator();
+                oscSine.type = 'sine';
+                oscSine.frequency.setValueAtTime(freq, startTime);
+                oscSine.detune.setValueAtTime(4, startTime);
+
+                const triMix = ctx.createGain();
+                triMix.gain.setValueAtTime(0.45, startTime);
+                const sineMix = ctx.createGain();
+                sineMix.gain.setValueAtTime(0.55, startTime);
+
+                oscTriangle.connect(triMix);
+                oscSine.connect(sineMix);
+                triMix.connect(voiceGain);
+                sineMix.connect(voiceGain);
+
+                oscTriangle.start(startTime);
+                oscSine.start(startTime);
+                oscTriangle.stop(startTime + totalDuration + 0.05);
+                oscSine.stop(startTime + totalDuration + 0.05);
+
+                registerSessionNode(session, oscTriangle, oscTriangle);
+                registerSessionNode(session, oscSine, oscSine);
+            });
+        };
+
+        const playKeyNote = (session, freq, startTime, duration = 3.8, velocity = 0.75, pan = 0) => {
+            if (!ctx || !session.active) return;
+
+            const noteFilter = ctx.createBiquadFilter();
+            noteFilter.type = 'lowpass';
+            noteFilter.Q.setValueAtTime(0.6, startTime);
+            const initialCutoff = Math.min(freq * 4.0, 1550);
+            const settledCutoff = Math.max(freq * 1.25, 320);
+            noteFilter.frequency.setValueAtTime(initialCutoff, startTime);
+            noteFilter.frequency.exponentialRampToValueAtTime(settledCutoff, startTime + Math.min(1.6, duration * 0.6));
+
+            const noteGain = ctx.createGain();
+            const peakGain = Math.max(0.001, 0.115 * velocity);
+            noteGain.gain.setValueAtTime(0.0001, startTime);
+            noteGain.gain.linearRampToValueAtTime(peakGain, startTime + 0.034);
+            noteGain.gain.exponentialRampToValueAtTime(Math.max(0.0005, peakGain * 0.32), startTime + Math.min(0.78, duration * 0.35));
+            noteGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+            // Fundamental sine + warm 2nd harmonic + gentle Rhodes tine transient
+            const oscFundamental = ctx.createOscillator();
+            oscFundamental.type = 'sine';
+            oscFundamental.frequency.setValueAtTime(freq, startTime);
+            const g1 = ctx.createGain();
+            g1.gain.setValueAtTime(0.78, startTime);
+
+            const oscHarmonic = ctx.createOscillator();
+            oscHarmonic.type = 'triangle';
+            oscHarmonic.frequency.setValueAtTime(freq * 2, startTime);
+            const g2 = ctx.createGain();
+            g2.gain.setValueAtTime(0.15, startTime);
+            g2.gain.exponentialRampToValueAtTime(0.0001, startTime + Math.max(0.4, duration * 0.45));
+
+            const oscTine = ctx.createOscillator();
+            oscTine.type = 'sine';
+            oscTine.frequency.setValueAtTime(freq * 3, startTime);
+            const g3 = ctx.createGain();
+            g3.gain.setValueAtTime(0.035, startTime);
+            g3.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.12);
+
+            oscFundamental.connect(g1);
+            oscHarmonic.connect(g2);
+            oscTine.connect(g3);
+            g1.connect(noteFilter);
+            g2.connect(noteFilter);
+            g3.connect(noteFilter);
+            noteFilter.connect(noteGain);
+
+            let outputNode = noteGain;
+            if (typeof ctx.createStereoPanner === 'function') {
+                const panner = ctx.createStereoPanner();
+                panner.pan.setValueAtTime(Math.max(-0.5, Math.min(0.5, pan)), startTime);
+                noteGain.connect(panner);
+                outputNode = panner;
+            }
+
+            outputNode.connect(session.dryOut);
+            outputNode.connect(session.reverbOut);
+            outputNode.connect(session.delayOut);
+
+            oscFundamental.start(startTime);
+            oscHarmonic.start(startTime);
+            oscTine.start(startTime);
+
+            oscFundamental.stop(startTime + duration + 0.05);
+            oscHarmonic.stop(startTime + duration + 0.05);
+            oscTine.stop(startTime + 0.18);
+
+            registerSessionNode(session, oscFundamental, oscFundamental);
+            registerSessionNode(session, oscHarmonic, oscHarmonic);
+            registerSessionNode(session, oscTine, oscTine);
+        };
+
+        const pickMelodicNote = (pool, preferredIndices) => {
+            const candidates = preferredIndices
+                .map(i => pool[i])
+                .filter(f => f && f !== lastMelodicFreq);
+            const chosen = candidates.length > 0
+                ? candidates[Math.floor(Math.random() * candidates.length)]
+                : pool[preferredIndices[0]];
+            lastMelodicFreq = chosen;
+            return chosen;
+        };
+
+        const scheduleBar = (session) => {
+            if (!ctx || !session.active || currentSession !== session) return;
+
+            const chord = progression[chordIndex];
+            const baseTime = ctx.currentTime + 0.06;
+            const humanize = () => (Math.random() - 0.5) * 0.07;
+
+            playPadChord(session, chord.pad, baseTime, CHORD_DURATION);
+
+            // Soft felt-piano / Rhodes phrasing
+            if (barCount % 2 === 0) {
+                playKeyNote(session, chord.bass, baseTime + 0.04, 4.4, 0.72, -0.18);
+                playKeyNote(session, chord.keys[1], baseTime + 0.12, 3.8, 0.62, -0.06);
+                playKeyNote(session, pickMelodicNote(chord.keys, [2, 3]), baseTime + 1.55 + humanize(), 3.6, 0.58, 0.1);
+                playKeyNote(session, pickMelodicNote(chord.keys, [4, 5]), baseTime + 3.25 + humanize(), 3.5, 0.54, 0.2);
+                if (Math.random() < 0.7) {
+                    playKeyNote(session, pickMelodicNote(chord.keys, [2, 3]), baseTime + 4.9 + humanize(), 3.1, 0.42, 0.14);
+                }
+            } else {
+                playKeyNote(session, chord.bass, baseTime + 0.04, 4.4, 0.7, -0.18);
+                playKeyNote(session, chord.keys[2], baseTime + 0.14, 3.9, 0.6, -0.04);
+                playKeyNote(session, pickMelodicNote(chord.keys, [4, 5]), baseTime + 1.85 + humanize(), 3.6, 0.56, 0.22);
+                playKeyNote(session, pickMelodicNote(chord.keys, [1, 3]), baseTime + 3.6 + humanize(), 3.4, 0.5, 0.08);
+                if (Math.random() < 0.6) {
+                    playKeyNote(session, pickMelodicNote(chord.keys, [3, 4]), baseTime + 5.1 + humanize(), 3.0, 0.4, 0.18);
+                }
+            }
+
+            chordIndex = (chordIndex + 1) % progression.length;
+            barCount++;
+
+            session.timer = setTimeout(() => scheduleBar(session), CHORD_DURATION * 1000);
+        };
+
+        const detachUnlockListeners = () => {
+            if (!unlockListenersAttached) return;
+            unlockListenersAttached = false;
+            document.removeEventListener('pointerdown', handleGestureUnlock, true);
+            document.removeEventListener('keydown', handleGestureUnlock, true);
+            document.removeEventListener('touchstart', handleGestureUnlock, true);
+        };
+
+        const handleGestureUnlock = (e) => {
+            // Avoid starting audio for a split second if user is clicking the toggle to pause effects
+            if (e && e.target && e.target.closest && e.target.closest('#animation-toggle')) {
+                return;
+            }
+            detachUnlockListeners();
+            if (isEffectEnabled && !isMediaPaused && !currentSession) {
+                startSession();
+            }
+        };
+
+        const attachUnlockListeners = () => {
+            if (unlockListenersAttached) return;
+            unlockListenersAttached = true;
+            document.addEventListener('pointerdown', handleGestureUnlock, true);
+            document.addEventListener('keydown', handleGestureUnlock, true);
+            document.addEventListener('touchstart', handleGestureUnlock, true);
+        };
+
+        const stopSession = (fadeSeconds = FADE_OUT_SECONDS) => {
+            const session = currentSession;
+            currentSession = null;
+
+            if (!session) return;
+            session.active = false;
+            if (session.timer) {
+                clearTimeout(session.timer);
+                session.timer = null;
+            }
+
+            if (ctx) {
+                session.fadeToZero(fadeSeconds);
+            }
+
+            setTimeout(() => {
+                session.nodes.forEach((node) => {
+                    try {
+                        node.stop();
+                    } catch (e) {
+                        // Already stopped
+                    }
+                    try {
+                        node.disconnect();
+                    } catch (e) {
+                        // Already disconnected
+                    }
+                });
+                session.nodes.clear();
+                try {
+                    session.dryOut.disconnect();
+                    session.reverbOut.disconnect();
+                    session.delayOut.disconnect();
+                } catch (e) {
+                    // Already disconnected
+                }
+            }, fadeSeconds * 1000 + 150);
+
+            if (suspendTimer) clearTimeout(suspendTimer);
+            suspendTimer = setTimeout(() => {
+                if (!currentSession && ctx && ctx.state === 'running') {
+                    ctx.suspend().catch(() => {});
+                }
+            }, fadeSeconds * 1000 + 1000);
+        };
+
+        const startSession = () => {
+            if (currentSession) return;
+            if (!ensureGraph()) return;
+
+            if (suspendTimer) {
+                clearTimeout(suspendTimer);
+                suspendTimer = null;
+            }
+
+            const beginPlayback = () => {
+                if (!isEffectEnabled || isMediaPaused || currentSession) return;
+
+                const now = ctx.currentTime;
+                const sDry = ctx.createGain();
+                const sReverb = ctx.createGain();
+                const sDelay = ctx.createGain();
+                sDry.gain.setValueAtTime(0.0001, now);
+                sReverb.gain.setValueAtTime(0.0001, now);
+                sDelay.gain.setValueAtTime(0.0001, now);
+
+                sDry.gain.linearRampToValueAtTime(1.0, now + FADE_IN_SECONDS);
+                sReverb.gain.linearRampToValueAtTime(1.0, now + FADE_IN_SECONDS);
+                sDelay.gain.linearRampToValueAtTime(1.0, now + FADE_IN_SECONDS);
+
+                sDry.connect(dryBus);
+                sReverb.connect(reverbSend);
+                sDelay.connect(delaySend);
+
+                const session = {
+                    id: ++sessionCounter,
+                    active: true,
+                    dryOut: sDry,
+                    reverbOut: sReverb,
+                    delayOut: sDelay,
+                    nodes: new Set(),
+                    timer: null,
+                    fadeToZero: (fadeDur) => {
+                        const t = ctx.currentTime;
+                        [sDry, sReverb, sDelay].forEach((g) => {
+                            g.gain.cancelScheduledValues(t);
+                            g.gain.setValueAtTime(Math.max(g.gain.value, 0.0001), t);
+                            g.gain.linearRampToValueAtTime(0.0001, t + fadeDur);
+                        });
+                    }
+                };
+
+                currentSession = session;
+                scheduleBar(session);
+            };
+
+            if (ctx.state === 'suspended') {
+                ctx.resume().then(() => {
+                    detachUnlockListeners();
+                    beginPlayback();
+                }).catch(() => {
+                    attachUnlockListeners();
+                });
+            } else {
+                detachUnlockListeners();
+                beginPlayback();
+            }
+        };
+
+        const syncPlayback = (fromUserGesture = false) => {
+            const shouldPlay = isEffectEnabled && !isMediaPaused;
+            if (shouldPlay) {
+                if (!fromUserGesture && (!ctx || ctx.state === 'suspended')) {
+                    attachUnlockListeners();
+                    return;
+                }
+                startSession();
+            } else {
+                detachUnlockListeners();
+                stopSession(isMediaPaused ? 0.5 : FADE_OUT_SECONDS);
+            }
+        };
+
+        return {
+            setEffectEnabled: (enabled, fromUserGesture = false) => {
+                isEffectEnabled = Boolean(enabled);
+                syncPlayback(fromUserGesture);
+            },
+            setMediaPaused: (paused, fromUserGesture = true) => {
+                isMediaPaused = Boolean(paused);
+                syncPlayback(fromUserGesture);
+            }
+        };
+    };
+
+    const calmAudio = createCalmAudioEngine();
+
     // Animation Toggle Logic
     const animationToggle = document.getElementById('animation-toggle');
     const animationStatusKey = 'animation_hidden';
 
-    const updateAnimationState = (isHidden) => {
+    const updateAnimationState = (isHidden, fromUserGesture = false) => {
         const logo = document.querySelector('.site-logo');
 
         if (isHidden) {
@@ -466,6 +975,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
                 }
             }
+            calmAudio.setEffectEnabled(false, fromUserGesture);
         } else {
             if (bgBackdrop) bgBackdrop.classList.remove('bg-hidden');
             document.documentElement.classList.remove('motion-hidden');
@@ -478,19 +988,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon><line x1="2" y1="2" x2="22" y2="22"></line></svg>`;
                 }
             }
+            calmAudio.setEffectEnabled(true, fromUserGesture);
         }
     };
 
     // Apply initial animation state
     const isAnimationHidden = localStorage.getItem(animationStatusKey) !== 'false';
-    updateAnimationState(isAnimationHidden);
+    updateAnimationState(isAnimationHidden, false);
 
     if (animationToggle) {
         animationToggle.addEventListener('click', () => {
             const isCurrentlyHidden = document.documentElement.classList.contains('motion-hidden');
             const newState = !isCurrentlyHidden;
 
-            updateAnimationState(newState);
+            updateAnimationState(newState, true);
             localStorage.setItem(animationStatusKey, newState);
 
             // Close dropdown
@@ -655,6 +1166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             projectVideo.style.display = 'block';
             videoSource.src = currentProjectData.videoUrl;
+            calmAudio.setMediaPaused(true, true);
             projectVideo.load();
             projectVideo.play();
 
@@ -680,7 +1192,14 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.pause();
             projectVideo.currentTime = 0;
         }
+        calmAudio.setMediaPaused(false, true);
     };
+
+    if (projectVideo) {
+        projectVideo.addEventListener('play', () => {
+            calmAudio.setMediaPaused(true, true);
+        });
+    }
 
     openModalButtons.forEach(button => {
         button.addEventListener('click', () => {
