@@ -1963,7 +1963,57 @@ h3 {
         pointer-events: auto;
     }
 
+    /* Floating Header Logo & Menu Transparent Rounded Background on Mobile */
+    #mobile-header .logo-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        width: auto;
+        padding: 0 14px;
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        box-shadow: 0 4px 16px var(--shadow-color);
+        transition: transform 0.2s ease, opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    #mobile-header .logo-link:active {
+        transform: scale(0.95);
+    }
+
+    #mobile-header .site-logo {
+        width: 40px;
+    }
+
+    #mobile-header .hamburger-menu,
+    #mobile-header .hamburger-menu.open,
+    #mobile-header.scrolling-up .hamburger-menu {
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid var(--glass-border) !important;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px var(--shadow-color);
+    }
+
+    #mobile-header .hamburger-menu:active {
+        transform: scale(0.95);
+    }
+
+    @media (hover: hover) {
+        #mobile-header .logo-link:hover {
+            opacity: 1;
+            box-shadow: 0 6px 20px var(--shadow-color);
+        }
+
+        #mobile-header .hamburger-menu:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px var(--shadow-color);
+        }
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -2545,10 +2595,14 @@ html.motion-hidden .social-icon-btn:active,
 html.motion-hidden .logo-trigger,
 html.motion-hidden .logo-trigger:hover,
 html.motion-hidden .logo-trigger:active,
+html.motion-hidden .logo-link,
+html.motion-hidden .logo-link:hover,
+html.motion-hidden .logo-link:active,
 html.motion-hidden .logo-wrapper.active .logo-trigger,
 html.motion-hidden .logo-wrapper.active:hover .logo-trigger,
 html.motion-hidden .logo-wrapper:hover .logo-trigger,
 html.motion-hidden .floating-header.scrolling-up .logo-trigger,
+html.motion-hidden .floating-header.scrolling-up .logo-link,
 html.motion-hidden .btn:hover,
 html.motion-hidden .btn-primary:hover,
 html.motion-hidden .btn-secondary:hover,
@@ -2602,10 +2656,14 @@ html.motion-hidden .pwa-install:active {
     .logo-trigger,
     .logo-trigger:hover,
     .logo-trigger:active,
+    .logo-link,
+    .logo-link:hover,
+    .logo-link:active,
     .logo-wrapper.active .logo-trigger,
     .logo-wrapper.active:hover .logo-trigger,
     .logo-wrapper:hover .logo-trigger,
     .floating-header.scrolling-up .logo-trigger,
+    .floating-header.scrolling-up .logo-link,
     .btn:hover,
     .btn-primary:hover,
     .btn-secondary:hover,
