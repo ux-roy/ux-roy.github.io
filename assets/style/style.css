@@ -18,6 +18,8 @@
     --modal-overlay: rgba(10, 10, 10, 0.5);
     --glass-bg: rgba(255, 255, 255, 0.55);
     --glass-border: rgba(0, 0, 0, 0.08);
+    --header-glass-bg: rgba(255, 255, 255, 0.18);
+    --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 [data-theme="dark"] {
@@ -35,6 +37,8 @@
     --modal-overlay: rgba(100, 100, 100, 0.5);
     --glass-bg: rgba(21, 25, 34, 0.6);
     --glass-border: rgba(255, 255, 255, 0.08);
+    --header-glass-bg: rgba(255, 255, 255, 0.06);
+    --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
 * {
@@ -1971,13 +1975,13 @@ h3 {
         height: 48px;
         width: auto;
         padding: 0 14px;
-        background-color: var(--glass-bg);
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        border: 1px solid var(--glass-border);
+        background-color: var(--header-glass-bg);
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        border: none !important;
         border-radius: 12px;
-        box-shadow: 0 4px 16px var(--shadow-color);
-        transition: transform 0.2s ease, opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: var(--header-shadow);
+        transition: transform 0.2s ease, opacity 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     #mobile-header .logo-link:active {
@@ -1991,12 +1995,12 @@ h3 {
     #mobile-header .hamburger-menu,
     #mobile-header .hamburger-menu.open,
     #mobile-header.scrolling-up .hamburger-menu {
-        background-color: var(--glass-bg);
-        backdrop-filter: blur(16px) saturate(180%);
-        -webkit-backdrop-filter: blur(16px) saturate(180%);
-        border: 1px solid var(--glass-border) !important;
+        background-color: var(--header-glass-bg);
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        border: none !important;
         border-radius: 12px;
-        box-shadow: 0 4px 16px var(--shadow-color);
+        box-shadow: var(--header-shadow);
     }
 
     #mobile-header .hamburger-menu:active {
@@ -2006,12 +2010,12 @@ h3 {
     @media (hover: hover) {
         #mobile-header .logo-link:hover {
             opacity: 1;
-            box-shadow: 0 6px 20px var(--shadow-color);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
 
         #mobile-header .hamburger-menu:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 20px var(--shadow-color);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
     }
 }
