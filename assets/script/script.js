@@ -1088,6 +1088,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomControls = document.getElementById('zoom-controls');
     const btnZoomIn = document.getElementById('btn-zoom-in');
     const btnZoomOut = document.getElementById('btn-zoom-out');
+    const btnZoomReset = document.getElementById('btn-zoom-reset');
     const btnZoomExpand = document.getElementById('btn-zoom-expand');
     const expandIconPath = document.getElementById('expand-icon-path');
 
@@ -1110,17 +1111,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const resetZoom = () => {
+    const resetZoom = (smooth = false) => {
         zoomScale = 1;
         translateX = 0;
         translateY = 0;
+        isPanning = false;
         if (insightsImage) {
-            insightsImage.style.transition = 'none';
-            updateImageTransform();
-            // Force a reflow
-            insightsImage.offsetHeight;
-            insightsImage.style.transition = 'transform 0.1s ease-out';
-            insightsImage.style.cursor = 'grab';
+            if (smooth) {
+                insightsImage.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
+                updateImageTransform();
+                setTimeout(() => {
+                    if (insightsImage) {
+                        insightsImage.style.transition = 'transform 0.1s ease-out';
+                    }
+                }, 250);
+            } else {
+                insightsImage.style.transition = 'none';
+                updateImageTransform();
+                // Force a reflow
+                insightsImage.offsetHeight;
+                insightsImage.style.transition = 'transform 0.1s ease-out';
+            }
+            insightsImage.style.cursor = 'default';
         }
     };
 
@@ -1236,6 +1248,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && modal.classList.contains('open')) {
             closeModal();
+        } else if ((event.key === 'r' || event.key === 'R' || event.key === '0') && modal.classList.contains('open') && insightsImage && insightsImage.style.display === 'block') {
+            resetZoom(true);
         }
     });
 
@@ -1259,6 +1273,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 updateImageTransform();
                 insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
+            }
+        });
+    }
+
+    if (btnZoomReset) {
+        btnZoomReset.addEventListener('click', () => {
+            if (insightsImage && insightsImage.style.display === 'block') {
+                resetZoom(true);
             }
         });
     }
