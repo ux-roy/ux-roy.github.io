@@ -1375,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Double click to reset
         insightsImage.addEventListener('dblclick', () => {
-            resetZoom();
+            resetZoom(true);
         });
 
         // Touch support for mobile panning
