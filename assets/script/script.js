@@ -376,29 +376,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
     const bgBackdrop = document.querySelector('.bg-typography-backdrop');
-    const savedTheme = localStorage.getItem('theme');
-
-    // Check system preference if no saved theme
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let savedTheme = null;
+    try {
+        savedTheme = localStorage.getItem('theme');
+    } catch {
+        // Ignore storage errors when site data is restricted
+    }
     const initialTheme = savedTheme || 'dark'; // Defaults to dark theme
 
     // Function to update theme appearance (meta tags and toggle icon/text)
     const updateThemeAppearance = (theme) => {
-        // Update Theme Color Meta Tag
-        const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
-        themeColorMetas.forEach(meta => {
-            meta.setAttribute('content', theme === 'dark' ? '#151922' : '#fcfbf5');
-        });
+        const isDark = theme === 'dark';
+        const themeColor = isDark ? '#151922' : '#fcfbf5';
+
+        // Sync color-scheme meta tag for native browser UI
+        let colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
+        if (!colorSchemeMeta) {
+            colorSchemeMeta = document.createElement('meta');
+            colorSchemeMeta.name = 'color-scheme';
+            document.head.appendChild(colorSchemeMeta);
+        }
+        colorSchemeMeta.content = isDark ? 'dark' : 'light';
+
+        // Replace theme-color meta tag unconditionally so mobile browsers repaint toolbar/status bar
+        document.querySelectorAll('meta[name="theme-color"]').forEach(meta => meta.remove());
+        const newThemeColorMeta = document.createElement('meta');
+        newThemeColorMeta.name = 'theme-color';
+        newThemeColorMeta.content = themeColor;
+        document.head.appendChild(newThemeColorMeta);
+
+        // Keep iOS status bar style in sync
+        const statusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+        if (statusBarMeta) {
+            statusBarMeta.setAttribute('content', isDark ? 'black-translucent' : 'default');
+        }
 
         // Update Theme Toggle Icon and Text
         if (themeToggle) {
             const textSpan = themeToggle.querySelector('.menu-item-text');
             const iconSpan = themeToggle.querySelector('.menu-item-icon');
             if (textSpan) {
-                textSpan.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
+                textSpan.textContent = isDark ? 'Light Theme' : 'Dark Theme';
             }
             if (iconSpan) {
-                iconSpan.innerHTML = theme === 'dark'
+                iconSpan.innerHTML = isDark
                     ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`
                     : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
             }
@@ -409,6 +430,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme', initialTheme);
     updateThemeAppearance(initialTheme);
 
+    // Stay in sync when theme changes in another tab
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+            const syncedTheme = e.newValue || 'dark';
+            document.documentElement.setAttribute('data-theme', syncedTheme);
+            updateThemeAppearance(syncedTheme);
+        }
+    });
+
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             const runner = () => {
@@ -416,7 +446,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
                 document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
+                try {
+                    localStorage.setItem('theme', newTheme);
+                } catch {
+                    // Theme still applies even if storage is unavailable
+                }
                 updateThemeAppearance(newTheme);
 
                 // Close menu after selection

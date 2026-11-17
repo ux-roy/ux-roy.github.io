@@ -6,7 +6,7 @@
     <!-- Essential Metadata Tags                    -->
     <!-- ========================================== -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Suman Kanti Roy ✦ Portfolio</title>
     <meta name="description"
         content="Portfolio of Suman Kanti Roy, Senior Product Designer & UX Consultant with 12+ years of experience.">
@@ -28,12 +28,27 @@
     <!-- ========================================== -->
     <!-- PWA & Mobile Web App                       -->
     <!-- ========================================== -->
-    <meta name="theme-color" content="#fcfbf5" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#151922" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#151922">
     <meta name="apple-mobile-web-app-title" content="SKR">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <script>
+        try {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const isDark = savedTheme === 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
+            if (colorSchemeMeta) colorSchemeMeta.content = isDark ? 'dark' : 'light';
+            const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+            if (themeColorMeta) themeColorMeta.content = isDark ? '#151922' : '#fcfbf5';
+            const statusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+            if (statusBarMeta) statusBarMeta.content = isDark ? 'black-translucent' : 'default';
+        } catch {
+            // Ignore storage errors when site data is restricted
+        }
+    </script>
 
     <!-- ========================================== -->
     <!-- Open Graph Social Media                    -->
@@ -304,7 +319,7 @@
                     <p class="summary-text mt-30">
                         I simplify dense business logic, complex human needs and technical ambiguity to
                         create intuitive experiences, build scalable solutions, reduce operational
-                        complexity and deliver cleaner results. I specialise in looping agentic
+                        complexity and deliver clear results. I specialise in looping agentic
                         workflows and integrating GenAI into enterprise tools to automate multi-step
                         tasks and improve decision-making. I hold dual degrees in Science and Fine
                         Art, backed by 12+ years of experience shaping SaaS and B2B products across
