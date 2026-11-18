@@ -237,9 +237,9 @@
     <nav class="side-panel" id="side-panel" aria-label="Desktop Navigation">
         <div class="panel-nav">
             <button class="panel-link active" data-target="about">About</button>
+            <button class="panel-link" data-target="career">Story</button>
             <button class="panel-link" data-target="works">Study</button>
             <button class="panel-link" data-target="skills">Skills</button>
-            <button class="panel-link" data-target="career">Story</button>
             <button class="panel-link" data-target="contact">Contact</button>
         </div>
     </nav>
@@ -258,13 +258,26 @@
             </span>
             <span class="mobile-nav-label">About</span>
         </button>
+        <button class="mobile-nav-btn" data-target="career" aria-label="Story">
+            <span class="mobile-nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 12h.01"></path>
+                    <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
+                    <path d="M22 13a18.15 18.15 0 0 1-20 0"></path>
+                    <rect width="20" height="14" x="2" y="6" rx="2"></rect>
+                </svg>
+            </span>
+            <span class="mobile-nav-label">Story</span>
+        </button>
         <button class="mobile-nav-btn" data-target="works" aria-label="Study">
             <span class="mobile-nav-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                    <polyline points="2 17 12 22 22 17"></polyline>
-                    <polyline points="2 12 12 17 22 12"></polyline>
+                    <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                    <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                    <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                    <rect width="7" height="5" x="3" y="16" rx="1"></rect>
                 </svg>
             </span>
             <span class="mobile-nav-label">Study</span>
@@ -273,21 +286,12 @@
             <span class="mobile-nav-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="8" r="7"></circle>
-                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                    <circle cx="6" cy="5" r="3"></circle>
+                    <path d="M9 5h8.5a3.5 3.5 0 0 1 0 7h-11a3.5 3.5 0 0 0 0 7H15"></path>
+                    <circle cx="18" cy="19" r="3"></circle>
                 </svg>
             </span>
             <span class="mobile-nav-label">Skills</span>
-        </button>
-        <button class="mobile-nav-btn" data-target="career" aria-label="Story">
-            <span class="mobile-nav-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                </svg>
-            </span>
-            <span class="mobile-nav-label">Story</span>
         </button>
         <button class="mobile-nav-btn" data-target="contact" aria-label="Contact">
             <span class="mobile-nav-icon">
@@ -340,7 +344,124 @@
         </section>
 
         <!-- ========================================== -->
-        <!-- 2. Case Study                              -->
+        <!-- 2. Work Story                              -->
+        <!-- ========================================== -->
+        <section id="career" class="tab-content" aria-label="Work Story">
+            <h2 class="section-title">Work Story</h2>
+            <div class="line-decorator"></div>
+
+            <div class="two-column-layout experience-layout">
+
+                <!-- Left Column: Employment Timeline -->
+                <div class="employment-column">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-node has-dot"></div>
+                            <div class="timeline-content">
+                                <h4>Usability Design Engineer</h4>
+                                <h5>Lexmark International India Pvt. Ltd.</h5>
+                                <span class="date">17 Jan 2022 - 14 Nov 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-node"></div>
+                            <div class="timeline-content">
+                                <h4>User Experience Designer</h4>
+                                <h5>Wipro Technologies Limited</h5>
+                                <span class="date">17 Mar 2017 - 15 Jan 2022</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-node"></div>
+                            <div class="timeline-content">
+                                <h4>Graphic UI & UX Designer</h4>
+                                <h5>Rxprism Health Systems Pvt. Ltd.</h5>
+                                <span class="date">11 Mar 2015 - 15 Mar 2017</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-node"></div>
+                            <div class="timeline-content">
+                                <h4>Graphic & Web Designer</h4>
+                                <h5>Hibu India Pvt. Ltd.</h5>
+                                <span class="date">06 Jan 2014 - 20 Feb 2015</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-node"></div>
+                            <div class="timeline-content">
+                                <h4>Visual Design Researcher</h4>
+                                <h5>Bid & Hammer Fine Art Auctioneer</h5>
+                                <span class="date">15 Apr 2013 - 30 Dec 2013</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Education History -->
+                <div class="education-column">
+                    <!-- Row 1: Education -->
+                    <div class="edu-section edu-section--row">
+                        <div class="edu-header-wrapper">
+                            <div class="vertical-line-decorator"></div>
+                            <h3 class="edu-title">Education</h3>
+                        </div>
+                        <div class="degree-wrapper">
+                            <div class="edu-item">
+                                <h4>Bachelor of Fine Arts</h4>
+                                <p>Govt. College of Art & Craft, Tripura University <br>2006 – 2010</p>
+                            </div>
+
+                            <div class="edu-item">
+                                <h4>Bachelor of Science</h4>
+                                <p>Maharaja Bir Bikram College, Tripura University <br>2003 – 2006</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Certification -->
+                    <div class="edu-section edu-section--row">
+                        <div class="edu-header-wrapper">
+                            <div class="vertical-line-decorator"></div>
+                            <h3 class="edu-title">Certification</h3>
+                        </div>
+                        <div class="degree-wrapper">
+                            <div class="edu-item">
+                                <h4>NPTEL Usability Engineering</h4>
+                                <p>IIT Guwahati – May 2024</p>
+                            </div>
+
+                            <div class="edu-item">
+                                <h4>Effective Business Communication</h4>
+                                <p>IIM Bangalore – Dec 2023</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Achievement -->
+                    <div class="edu-section edu-section--row">
+                        <div class="edu-header-wrapper">
+                            <div class="vertical-line-decorator"></div>
+                            <h3 class="edu-title">Achievement</h3>
+                        </div>
+                        <div class="degree-wrapper">
+                            <div class="edu-item">
+                                <h4>Lexmark CTO Excellence Award - 2022</h4>
+                                <p>AR Powered E-Commerce Retails Solution</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 3. Case Study                              -->
         <!-- ========================================== -->
         <section id="works" class="tab-content" aria-label="Case Study">
             <h2 class="section-title">Case Study</h2>
@@ -734,7 +855,7 @@
         </section>
 
         <!-- ========================================== -->
-        <!-- 3. Soft Skills                             -->
+        <!-- 4. Soft Skills                             -->
         <!-- ========================================== -->
         <section id="skills" class="tab-content" aria-label="Soft Skills">
             <h2 class="section-title">Soft Skills</h2>
@@ -812,126 +933,9 @@
         </section>
 
         <!-- ========================================== -->
-        <!-- 4. Work Story                              -->
-        <!-- ========================================== -->
-        <section id="career" class="tab-content" aria-label="Work Story">
-            <h2 class="section-title">Work Story</h2>
-            <div class="line-decorator"></div>
-
-            <div class="two-column-layout experience-layout">
-
-                <!-- Left Column: Employment Timeline -->
-                <div class="employment-column">
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-node has-dot"></div>
-                            <div class="timeline-content">
-                                <h4>Usability Design Engineer</h4>
-                                <h5>Lexmark International India Pvt. Ltd.</h5>
-                                <span class="date">17 Jan 2022 - 14 Nov 2025</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-node"></div>
-                            <div class="timeline-content">
-                                <h4>User Experience Designer</h4>
-                                <h5>Wipro Technologies Limited</h5>
-                                <span class="date">17 Mar 2017 - 15 Jan 2022</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-node"></div>
-                            <div class="timeline-content">
-                                <h4>Graphic UI & UX Designer</h4>
-                                <h5>Rxprism Health Systems Pvt. Ltd.</h5>
-                                <span class="date">11 Mar 2015 - 15 Mar 2017</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-node"></div>
-                            <div class="timeline-content">
-                                <h4>Graphic & Web Designer</h4>
-                                <h5>Hibu India Pvt. Ltd.</h5>
-                                <span class="date">06 Jan 2014 - 20 Feb 2015</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-node"></div>
-                            <div class="timeline-content">
-                                <h4>Visual Design Researcher</h4>
-                                <h5>Bid & Hammer Fine Art Auctioneer</h5>
-                                <span class="date">15 Apr 2013 - 30 Dec 2013</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Education History -->
-                <div class="education-column">
-                    <!-- Row 1: Education -->
-                    <div class="edu-section edu-section--row">
-                        <div class="edu-header-wrapper">
-                            <div class="vertical-line-decorator"></div>
-                            <h3 class="edu-title">Education</h3>
-                        </div>
-                        <div class="degree-wrapper">
-                            <div class="edu-item">
-                                <h4>Bachelor of Fine Arts</h4>
-                                <p>Govt. College of Art & Craft, Tripura University <br>2006 – 2010</p>
-                            </div>
-
-                            <div class="edu-item">
-                                <h4>Bachelor of Science</h4>
-                                <p>Maharaja Bir Bikram College, Tripura University <br>2003 – 2006</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Row 2: Certification -->
-                    <div class="edu-section edu-section--row">
-                        <div class="edu-header-wrapper">
-                            <div class="vertical-line-decorator"></div>
-                            <h3 class="edu-title">Certification</h3>
-                        </div>
-                        <div class="degree-wrapper">
-                            <div class="edu-item">
-                                <h4>NPTEL Usability Engineering</h4>
-                                <p>IIT Guwahati – May 2024</p>
-                            </div>
-
-                            <div class="edu-item">
-                                <h4>Effective Business Communication</h4>
-                                <p>IIM Bangalore – Dec 2023</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Row 3: Achievement -->
-                    <div class="edu-section edu-section--row">
-                        <div class="edu-header-wrapper">
-                            <div class="vertical-line-decorator"></div>
-                            <h3 class="edu-title">Achievement</h3>
-                        </div>
-                        <div class="degree-wrapper">
-                            <div class="edu-item">
-                                <h4>Lexmark CTO Excellence Award - 2022</h4>
-                                <p>AR Powered E-Commerce Retails Solution</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- ========================================== -->
         <!-- 5. Contact Info                            -->
         <!-- ========================================== -->
-        <section id="contact" class="tab-content" aria-label="Contact Details">
+        <section id="contact" class="tab-content" aria-label="Contact Info">
             <div class="contact-layout">
                 <div class="thank-you-col">
                     <h2 class="thank-you-text">Thank You</h2>
