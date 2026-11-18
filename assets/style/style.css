@@ -1689,7 +1689,7 @@ h3 {
 
 @media screen and (max-width: 900px) {
     .content-container {
-        padding: 80px 25px 40px 25px;
+        padding: 0 25px 40px 25px;
     }
 
     .main-title {
@@ -1815,6 +1815,10 @@ h3 {
     .tab-content {
         padding-top: 80px;
         padding-bottom: 80px;
+    }
+
+    #about.tab-content {
+        padding-top: 96px;
     }
 
     .main-title {
@@ -2185,7 +2189,7 @@ h3 {
     }
 
     #about.tab-content {
-        padding-top: 40px;
+        padding-top: 96px;
     }
 
     .hero-text {

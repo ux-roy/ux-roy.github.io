@@ -80,7 +80,36 @@
     <!-- ========================================== -->
     <!-- Default Inbuild Stylesheets                -->
     <!-- ========================================== -->
-    <link rel="stylesheet" href="assets/style/style.css">
+    <style>
+        .text-animation {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        html.motion-hidden .text-animation {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="assets/style/style.css?v=22">
 
     <!-- ========================================== -->
     <!-- Analytics & Tracking (Google Tag)          -->
@@ -119,7 +148,7 @@
     <!-- ========================================== -->
     <!-- Local System Scripts (Deferred)            -->
     <!-- ========================================== -->
-    <script src="assets/script/script.js" defer></script>
+    <script src="assets/script/script.js?v=22" defer></script>
 </head>
 
 <body>
