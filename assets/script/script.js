@@ -1729,6 +1729,34 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(renderCursor);
     }
 
+    // Contact links touch shift micro-interaction for mobile devices
+    const contactLinks = document.querySelectorAll('.contact-value');
+    contactLinks.forEach(link => {
+        let touchTimer = null;
+
+        link.addEventListener('touchstart', () => {
+            if (touchTimer) clearTimeout(touchTimer);
+            link.classList.add('touch-active');
+        }, { passive: true });
+
+        const endTouch = () => {
+            if (touchTimer) clearTimeout(touchTimer);
+            touchTimer = setTimeout(() => {
+                link.classList.remove('touch-active');
+            }, 250);
+        };
+
+        link.addEventListener('touchend', endTouch, { passive: true });
+        link.addEventListener('touchcancel', () => {
+            if (touchTimer) clearTimeout(touchTimer);
+            link.classList.remove('touch-active');
+        }, { passive: true });
+        link.addEventListener('touchmove', () => {
+            if (touchTimer) clearTimeout(touchTimer);
+            link.classList.remove('touch-active');
+        }, { passive: true });
+    });
+
 });
 
 // Service Worker Registration for PWA (Independent of DOMContentLoaded)

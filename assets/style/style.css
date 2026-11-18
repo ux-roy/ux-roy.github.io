@@ -1376,12 +1376,17 @@ h3 {
     font-size: 1.25rem;
     color: var(--text-secondary);
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    will-change: transform;
     transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
         transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-value:hover,
-.contact-value:focus-visible {
+.contact-value:focus,
+.contact-value:focus-visible,
+.contact-value:active,
+.contact-value.touch-active {
     color: var(--accent-color);
     transform: translateX(4px);
 }
@@ -1392,8 +1397,8 @@ h3 {
     border-radius: 4px;
 }
 
-.contact-value:active {
-    transform: translateX(2px) scale(0.98);
+.contact-value:focus:not(:focus-visible) {
+    outline: none;
 }
 
 .contact-action-icon {
@@ -1406,7 +1411,10 @@ h3 {
 }
 
 .contact-value:hover .contact-action-icon,
-.contact-value:focus-visible .contact-action-icon {
+.contact-value:focus .contact-action-icon,
+.contact-value:focus-visible .contact-action-icon,
+.contact-value:active .contact-action-icon,
+.contact-value.touch-active .contact-action-icon {
     opacity: 1;
     transform: translateX(0);
 }
@@ -1414,7 +1422,15 @@ h3 {
 @media (hover: none) {
     .contact-action-icon {
         opacity: 1;
-        transform: none;
+        transform: translateX(-2px);
+    }
+
+    .contact-value:hover .contact-action-icon,
+    .contact-value:focus .contact-action-icon,
+    .contact-value:focus-visible .contact-action-icon,
+    .contact-value:active .contact-action-icon,
+    .contact-value.touch-active .contact-action-icon {
+        transform: translateX(0);
     }
 }
 
@@ -2714,12 +2730,7 @@ html.motion-hidden .back-to-top:hover,
 html.motion-hidden .back-to-top:active,
 html.motion-hidden .pwa-install,
 html.motion-hidden .pwa-install:hover,
-html.motion-hidden .pwa-install:active,
-html.motion-hidden .contact-value,
-html.motion-hidden .contact-value:hover,
-html.motion-hidden .contact-value:focus-visible,
-html.motion-hidden .contact-value:active,
-html.motion-hidden .contact-action-icon {
+html.motion-hidden .pwa-install:active {
     transform: none !important;
 }
 
@@ -2780,8 +2791,10 @@ html.motion-hidden .contact-action-icon {
     .skill-card:hover,
     .contact-value,
     .contact-value:hover,
+    .contact-value:focus,
     .contact-value:focus-visible,
     .contact-value:active,
+    .contact-value.touch-active,
     .contact-action-icon {
         transform: none !important;
     }
