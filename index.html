@@ -127,7 +127,7 @@
     <!-- ========================================== -->
     <!-- Animated Text Background                   -->
     <!-- ========================================== -->
-    <div class="bg-typography-backdrop bg-hidden" aria-hidden="true">
+    <div class="text-animation" aria-hidden="true">
         <div class="bg-typography-track">
             <span>Finding Friction</span> <span>Framing Context</span> <span>Crafting Solutions</span> <span>Validating
                 Ideas</span>
@@ -211,30 +211,14 @@
                         <span class="menu-item-text">Active Effect</span>
                     </button>
                 </li>
-                <li role="none">
-                    <a href="assets/doc/Suman-Kanti-Roy_Lead-Product-Designer.pdf" target="_blank"
-                        rel="noopener noreferrer" class="menu-item" role="menuitem">
-                        <span class="menu-item-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                            </svg>
-                        </span>
-                        <span class="menu-item-text">See Resume</span>
-                    </a>
-                </li>
             </ul>
         </div>
     </header>
 
     <!-- ========================================== -->
-    <!-- Desktop Navigation Panel                   -->
+    <!-- Primary Navigation Panel                   -->
     <!-- ========================================== -->
-    <div class="nav-overlay" id="nav-overlay"></div>
-    <nav class="side-panel" id="side-panel" aria-label="Desktop Navigation">
+    <nav class="side-panel" id="side-panel" aria-label="Primary Navigation">
         <div class="panel-nav">
             <button class="panel-link active" data-target="about">About</button>
             <button class="panel-link" data-target="career">Story</button>
@@ -245,9 +229,9 @@
     </nav>
 
     <!-- ========================================== -->
-    <!-- Mobile Navigation Panel                    -->
+    <!-- Mobile Bottom Navigation                   -->
     <!-- ========================================== -->
-    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile Navigation">
         <button class="mobile-nav-btn active" data-target="about" aria-label="About">
             <span class="mobile-nav-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -327,8 +311,7 @@
                         workflows and integrating GenAI into enterprise tools to automate multi-step
                         tasks and improve decision-making. I hold dual degrees in Science and Fine
                         Art, backed by 12+ years of experience shaping SaaS and B2B products across
-                        oil & energy, retail, fintech, healthcare and IoT platforms connecting critical
-                        thinking with compelling storytelling.
+                        oil & energy, retail, fintech, healthcare and IoT platforms.
                     </p>
                     <blockquote class="summary-quote">
                         "Good design turns moments of friction into meaningful solution and guides every
@@ -946,29 +929,58 @@
                 <div class="contact-info-col">
                     <div class="contact-item">
                         <div class="contact-details">
-                            <span class="contact-label">Contact No</span>
-                            <a href="tel:+917411940354" class="contact-value">+91 7411940354</a>
+                            <span class="contact-label">Call or Text</span>
+                            <a href="tel:+917411940354" class="contact-value">
+                                <span>+91 7411940354</span>
+                                <svg class="contact-action-icon" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                            </a>
                         </div>
                     </div>
 
                     <div class="contact-item">
                         <div class="contact-details">
-                            <span class="contact-label">Email ID</span>
-                            <a href="mailto:roy.sumankanti@gmail.com" class="contact-value">roy.sumankanti@gmail.com</a>
+                            <span class="contact-label">Get in Touch</span>
+                            <a href="mailto:roy.sumankanti@gmail.com" class="contact-value">
+                                <span>roy.sumankanti@gmail.com</span>
+                                <svg class="contact-action-icon" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </a>
                         </div>
                     </div>
 
                     <div class="contact-item">
                         <div class="contact-details">
-                            <span class="contact-label">Portfolio URL</span>
-                            <a href="https://ux-roy.github.io" target="_blank" rel="noopener noreferrer"
-                                class="contact-value">https://ux-roy.github.io</a>
+                            <span class="contact-label">View Resume</span>
+                            <a href="assets/doc/Suman-Kanti-Roy_Lead-Product-Designer.pdf" target="_blank"
+                                rel="noopener noreferrer" class="contact-value"
+                                aria-label="Click here to view resume (opens in a new tab)">
+                                <span>Click here</span>
+                                <svg class="contact-action-icon" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
                         </div>
                     </div>
 
-                    <!-- Get in Touch: Social Icons -->
+                    <!-- Follow Me -->
                     <div class="get-in-touch-group">
-                        <span class="get-in-touch-label">Get in Touch</span>
+                        <span class="get-in-touch-label">Let's Connect</span>
                         <div class="social-icons-row">
                             <!-- LinkedIn -->
                             <a href="https://www.linkedin.com/in/s-kantiroy" target="_blank" rel="noopener noreferrer"

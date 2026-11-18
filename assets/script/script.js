@@ -3,24 +3,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabContents = document.querySelectorAll('.tab-content');
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const sidePanel = document.getElementById('side-panel');
+    const panelNav = sidePanel ? sidePanel.querySelector('.panel-nav') : null;
     const mobileHeader = document.getElementById('mobile-header');
-    const mobileBottomNav = document.getElementById('mobile-bottom-nav');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mainContent = document.querySelector('main');
+    const siteFooter = document.querySelector('.site-footer');
 
     let isScrollingToSection = false;
     let scrollTimeout = null;
 
-    // Helper to lock/unlock scroll on mobile based on navigation menu visibility
+    // Helper to lock/unlock scroll and modal semantics on mobile based on navigation menu visibility
     const updateBodyScrollLock = () => {
-        if (window.innerWidth <= 768 && sidePanel) {
-            const isMenuVisible = sidePanel.classList.contains('active') && !sidePanel.classList.contains('header-hidden');
+        const isMenuVisible = Boolean(
+            window.innerWidth <= 768 &&
+            sidePanel &&
+            sidePanel.classList.contains('active') &&
+            !sidePanel.classList.contains('header-hidden')
+        );
+
+        document.body.classList.toggle('nav-menu-open', isMenuVisible);
+
+        if (sidePanel) {
             if (isMenuVisible) {
-                document.body.classList.add('nav-menu-open');
+                sidePanel.setAttribute('role', 'dialog');
+                sidePanel.setAttribute('aria-modal', 'true');
             } else {
-                document.body.classList.remove('nav-menu-open');
+                sidePanel.removeAttribute('role');
+                sidePanel.removeAttribute('aria-modal');
             }
-        } else {
-            document.body.classList.remove('nav-menu-open');
         }
+
+        if (mainContent) mainContent.inert = isMenuVisible;
+        if (siteFooter) siteFooter.inert = isMenuVisible;
     };
 
     // Branding Logo click logic to toggle navigation panel
@@ -37,29 +51,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Close mobile side panel when clicking the background backdrop overlay
-    const navOverlay = document.getElementById('nav-overlay');
-    if (navOverlay) {
-        navOverlay.addEventListener('click', () => {
-            if (sidePanel) {
+    // Close mobile side panel when clicking its backdrop area or pressing Escape
+    if (sidePanel) {
+        sidePanel.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && (!panelNav || !panelNav.contains(e.target))) {
                 sidePanel.classList.remove('active');
                 updateBodyScrollLock();
             }
         });
     }
 
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && window.innerWidth <= 768 && sidePanel && sidePanel.classList.contains('active')) {
+            sidePanel.classList.remove('active');
+            updateBodyScrollLock();
+            if (logoLink) logoLink.focus();
+        }
+    });
+
     // Touch swipe gestures for closing mobile panel (slide by finger to go back)
     let touchStartY = 0;
     let touchCurrentY = 0;
     let isDragging = false;
 
-    if (sidePanel) {
+    if (sidePanel && panelNav) {
         sidePanel.addEventListener('touchstart', (e) => {
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 768 && sidePanel.classList.contains('active')) {
                 touchStartY = e.touches[0].clientY;
                 touchCurrentY = touchStartY;
                 isDragging = true;
-                sidePanel.style.transition = 'none'; // Disable transition during drag
+                panelNav.style.transition = 'none'; // Disable transition during drag
             }
         }, { passive: true });
 
@@ -70,14 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Only allow dragging upwards (negative diffY)
             if (diffY < 0) {
-                sidePanel.style.transform = `translate(-50%, calc(-50% + ${diffY}px))`;
+                panelNav.style.transform = `translateY(${diffY}px)`;
             }
         }, { passive: true });
 
         sidePanel.addEventListener('touchend', () => {
             if (!isDragging) return;
             isDragging = false;
-            sidePanel.style.transition = ''; // Restore transitions
+            panelNav.style.transition = ''; // Restore transitions
 
             const diffY = touchCurrentY - touchStartY;
             // Close if dragged up by more than 60px
@@ -87,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Snap back or transition out completely
-            sidePanel.style.transform = '';
+            panelNav.style.transform = '';
         });
     }
 
@@ -166,8 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                if (mobileBottomNav) {
-                    mobileBottomNav.classList.remove('nav-hidden');
+                if (mobileNav) {
+                    mobileNav.classList.remove('nav-hidden');
                 }
 
                 targetContent.scrollIntoView({ behavior: 'smooth' });
@@ -262,8 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (sidePanel) {
                         sidePanel.classList.remove('header-hidden');
                     }
-                    if (mobileBottomNav) {
-                        mobileBottomNav.classList.remove('nav-hidden');
+                    if (mobileNav) {
+                        mobileNav.classList.remove('nav-hidden');
                     }
                 } else if (currentScrollY > lastScrollY && currentScrollY > headerThreshold) {
                     // Scrolling Down (Drag/Scroll Upward) - Hide
@@ -274,8 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (sidePanel) {
                         sidePanel.classList.add('header-hidden');
                     }
-                    if (mobileBottomNav) {
-                        mobileBottomNav.classList.add('nav-hidden');
+                    if (mobileNav) {
+                        mobileNav.classList.add('nav-hidden');
                     }
                 } else if (currentScrollY < lastScrollY) {
                     // Scrolling Up (Drag/Scroll Downward) - Show
@@ -291,14 +312,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (sidePanel) {
                         sidePanel.classList.remove('header-hidden');
                     }
-                    if (mobileBottomNav) {
-                        mobileBottomNav.classList.remove('nav-hidden');
+                    if (mobileNav) {
+                        mobileNav.classList.remove('nav-hidden');
                     }
                 }
 
                 // Always reveal nav when near the top of the page
-                if (currentScrollY <= headerThreshold && mobileBottomNav) {
-                    mobileBottomNav.classList.remove('nav-hidden');
+                if (currentScrollY <= headerThreshold && mobileNav) {
+                    mobileNav.classList.remove('nav-hidden');
                 }
 
                 // Close options dropdown on scroll
@@ -336,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-        if (!e.touches || e.touches.length === 0 || isScrollingToSection || !mobileBottomNav) return;
+        if (!e.touches || e.touches.length === 0 || isScrollingToSection || !mobileNav) return;
         const currentY = e.touches[0].clientY;
         const currentX = e.touches[0].clientX;
         const diffY = currentY - touchDragStartY;
@@ -346,36 +367,35 @@ document.addEventListener('DOMContentLoaded', () => {
         if (Math.abs(diffY) > diffX && Math.abs(diffY) > 12) {
             if (diffY < -12 && window.scrollY > headerThreshold) {
                 // Dragging upward (moving down into content) -> Hide nav bar
-                mobileBottomNav.classList.add('nav-hidden');
+                mobileNav.classList.add('nav-hidden');
             } else if (diffY > 12) {
                 // Dragging downward (moving up towards top) -> Show nav bar
-                mobileBottomNav.classList.remove('nav-hidden');
+                mobileNav.classList.remove('nav-hidden');
             }
         }
     }, { passive: true });
 
     // Direct swipe on bottom nav bar itself
-    if (mobileBottomNav) {
+    if (mobileNav) {
         let navBarTouchStartY = 0;
-        mobileBottomNav.addEventListener('touchstart', (e) => {
+        mobileNav.addEventListener('touchstart', (e) => {
             if (e.touches && e.touches.length > 0) {
                 navBarTouchStartY = e.touches[0].clientY;
             }
         }, { passive: true });
 
-        mobileBottomNav.addEventListener('touchmove', (e) => {
+        mobileNav.addEventListener('touchmove', (e) => {
             if (!e.touches || e.touches.length === 0) return;
             const diffY = e.touches[0].clientY - navBarTouchStartY;
             // Swiping downward on the bottom bar hides it
             if (diffY > 15) {
-                mobileBottomNav.classList.add('nav-hidden');
+                mobileNav.classList.add('nav-hidden');
             }
         }, { passive: true });
     }
 
     // Theme Toggle Logic
     const themeToggle = document.getElementById('theme-toggle');
-    const bgBackdrop = document.querySelector('.bg-typography-backdrop');
     let savedTheme = null;
     try {
         savedTheme = localStorage.getItem('theme');
@@ -416,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const textSpan = themeToggle.querySelector('.menu-item-text');
             const iconSpan = themeToggle.querySelector('.menu-item-icon');
             if (textSpan) {
-                textSpan.textContent = isDark ? 'Light Theme' : 'Dark Theme';
+                textSpan.textContent = isDark ? 'Light Mode' : 'Dark Mode';
             }
             if (iconSpan) {
                 iconSpan.innerHTML = isDark
@@ -998,28 +1018,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const logo = document.querySelector('.site-logo');
 
         if (isHidden) {
-            if (bgBackdrop) bgBackdrop.classList.add('bg-hidden');
             document.documentElement.classList.add('motion-hidden');
             if (logo) logo.classList.remove('logo-animate');
             if (animationToggle) {
                 const textSpan = animationToggle.querySelector('.menu-item-text');
                 const iconSpan = animationToggle.querySelector('.menu-item-icon');
-                if (textSpan) textSpan.textContent = 'Active Effect';
+                if (textSpan) textSpan.textContent = 'Play Effect';
                 if (iconSpan) {
                     iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
                 }
             }
             calmAudio.setEffectEnabled(false, fromUserGesture);
         } else {
-            if (bgBackdrop) bgBackdrop.classList.remove('bg-hidden');
             document.documentElement.classList.remove('motion-hidden');
             if (logo) logo.classList.add('logo-animate');
             if (animationToggle) {
                 const textSpan = animationToggle.querySelector('.menu-item-text');
                 const iconSpan = animationToggle.querySelector('.menu-item-icon');
-                if (textSpan) textSpan.textContent = 'Pause Effect';
+                if (textSpan) textSpan.textContent = 'Stop Effect';
                 if (iconSpan) {
-                    iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon><line x1="2" y1="2" x2="22" y2="22"></line></svg>`;
+                    iconSpan.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="10" y1="15" x2="10" y2="9"></line><line x1="14" y1="15" x2="14" y2="9"></line></svg>`;
                 }
             }
             calmAudio.setEffectEnabled(true, fromUserGesture);
