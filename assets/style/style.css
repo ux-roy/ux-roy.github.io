@@ -1231,6 +1231,41 @@ h3 {
     flex-wrap: wrap;
 }
 
+.project-year {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px;
+    background-color: rgba(var(--accent-rgb), 0.08);
+    border: 1px solid rgba(var(--accent-rgb), 0.22);
+    border-radius: 100px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+    margin-left: auto;
+    user-select: none;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .project-year {
+    background-color: rgba(var(--accent-rgb), 0.14);
+    border-color: rgba(var(--accent-rgb), 0.45);
+}
+
+.project-year-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.project-year time {
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
 .carousel-controls {
     position: relative;
     margin: 30px auto 0 auto;
@@ -1326,7 +1361,58 @@ h3 {
 }
 
 .thank-you-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     text-align: right;
+}
+
+.contact-qr-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.qr-code-card {
+    background: #ffffff;
+    border: 1px solid var(--accent-light);
+    border-radius: 16px;
+    padding: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.qr-code-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px var(--shadow-color), 0 0 20px rgba(var(--accent-rgb), 0.15);
+}
+
+.qr-code-img {
+    width: 120px;
+    height: 120px;
+    display: block;
+    object-fit: contain;
+}
+
+.qr-code-text {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+    text-align: center;
+    margin: 0;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+.contact-qr-wrapper:hover .qr-code-text {
+    color: var(--text-primary);
 }
 
 .thank-you-text {
@@ -1770,13 +1856,6 @@ h3 {
         gap: 25px;
     }
 
-    .project-footer {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 20px;
-    }
-
     .contact-layout {
         flex-direction: column;
         gap: 40px;
@@ -1784,6 +1863,7 @@ h3 {
     }
 
     .thank-you-col {
+        align-items: center;
         text-align: center;
     }
 
@@ -1849,6 +1929,18 @@ h3 {
 
     .timeline-content h5 {
         font-size: 1.15rem;
+    }
+
+    .project-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .project-year,
+    .contact-qr-wrapper {
+        display: none !important;
     }
 
     .modal-content {
@@ -2725,6 +2817,7 @@ html.motion-hidden .filter-chip:hover,
 html.motion-hidden .tab-btn:hover,
 html.motion-hidden .project-card:hover,
 html.motion-hidden .skill-card:hover,
+html.motion-hidden .qr-code-card:hover,
 html.motion-hidden .back-to-top,
 html.motion-hidden .back-to-top:hover,
 html.motion-hidden .back-to-top:active,
@@ -2789,6 +2882,7 @@ html.motion-hidden .pwa-install:active {
     .tab-btn:hover,
     .project-card:hover,
     .skill-card:hover,
+    .qr-code-card:hover,
     .contact-value,
     .contact-value:hover,
     .contact-value:focus,
