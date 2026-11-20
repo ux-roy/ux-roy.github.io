@@ -1363,8 +1363,8 @@ h3 {
 .thank-you-col {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
+    align-items: center;
+    text-align: center;
 }
 
 .contact-qr-wrapper {
@@ -1376,7 +1376,7 @@ h3 {
 }
 
 .qr-code-card {
-    background: #ffffff;
+    background: none;
     border: 1px solid var(--accent-light);
     border-radius: 16px;
     padding: 10px;
@@ -1385,11 +1385,6 @@ h3 {
     justify-content: center;
     box-shadow: 0 8px 24px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.qr-code-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px var(--shadow-color), 0 0 20px rgba(var(--accent-rgb), 0.15);
 }
 
 .qr-code-img {
@@ -1401,7 +1396,7 @@ h3 {
 
 .qr-code-text {
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 1.3rem;
     font-weight: 500;
     color: var(--text-secondary);
     letter-spacing: 0.3px;
@@ -1411,15 +1406,12 @@ h3 {
     transition: color 0.3s ease;
 }
 
-.contact-qr-wrapper:hover .qr-code-text {
-    color: var(--text-primary);
-}
-
 .thank-you-text {
     font-family: var(--font-section);
     font-size: 4rem;
     font-weight: 700;
     color: var(--text-primary);
+    text-align: center;
 }
 
 .contact-divider {
