@@ -1144,61 +1144,71 @@ h3 {
 
 .project-card {
     background: var(--card-bg);
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--accent-light);
-    padding: 30px 20px 20px 20px;
+    padding: 32px 32px 24px 32px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] .project-card {
+    background: #181c25;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.project-card:hover {
+    border-color: rgba(var(--accent-rgb), 0.35);
 }
 
 .project-header-area {
-    display: flex;
-    gap: 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.35fr);
+    gap: 36px;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
+    margin-bottom: 26px;
 }
 
 .project-title-col {
-    flex: 1;
-    border-right: 2px solid var(--accent-color);
-    padding-right: 10px;
-    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
+.project-title {
+    font-family: var(--font-heading);
+    font-size: 2.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 4px;
+    letter-spacing: -0.015em;
+}
+
+.project-type {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 14px;
+    line-height: 1.3;
+}
+
+.project-meta-tags,
 .project-meta-header {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
     flex-wrap: wrap;
 }
 
 .meta-pill {
     display: inline-flex;
     align-items: center;
-    padding: 4px 12px;
-    background-color: rgba(var(--accent-rgb), 0.1);
-    border: 1px solid rgba(var(--accent-rgb), 0.28);
+    padding: 5px 14px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 100px;
     font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    letter-spacing: 0.4px;
-    line-height: 1.2;
-    white-space: nowrap;
-    user-select: none;
-    transition: all 0.25s ease;
-}
-
-.meta-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 10px;
-    background-color: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 500;
     color: var(--text-secondary);
     letter-spacing: 0.3px;
@@ -1208,99 +1218,101 @@ h3 {
     transition: all 0.25s ease;
 }
 
+[data-theme="light"] .meta-pill {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
 .project-card:hover .meta-pill {
-    background-color: rgba(var(--accent-rgb), 0.16);
-    border-color: rgba(var(--accent-rgb), 0.45);
-}
-
-.project-card:hover .meta-badge {
-    border-color: rgba(var(--accent-rgb), 0.3);
+    border-color: rgba(var(--accent-rgb), 0.35);
     color: var(--text-primary);
-}
-
-.project-title {
-    font-family: var(--font-section);
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 5px;
-}
-
-.project-type {
-    font-family: var(--font-body);
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-top: 10px;
 }
 
 .project-desc-col {
-    flex: 2;
-    font-size: 1.2rem;
+    border-left: 3.5px solid var(--accent-color);
+    padding-left: 20px;
+    font-size: 1.1rem;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.55;
+    display: flex;
+    align-items: center;
+}
+
+.project-desc-col p {
+    margin: 0;
 }
 
 .project-details-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 24px;
 }
 
-.detail-svg-icon {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-    padding: 2px;
+.detail-col {
+    display: flex;
+    flex-direction: column;
 }
 
 .detail-title {
-    font-family: var(--font-section);
-    font-size: 1.35rem;
+    font-family: var(--font-body);
+    font-size: 1.15rem;
     font-weight: 700;
-    color: var(--text-primary);
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
     line-height: 1.3;
 }
 
-.detail-subtitle {
-    font-family: var(--font-body);
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--text-secondary);
+.detail-title--pain {
+    color: #ff7d75;
+}
+
+.detail-title--fixes {
+    color: #60a5fa;
+}
+
+.detail-title--impact {
+    color: #34d399;
+}
+
+.detail-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 .detail-list {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .detail-list li {
-    font-size: 1.1rem;
-    margin-bottom: 7px;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    margin-bottom: 8px;
     position: relative;
-    padding-left: 25px;
+    padding-left: 18px;
     color: var(--text-secondary);
-    margin-left: 15px;
 }
 
 .detail-list li::before {
     content: "•";
     position: absolute;
-    left: 0;
-    color: var(--text-primary);
-    font-weight: bold;
+    left: 2px;
+    color: var(--text-secondary);
+    opacity: 0.75;
+    font-size: 1.1rem;
+    line-height: 1.35;
 }
 
 .project-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
     gap: 16px;
 }
 
@@ -1311,13 +1323,34 @@ h3 {
     flex-wrap: wrap;
 }
 
+.project-actions .btn-outline {
+    height: 38px;
+    padding: 0 18px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    border-radius: 8px;
+    background-color: rgba(var(--accent-rgb), 0.04);
+    border: 1px solid rgba(var(--accent-rgb), 0.6);
+    color: var(--text-primary);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-actions .btn-outline:hover {
+    background-color: rgba(var(--accent-rgb), 0.18);
+    border-color: var(--accent-color);
+    color: var(--text-primary);
+    box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.2);
+    transform: translateY(-1px);
+}
+
 .project-year {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 5px 12px;
-    background-color: rgba(var(--accent-rgb), 0.08);
-    border: 1px solid rgba(var(--accent-rgb), 0.22);
+    gap: 8px;
+    padding: 6px 14px;
+    background-color: rgba(var(--accent-rgb), 0.05);
+    border: 1px solid rgba(var(--accent-rgb), 0.5);
     border-radius: 100px;
     font-size: 0.88rem;
     font-weight: 500;
@@ -1326,12 +1359,12 @@ h3 {
     margin-left: auto;
     user-select: none;
     white-space: nowrap;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
 
 .project-card:hover .project-year {
-    background-color: rgba(var(--accent-rgb), 0.14);
-    border-color: rgba(var(--accent-rgb), 0.45);
+    background-color: rgba(var(--accent-rgb), 0.12);
+    border-color: var(--accent-color);
 }
 
 .project-year-icon {
@@ -1909,27 +1942,29 @@ h3 {
     }
 
     .project-header-area {
-        flex-direction: column;
-        gap: 15px;
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .project-title-col {
-        border-right: none;
-        border-bottom: 2px solid var(--accent-color);
-        padding-right: 0;
-        padding-bottom: 15px;
         width: 100%;
         margin-left: 0;
-        text-align: center;
+        text-align: left;
     }
 
+    .project-meta-tags,
     .project-meta-header {
-        justify-content: center;
+        justify-content: flex-start;
+    }
+
+    .project-desc-col {
+        border-left: 3px solid var(--accent-color);
+        padding-left: 16px;
     }
 
     .project-details-grid {
         grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 24px;
     }
 
     .contact-layout {
@@ -2407,27 +2442,27 @@ h3 {
     }
 
     .project-card {
-        padding: 25px 15px 15px 15px;
+        padding: 24px 18px 20px 18px;
+        border-radius: 14px;
     }
 
     .project-title {
-        font-size: 1.7rem;
+        font-size: 1.75rem;
     }
 
     .project-type {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
+        margin-bottom: 12px;
     }
 
     .project-desc-col {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
+        padding-left: 14px;
     }
 
     .detail-title {
-        font-size: 1.25rem;
-    }
-
-    .detail-subtitle {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
+        margin-bottom: 12px;
     }
 
     .slide-counter {
