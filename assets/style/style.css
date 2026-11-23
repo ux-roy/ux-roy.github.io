@@ -1171,7 +1171,7 @@ h3 {
     gap: 36px;
     align-items: flex-start;
     padding-bottom: 24px;
-    margin-bottom: 26px;
+    margin-bottom: 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1317,7 +1317,7 @@ h3 {
 }
 
 .stat-badge:hover .stat-val {
-    color: var(--accent-color);
+    color: var(--text-secondary);
 }
 
 .stat-badge:hover .stat-lbl {
@@ -1345,7 +1345,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
-    padding-bottom: 24px;
+    padding-bottom: 10px;
     margin-bottom: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -1503,7 +1503,7 @@ h3 {
 
 .carousel-controls {
     position: relative;
-    margin: -30px auto 0 auto;
+    margin: 15px auto 0 auto;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -2623,7 +2623,7 @@ h3 {
         position: relative;
         top: auto;
         right: auto;
-        margin: 25px auto 0 auto;
+        margin: 14px auto 0 auto;
         padding: 6px;
     }
 
