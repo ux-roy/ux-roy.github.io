@@ -1270,7 +1270,6 @@ h3 {
     bottom: 2px;
     width: 3.5px;
     background-color: var(--accent-color);
-    border-radius: 2px;
 }
 
 .project-desc-text p {
@@ -1414,15 +1413,15 @@ h3 {
 }
 
 /* Bullet colors matching respective columns with adaptive contrast */
-.detail-title--pain ~ .detail-list li::before {
+.detail-title--pain~.detail-list li::before {
     color: var(--pain-color);
 }
 
-.detail-title--fixes ~ .detail-list li::before {
+.detail-title--fixes~.detail-list li::before {
     color: var(--fixes-color);
 }
 
-.detail-title--impact ~ .detail-list li::before {
+.detail-title--impact~.detail-list li::before {
     color: var(--impact-color);
 }
 
