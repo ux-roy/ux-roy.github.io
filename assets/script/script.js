@@ -1561,7 +1561,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .project-card, .skill-card, .menu-item, .panel-link, .logo-trigger, .hamburger-menu, .tab-btn, .filter-chip, .btn, .nav-link, .meta-pill, .stat-badge';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .modal-action-btn, .close-modal, .overlay-icon-btn';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
