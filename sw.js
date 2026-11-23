@@ -2,7 +2,7 @@ const CACHE_NAME = 'ux-roy-portfolio-v30';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/assets/style/style.css?v=32',
+  '/assets/style/style.css?v=35',
   '/assets/script/script.js?v=23',
   '/manifest.json',
   '/assets/image/pwa-icon.png',
