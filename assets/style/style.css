@@ -2180,8 +2180,28 @@ h3 {
 
     .project-stats-row,
     .project-year,
-    .contact-qr-wrapper {
+    .contact-qr-wrapper,
+    .project-meta-tags,
+    .project-meta-header {
         display: none !important;
+    }
+
+    .project-type {
+        margin-bottom: 0;
+    }
+
+    .project-desc-text {
+        padding-left: 0;
+    }
+
+    .project-desc-text::before {
+        display: none !important;
+    }
+
+    .project-desc-text p,
+    .detail-list li {
+        font-size: 1rem;
+        line-height: 1.55;
     }
 
     .modal-content {
@@ -2582,15 +2602,21 @@ h3 {
 
     .project-type {
         font-size: 1.15rem;
-        margin-bottom: 12px;
+        margin-bottom: 0;
     }
 
     .project-desc-text {
-        padding-left: 12px;
+        padding-left: 0;
     }
 
-    .project-desc-text p {
+    .project-desc-text p,
+    .detail-list li {
         font-size: 0.94rem;
+        line-height: 1.55;
+    }
+
+    .detail-list li::before {
+        font-size: 1rem;
     }
 
     .project-stats-row {
