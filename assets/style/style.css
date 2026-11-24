@@ -187,6 +187,8 @@ html.has-custom-cursor .stat-badge {
     textarea,
     select,
     [role="button"],
+    .process-hotspot,
+    .process-node,
     .menu-item,
     .panel-link,
     .mobile-nav-btn,
@@ -207,7 +209,7 @@ html.has-custom-cursor .stat-badge {
     .back-to-top,
     .pwa-install,
     .logo-link {
-        cursor: pointer;
+        cursor: pointer !important;
     }
 
     input,
@@ -991,6 +993,250 @@ h3 {
     color: var(--accent-color);
     font-weight: bold;
     padding-left: 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 4.2 Design Process Diagram (Integrated & Interactive)                     */
+/* ------------------------------------------------------------------------- */
+.process-section {
+    margin-top: 5px;
+    margin-bottom: 50px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.process-diagram-wrapper {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 44px 24px 18px 24px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-light) transparent;
+}
+
+.process-diagram-wrapper::-webkit-scrollbar {
+    height: 4px;
+}
+
+.process-diagram-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.process-diagram-wrapper::-webkit-scrollbar-thumb {
+    background: var(--accent-light);
+    border-radius: 4px;
+}
+
+.process-stage-track {
+    position: relative;
+    width: 100%;
+    min-width: 620px;
+}
+
+.process-diagram-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    color: var(--text-primary);
+    overflow: visible;
+}
+
+/* Process Nodes in Diagram */
+.process-node {
+    cursor: pointer;
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.process-circle {
+    transition: transform 0.25s ease, stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
+    fill: var(--accent-color, #E2723A);
+    stroke: var(--bg-color, #151922);
+    stroke-width: 3px;
+    filter: drop-shadow(0 2px 8px rgba(226, 114, 58, 0.35));
+}
+
+.process-number {
+    user-select: none;
+    pointer-events: none;
+    fill: #ffffff;
+    font-weight: 700;
+}
+
+.process-node:hover,
+.process-node.hovered {
+    transform: scale(1.18);
+}
+
+.process-node:hover .process-circle,
+.process-node.hovered .process-circle {
+    stroke: #ffffff;
+    stroke-width: 2.5px;
+    filter: drop-shadow(0 4px 14px rgba(226, 114, 58, 0.65));
+}
+
+.process-node:hover .process-number,
+.process-node.hovered .process-number {
+    fill: #ffffff;
+}
+
+/* Auto-expanding animated pulse rings */
+.process-pulse-ring {
+    pointer-events: none;
+}
+
+/* Interactive Hotspots & Tooltips Overlay */
+.process-hotspots-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.process-hotspot {
+    position: absolute;
+    top: 47.3%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* MacBook Dock-Style Floating App Tooltip */
+.process-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px) scale(0.96);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.16s;
+    z-index: 30;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.85);
+    border: 0.5px solid rgba(0, 0, 0, 0.12);
+    color: #1d1d1f;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="dark"] .process-tooltip {
+    background: rgba(28, 30, 36, 0.82);
+    border: 0.5px solid rgba(255, 255, 255, 0.16);
+    color: #f5f5f7;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] .process-tooltip {
+    background: rgba(255, 255, 255, 0.85);
+    border: 0.5px solid rgba(0, 0, 0, 0.12);
+    color: #1d1d1f;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
+}
+
+.tooltip-name {
+    letter-spacing: -0.01em;
+}
+
+/* Specific edge alignments for Step 1 (left) and Step 5 (right) to prevent cropping */
+.process-hotspot[data-step="1"] .process-tooltip {
+    left: 0;
+    right: auto;
+    transform: translateY(4px) scale(0.96);
+}
+
+.process-hotspot[data-step="5"] .process-tooltip {
+    left: auto;
+    right: 0;
+    transform: translateY(4px) scale(0.96);
+}
+
+/* Tooltip Reveal States */
+.process-hotspot:hover .process-tooltip,
+.process-hotspot.hovered .process-tooltip,
+.process-hotspot:focus-visible .process-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.process-hotspot:focus-visible {
+    outline: 2px solid var(--accent-color, #E2723A);
+    outline-offset: 4px;
+}
+
+.process-hotspot[data-step="1"]:hover .process-tooltip,
+.process-hotspot[data-step="1"].hovered .process-tooltip,
+.process-hotspot[data-step="1"]:focus-visible .process-tooltip {
+    transform: translateY(0) scale(1);
+}
+
+.process-hotspot[data-step="5"]:hover .process-tooltip,
+.process-hotspot[data-step="5"].hovered .process-tooltip,
+.process-hotspot[data-step="5"]:focus-visible .process-tooltip {
+    transform: translateY(0) scale(1);
+}
+
+/* Cross-highlighting between Hotspots and SVG Nodes via CSS :has */
+.process-stage-track:has(.process-hotspot[data-step="1"]:hover) .process-node[data-step="1"],
+.process-stage-track:has(.process-hotspot[data-step="2"]:hover) .process-node[data-step="2"],
+.process-stage-track:has(.process-hotspot[data-step="3"]:hover) .process-node[data-step="3"],
+.process-stage-track:has(.process-hotspot[data-step="4"]:hover) .process-node[data-step="4"],
+.process-stage-track:has(.process-hotspot[data-step="5"]:hover) .process-node[data-step="5"] {
+    transform: scale(1.18);
+}
+
+.process-stage-track:has(.process-hotspot[data-step="1"]:hover) .process-node[data-step="1"] .process-circle,
+.process-stage-track:has(.process-hotspot[data-step="2"]:hover) .process-node[data-step="2"] .process-circle,
+.process-stage-track:has(.process-hotspot[data-step="3"]:hover) .process-node[data-step="3"] .process-circle,
+.process-stage-track:has(.process-hotspot[data-step="4"]:hover) .process-node[data-step="4"] .process-circle,
+.process-stage-track:has(.process-hotspot[data-step="5"]:hover) .process-node[data-step="5"] .process-circle {
+    stroke: #ffffff;
+    stroke-width: 2.5px;
+    filter: drop-shadow(0 4px 14px rgba(226, 114, 58, 0.65));
+}
+
+.process-stage-track:has(.process-hotspot[data-step="1"]:hover) .process-node[data-step="1"] .process-number,
+.process-stage-track:has(.process-hotspot[data-step="2"]:hover) .process-node[data-step="2"] .process-number,
+.process-stage-track:has(.process-hotspot[data-step="3"]:hover) .process-node[data-step="3"] .process-number,
+.process-stage-track:has(.process-hotspot[data-step="4"]:hover) .process-node[data-step="4"] .process-number,
+.process-stage-track:has(.process-hotspot[data-step="5"]:hover) .process-node[data-step="5"] .process-number {
+    fill: #ffffff;
+}
+
+/* Active / Press tactile feedback for Number Circles */
+.process-node:active,
+.process-stage-track:has(.process-hotspot[data-step="1"]:active) .process-node[data-step="1"],
+.process-stage-track:has(.process-hotspot[data-step="2"]:active) .process-node[data-step="2"],
+.process-stage-track:has(.process-hotspot[data-step="3"]:active) .process-node[data-step="3"],
+.process-stage-track:has(.process-hotspot[data-step="4"]:active) .process-node[data-step="4"],
+.process-stage-track:has(.process-hotspot[data-step="5"]:active) .process-node[data-step="5"] {
+    transform: scale(1.05);
 }
 
 .experience-layout {
@@ -2045,6 +2291,11 @@ h3 {
         gap: 30px;
     }
 
+    .process-section {
+        margin-top: 5px;
+        margin-bottom: 40px;
+    }
+
     .project-header-area {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -2115,6 +2366,11 @@ h3 {
 }
 
 @media screen and (max-width: 768px) {
+    /* Hide process diagram on mobile version */
+    .process-section {
+        display: none !important;
+    }
+
     .text-animation {
         display: block;
     }
@@ -3109,6 +3365,7 @@ html.motion-hidden .project-card:hover,
 html.motion-hidden .meta-pill:hover,
 html.motion-hidden .stat-badge:hover,
 html.motion-hidden .skill-card:hover,
+html.motion-hidden .process-node:hover,
 html.motion-hidden .qr-code-card:hover,
 html.motion-hidden .back-to-top,
 html.motion-hidden .back-to-top:hover,

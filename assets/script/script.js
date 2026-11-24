@@ -1592,7 +1592,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .modal-action-btn, .close-modal, .overlay-icon-btn, #insights-image, video';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .modal-action-btn, .close-modal, .overlay-icon-btn, #insights-image, video';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
@@ -1793,6 +1793,91 @@ document.addEventListener('DOMContentLoaded', () => {
             link.classList.remove('touch-active');
         }, { passive: true });
     });
+
+    // -------------------------------------------------------------------------
+    // Design Process Diagram Node & Tooltip Interactions
+    // -------------------------------------------------------------------------
+    const processStageTrack = document.querySelector('.process-stage-track');
+    if (processStageTrack) {
+        const hotspots = processStageTrack.querySelectorAll('.process-hotspot');
+        const nodes = processStageTrack.querySelectorAll('.process-node');
+
+        const activateStep = (step) => {
+            hotspots.forEach(h => {
+                if (h.getAttribute('data-step') === step) {
+                    h.classList.add('hovered');
+                } else {
+                    h.classList.remove('hovered');
+                }
+            });
+            nodes.forEach(n => {
+                if (n.getAttribute('data-step') === step) {
+                    n.classList.add('hovered');
+                } else {
+                    n.classList.remove('hovered');
+                }
+            });
+        };
+
+        const deactivateAll = () => {
+            hotspots.forEach(h => h.classList.remove('hovered'));
+            nodes.forEach(n => n.classList.remove('hovered'));
+        };
+
+        nodes.forEach(node => {
+            const step = node.getAttribute('data-step');
+            node.addEventListener('mouseenter', () => activateStep(step));
+            node.addEventListener('mouseleave', deactivateAll);
+            node.addEventListener('focus', () => activateStep(step));
+            node.addEventListener('blur', deactivateAll);
+            node.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const hotspot = processStageTrack.querySelector(`.process-hotspot[data-step="${step}"]`);
+                const isHovered = hotspot && hotspot.classList.contains('hovered');
+                deactivateAll();
+                if (!isHovered) activateStep(step);
+            });
+            node.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const hotspot = processStageTrack.querySelector(`.process-hotspot[data-step="${step}"]`);
+                    const isHovered = hotspot && hotspot.classList.contains('hovered');
+                    deactivateAll();
+                    if (!isHovered) activateStep(step);
+                }
+            });
+        });
+
+        hotspots.forEach(hotspot => {
+            const step = hotspot.getAttribute('data-step');
+            hotspot.addEventListener('mouseenter', () => activateStep(step));
+            hotspot.addEventListener('mouseleave', deactivateAll);
+            hotspot.addEventListener('focus', () => activateStep(step));
+            hotspot.addEventListener('blur', deactivateAll);
+            hotspot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHovered = hotspot.classList.contains('hovered');
+                deactivateAll();
+                if (!isHovered) activateStep(step);
+            });
+            hotspot.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const isHovered = hotspot.classList.contains('hovered');
+                    deactivateAll();
+                    if (!isHovered) activateStep(step);
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!processStageTrack.contains(e.target)) {
+                deactivateAll();
+            }
+        });
+    }
 
 });
 
