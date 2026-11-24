@@ -1029,6 +1029,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             calmAudio.setEffectEnabled(false, fromUserGesture);
+
+            // Immediately clear any active cursor light tail canvas
+            const trailCanvas = document.getElementById('custom-cursor-trail');
+            if (trailCanvas && trailCanvas.getContext) {
+                const trailCtx = trailCanvas.getContext('2d');
+                if (trailCtx) {
+                    trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+                }
+            }
         } else {
             document.documentElement.classList.remove('motion-hidden');
             if (logo) logo.classList.add('logo-animate');

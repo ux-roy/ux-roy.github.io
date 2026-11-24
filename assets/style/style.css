@@ -215,9 +215,7 @@ html.has-custom-cursor .stat-badge {
         cursor: text;
     }
 
-    /* Fallback when motion is hidden */
-    html.motion-hidden #custom-cursor-dot,
-    html.motion-hidden #custom-cursor-ring,
+    /* Hide tail vanishing effect when stop effect is active (circle + dot cursor remains visible) */
     html.motion-hidden #custom-cursor-trail {
         display: none !important;
     }
@@ -1284,7 +1282,7 @@ h3 {
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(var(--accent-rgb), 0.03);
     border: 1px solid var(--accent-light);
     border-radius: 8px;
     user-select: none;
@@ -1292,18 +1290,18 @@ h3 {
 }
 
 [data-theme="light"] .stat-badge {
-    background-color: rgba(0, 0, 0, 0.03);
-    border-color: rgba(0, 0, 0, 0.14);
+    background-color: rgba(var(--accent-rgb), 0.03);
+    border-color: rgba(var(--accent-rgb), 0.22);
 }
 
 .stat-badge:hover {
-    border-color: rgba(var(--accent-rgb), 0.3);
-    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(var(--accent-rgb), 0.32);
+    background-color: rgba(var(--accent-rgb), 0.06);
 }
 
 [data-theme="light"] .stat-badge:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(var(--accent-rgb), 0.06);
+    border-color: rgba(var(--accent-rgb), 0.38);
 }
 
 .stat-val {
