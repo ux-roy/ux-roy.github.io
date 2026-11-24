@@ -1125,10 +1125,12 @@ h3 {
     padding: 6px 14px;
     border-radius: 8px;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 0.88rem;
+    font-weight: 400;
     line-height: 1.35;
     letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     white-space: nowrap;
     pointer-events: none;
     opacity: 0;
@@ -1163,19 +1165,6 @@ h3 {
     letter-spacing: -0.01em;
 }
 
-/* Specific edge alignments for Step 1 (left) and Step 5 (right) to prevent cropping */
-.process-hotspot[data-step="1"] .process-tooltip {
-    left: 0;
-    right: auto;
-    transform: translateY(4px) scale(0.96);
-}
-
-.process-hotspot[data-step="5"] .process-tooltip {
-    left: auto;
-    right: 0;
-    transform: translateY(4px) scale(0.96);
-}
-
 /* Tooltip Reveal States */
 .process-hotspot:hover .process-tooltip,
 .process-hotspot.hovered .process-tooltip,
@@ -1188,18 +1177,6 @@ h3 {
 .process-hotspot:focus-visible {
     outline: 2px solid var(--accent-color, #E2723A);
     outline-offset: 4px;
-}
-
-.process-hotspot[data-step="1"]:hover .process-tooltip,
-.process-hotspot[data-step="1"].hovered .process-tooltip,
-.process-hotspot[data-step="1"]:focus-visible .process-tooltip {
-    transform: translateY(0) scale(1);
-}
-
-.process-hotspot[data-step="5"]:hover .process-tooltip,
-.process-hotspot[data-step="5"].hovered .process-tooltip,
-.process-hotspot[data-step="5"]:focus-visible .process-tooltip {
-    transform: translateY(0) scale(1);
 }
 
 /* Cross-highlighting between Hotspots and SVG Nodes via CSS :has */
