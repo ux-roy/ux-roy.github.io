@@ -1,8 +1,8 @@
-const CACHE_NAME = 'ux-roy-portfolio-v36';
+const CACHE_NAME = 'ux-roy-portfolio-v37';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/assets/style/style.css?v=41',
+  '/assets/style/style.css?v=42',
   '/assets/script/script.js?v=27',
   '/manifest.json',
   '/assets/image/pwa-icon.png',
