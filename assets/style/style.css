@@ -80,172 +80,151 @@ body {
     overflow-x: hidden;
 }
 
-/* Custom Interactive Cursor System */
+/* Custom Interactive Cursor System - Active only on default mouse cursor, disabled on mouse interaction */
+#custom-cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 99997;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    background-color: var(--cursor-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: left, top, opacity;
+    opacity: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0 0 10px rgba(var(--cursor-rgb), 0.5);
+    transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), -webkit-transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#custom-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid rgba(var(--cursor-rgb), 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: left, top, opacity;
+    opacity: 0;
+    box-shadow: 0 0 12px rgba(var(--cursor-rgb), 0.15);
+    transition: opacity 0.2s ease, width 0.25s cubic-bezier(0.25, 1, 0.5, 1), height 0.25s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, background-color 0.2s ease;
+}
+
+/* Active on default mouse cursor */
+body.cursor-active #custom-cursor-dot,
+body.cursor-active #custom-cursor-ring,
+body.cursor-active #custom-cursor-trail {
+    opacity: 1;
+}
+
+/* Completely hide mouse effects on mouse interaction (over interactive elements) */
+body.cursor-hover #custom-cursor-dot,
+body.cursor-hover #custom-cursor-ring,
+body.cursor-hover #custom-cursor-trail {
+    opacity: 0 !important;
+}
+
+/* Click State (only on default mouse cursor, not on mouse interaction) */
+body.cursor-click:not(.cursor-hover) #custom-cursor-dot {
+    -webkit-transform: translate3d(-50%, -50%, 0) scale(1.25);
+    transform: translate3d(-50%, -50%, 0) scale(1.25);
+}
+
+body.cursor-click:not(.cursor-hover) #custom-cursor-ring {
+    width: 10px;
+    height: 10px;
+    border-color: var(--cursor-color);
+    background-color: rgba(var(--cursor-rgb), 0.25);
+}
+
+/* Hide native cursor on default areas (including meta tags & stat badges) so only the circle cursor appears */
+html.has-custom-cursor,
+html.has-custom-cursor body,
+html.has-custom-cursor .meta-pill,
+html.has-custom-cursor .stat-badge {
+    cursor: none !important;
+}
+
 @media (hover: hover) and (pointer: fine) {
 
+    /* Active only on default mouse cursor areas (including meta tags & stat badges) */
+    html,
     body,
+    .meta-pill,
+    .stat-badge {
+        cursor: none !important;
+    }
+
+    /* Interactive elements retain natural pointer cursor during mouse interaction */
     a,
     button,
     input,
     textarea,
     select,
     [role="button"],
-    .project-card,
-    .skill-card,
     .menu-item,
     .panel-link,
+    .mobile-nav-btn,
     .logo-trigger,
     .hamburger-menu,
     .tab-btn,
     .filter-chip,
     .btn,
+    .btn-outline,
     .nav-link,
-    .meta-pill,
-    .stat-badge,
-    .slide-counter,
-    .carousel-controls,
+    .open-project-modal,
+    .modal-action-btn,
+    .close-modal,
+    .overlay-icon-btn,
+    .nav-btn,
     .contact-value,
     .social-icon-btn,
     .back-to-top,
     .pwa-install,
-    .btn-outline,
     .logo-link {
-        cursor: none !important;
+        cursor: pointer;
     }
 
-    #custom-cursor-trail {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        pointer-events: none;
-        z-index: 99997;
-        opacity: 0;
-        transition: opacity 0.25s ease;
+    input,
+    textarea {
+        cursor: text;
     }
 
-    #custom-cursor-dot {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 4px;
-        background-color: var(--cursor-color);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 99999;
-        transform: translate3d(-50%, -50%, 0);
-        transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease, opacity 0.25s ease;
-        opacity: 0;
-        user-select: none;
-        box-shadow: 0 0 10px rgba(var(--cursor-rgb), 0.5);
-    }
-
-    #custom-cursor-ring {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 14px;
-        height: 14px;
-        border: 1.5px solid rgba(var(--cursor-rgb), 0.6);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 99998;
-        transform: translate3d(-50%, -50%, 0);
-        transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1),
-            height 0.25s cubic-bezier(0.25, 1, 0.5, 1),
-            border-color 0.25s ease,
-            background-color 0.25s ease,
-            opacity 0.25s ease;
-        opacity: 0;
-        box-shadow: 0 0 12px rgba(var(--cursor-rgb), 0.15);
-    }
-
-    body.cursor-active #custom-cursor-dot,
-    body.cursor-active #custom-cursor-ring,
-    body.cursor-active #custom-cursor-trail {
-        opacity: 1;
-    }
-
-    /* Hovered State over Interactive Elements */
-    body.cursor-hover #custom-cursor-dot {
-        transform: translate3d(-50%, -50%, 0) scale(0.75);
-        background-color: var(--cursor-color);
-    }
-
-    body.cursor-hover #custom-cursor-ring {
-        /* Scaling/enlarging effect on hover is completely removed, sizes remain 14px */
-        border-color: var(--cursor-color);
-        background-color: transparent;
-        box-shadow: none;
-    }
-
-    /* Override cursor color on orange buttons to keep it visible */
-    body.cursor-hover:has(.btn-outline:hover) #custom-cursor-dot,
-    body.cursor-hover:has(.modal-action-btn:hover) #custom-cursor-dot,
-    body.cursor-hover:has(.close-modal:hover) #custom-cursor-dot,
-    body.cursor-hover:has(.overlay-icon-btn:hover) #custom-cursor-dot {
-        background-color: #ffffff;
-    }
-
-    body.cursor-hover:has(.btn-outline:hover) #custom-cursor-ring,
-    body.cursor-hover:has(.modal-action-btn:hover) #custom-cursor-ring,
-    body.cursor-hover:has(.close-modal:hover) #custom-cursor-ring,
-    body.cursor-hover:has(.overlay-icon-btn:hover) #custom-cursor-ring {
-        border-color: #ffffff;
-    }
-
-    /* Click State */
-    body.cursor-click #custom-cursor-dot {
-        transform: translate3d(-50%, -50%, 0) scale(1.25);
-    }
-
-    body.cursor-click #custom-cursor-ring {
-        width: 10px;
-        height: 10px;
-        border-color: var(--cursor-color);
-        background-color: rgba(var(--cursor-rgb), 0.25);
-    }
-
-    /* When motion/effect is disabled: hide custom cursor elements & change native cursor to ✦ */
+    /* Fallback when motion is hidden */
     html.motion-hidden #custom-cursor-dot,
     html.motion-hidden #custom-cursor-ring,
     html.motion-hidden #custom-cursor-trail {
         display: none !important;
     }
-
-    html.motion-hidden,
-    html.motion-hidden body,
-    html.motion-hidden a,
-    html.motion-hidden button,
-    html.motion-hidden [role="button"],
-    html.motion-hidden .project-card,
-    html.motion-hidden .skill-card,
-    html.motion-hidden .menu-item,
-    html.motion-hidden .panel-link,
-    html.motion-hidden .logo-trigger,
-    html.motion-hidden .hamburger-menu,
-    html.motion-hidden .tab-btn,
-    html.motion-hidden .filter-chip,
-    html.motion-hidden .btn,
-    html.motion-hidden .nav-link,
-    html.motion-hidden .meta-pill,
-    html.motion-hidden .stat-badge,
-    html.motion-hidden .slide-counter,
-    html.motion-hidden .carousel-controls,
-    html.motion-hidden .contact-value,
-    html.motion-hidden .social-icon-btn,
-    html.motion-hidden .back-to-top,
-    html.motion-hidden .pwa-install,
-    html.motion-hidden .btn-outline,
-    html.motion-hidden .logo-link {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='2' fill='%23E2723A'/%3E%3Ccircle cx='12' cy='12' r='6.25' fill='none' stroke='rgba(226, 114, 58, 0.6)' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, auto !important;
-    }
 }
 
-@media (hover: none),
-(pointer: coarse) {
+/* Pure touch devices (no hover, coarse pointer) */
+@media (hover: none) and (pointer: coarse) {
 
     #custom-cursor-dot,
     #custom-cursor-ring,
@@ -1244,7 +1223,6 @@ h3 {
     line-height: 1.2;
     white-space: nowrap;
     user-select: none;
-    cursor: default;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1310,7 +1288,6 @@ h3 {
     border: 1px solid var(--accent-light);
     border-radius: 8px;
     user-select: none;
-    cursor: default;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

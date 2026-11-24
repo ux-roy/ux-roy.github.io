@@ -1466,12 +1466,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Custom Interactive Cursor System with Light Tail
+    // Custom Interactive Cursor System with Light Tail - Active on default mouse cursor, disabled on mouse interaction
+    const isMouseEffectEnabled = true;
     const cursorDot = document.getElementById('custom-cursor-dot');
     const cursorRing = document.getElementById('custom-cursor-ring');
     const cursorTrail = document.getElementById('custom-cursor-trail');
 
-    if (cursorDot && cursorRing && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    // Check for pointer device (exclude pure touch devices like mobile phones)
+    const isTouchOnlyDevice = () => {
+        try {
+            return window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    if (isMouseEffectEnabled && cursorDot && cursorRing && !isTouchOnlyDevice()) {
+        document.documentElement.classList.add('has-custom-cursor');
         let mouseX = -100;
         let mouseY = -100;
         let ringX = -100;
@@ -1524,7 +1535,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        window.addEventListener('mousemove', (e) => {
+        const handlePointerMove = (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
 
@@ -1538,8 +1549,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastMouseX = mouseX;
                 lastMouseY = mouseY;
             }
+
+            // Self-heal hover state if pointer has moved away from interactive elements
+            if (e.target && (!e.target.closest || !e.target.closest(interactiveSelector))) {
+                if (document.body.classList.contains('cursor-hover')) {
+                    document.body.classList.remove('cursor-hover');
+                }
+            }
+
             startRenderLoop();
-        });
+        };
+
+        window.addEventListener('mousemove', handlePointerMove, { passive: true });
+        window.addEventListener('pointermove', handlePointerMove, { passive: true });
 
         window.addEventListener('mouseleave', () => {
             isCursorActive = false;
@@ -1561,11 +1583,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .modal-action-btn, .close-modal, .overlay-icon-btn';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .modal-action-btn, .close-modal, .overlay-icon-btn, #insights-image, video';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
                 document.body.classList.add('cursor-hover');
+                if (ctx && cursorTrail) {
+                    ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
+                }
+                trailHistory.length = 0;
+                particles.length = 0;
             }
         });
 
@@ -1605,8 +1632,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (ctx && cursorTrail) {
                 const isMotionHidden = document.documentElement.classList.contains('motion-hidden');
+                const isHovering = document.body.classList.contains('cursor-hover');
 
-                if (isMotionHidden) {
+                if (isMotionHidden || isHovering) {
                     ctx.clearRect(0, 0, cursorTrail.width, cursorTrail.height);
                     trailHistory.length = 0;
                     particles.length = 0;
