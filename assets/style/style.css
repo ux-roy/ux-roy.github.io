@@ -913,7 +913,7 @@ h3 {
 
 .hero-profile-img {
     width: 100%;
-    max-width: 550px;
+    max-width: 495px;
     height: auto;
     object-fit: cover;
 }
@@ -1007,7 +1007,7 @@ h3 {
     margin: 0 auto;
     overflow-x: auto;
     overflow-y: visible;
-    padding: 44px 24px 18px 24px;
+    padding: 72px 40px 24px 40px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-light) transparent;
@@ -1097,7 +1097,7 @@ h3 {
 
 .process-hotspot {
     position: absolute;
-    top: 47.3%;
+    top: 50%;
     transform: translate(-50%, -50%);
     width: 48px;
     height: 48px;
@@ -1110,22 +1110,24 @@ h3 {
 /* MacBook Dock-Style Floating App Tooltip */
 .process-tooltip {
     position: absolute;
-    bottom: calc(100% + 10px);
+    bottom: calc(100% + 28px);
     left: 50%;
     transform: translateX(-50%) translateY(4px) scale(0.96);
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 6px 14px;
-    border-radius: 8px;
+    padding: 8px 18px;
+    border-radius: 10px;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 0.88rem;
-    font-weight: 400;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
@@ -1135,28 +1137,29 @@ h3 {
     z-index: 30;
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     backdrop-filter: blur(20px) saturate(180%);
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.88);
     border: 0.5px solid rgba(0, 0, 0, 0.12);
     color: #1d1d1f;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14), 0 2px 5px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
 }
 
 [data-theme="dark"] .process-tooltip {
-    background: rgba(28, 30, 36, 0.82);
+    background: rgba(28, 30, 36, 0.85);
     border: 0.5px solid rgba(255, 255, 255, 0.16);
     color: #f5f5f7;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4), 0 2px 5px rgba(0, 0, 0, 0.25), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="light"] .process-tooltip {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.88);
     border: 0.5px solid rgba(0, 0, 0, 0.12);
     color: #1d1d1f;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14), 0 2px 5px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
 }
 
 .tooltip-name {
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+    display: inline-block;
 }
 
 /* Tooltip Reveal States */
@@ -1166,6 +1169,39 @@ h3 {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Ensure Step 1 (far left) and Step 5 (far right) tooltips never clip edges */
+.process-hotspot[data-step="1"] .process-tooltip {
+    left: 0;
+    transform: translateX(0) translateY(4px) scale(0.96);
+}
+
+.process-hotspot[data-step="1"]:hover .process-tooltip,
+.process-hotspot[data-step="1"].hovered .process-tooltip,
+.process-hotspot[data-step="1"]:focus-visible .process-tooltip {
+    transform: translateX(0) translateY(0) scale(1);
+}
+
+.process-hotspot[data-step="5"] .process-tooltip {
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(4px) scale(0.96);
+}
+
+.process-hotspot[data-step="5"]:hover .process-tooltip,
+.process-hotspot[data-step="5"].hovered .process-tooltip,
+.process-hotspot[data-step="5"]:focus-visible .process-tooltip {
+    transform: translateX(0) translateY(0) scale(1);
+}
+
+/* Arrowheads Matching Diagram Line Stroke (2px) */
+.process-arrowhead {
+    stroke: currentColor;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
 }
 
 .process-hotspot:focus-visible {
@@ -2228,7 +2264,7 @@ h3 {
     }
 
     .hero-profile-img {
-        max-width: 400px;
+        max-width: 360px;
     }
 
     .line-decorator {
