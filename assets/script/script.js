@@ -1201,6 +1201,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentView === view) {
             if (view === 'banner' && typeof targetIndex === 'number' && bannerCarousel) {
                 bannerCarousel.setIndex(targetIndex);
+            } else if (view === 'quick' && typeof targetIndex === 'number' && quickCarousel) {
+                quickCarousel.setIndex(Math.floor(targetIndex / 3));
             }
             return;
         }
@@ -1226,7 +1228,8 @@ document.addEventListener('DOMContentLoaded', () => {
             worksSection.classList.toggle('view-banner', !isQuick);
 
             if (isQuick && bannerCarousel && quickCarousel) {
-                quickCarousel.setIndex(Math.floor(bannerCarousel.getIndex() / 3));
+                const targetQuickPage = typeof targetIndex === 'number' ? Math.floor(targetIndex / 3) : Math.floor(bannerCarousel.getIndex() / 3);
+                quickCarousel.setIndex(targetQuickPage);
             } else if (!isQuick && bannerCarousel && quickCarousel) {
                 const targetSlide = typeof targetIndex === 'number' ? targetIndex : quickCarousel.getIndex() * 3;
                 bannerCarousel.setIndex(targetSlide);
@@ -1252,7 +1255,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sync slide positions across views
             if (isQuick && bannerCarousel && quickCarousel) {
-                quickCarousel.setIndex(Math.floor(bannerCarousel.getIndex() / 3));
+                const targetQuickPage = typeof targetIndex === 'number' ? Math.floor(targetIndex / 3) : Math.floor(bannerCarousel.getIndex() / 3);
+                quickCarousel.setIndex(targetQuickPage);
             } else if (!isQuick && bannerCarousel && quickCarousel) {
                 const targetSlide = typeof targetIndex === 'number' ? targetIndex : quickCarousel.getIndex() * 3;
                 bannerCarousel.setIndex(targetSlide);
@@ -1291,6 +1295,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const projectIndex = parseInt(btn.getAttribute('data-project-index'), 10);
             if (!isNaN(projectIndex)) {
                 setWorksView('banner', projectIndex);
+            }
+        });
+    });
+
+    // Banner Card Minimize to Quick Cards View Buttons
+    const bannerMinimizeBtns = document.querySelectorAll('.banner-card-minimize-btn');
+    bannerMinimizeBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const projectIndex = parseInt(btn.getAttribute('data-project-index'), 10);
+            if (!isNaN(projectIndex)) {
+                setWorksView('quick', projectIndex);
+            } else {
+                setWorksView('quick');
             }
         });
     });
@@ -1491,7 +1509,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .quick-card-expand-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .quick-card-expand-btn, .banner-card-minimize-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {

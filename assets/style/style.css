@@ -194,6 +194,7 @@ html.has-custom-cursor .stat-badge {
     .btn-outline,
     .view-toggle-btn,
     .quick-card-expand-btn,
+    .banner-card-minimize-btn,
     .nav-link,
     .open-project-modal,
     .close-modal,
@@ -1614,7 +1615,8 @@ h3 {
     letter-spacing: -0.01em;
 }
 
-.quick-card-expand-btn {
+.quick-card-expand-btn,
+.banner-card-minimize-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1623,7 +1625,7 @@ h3 {
     padding: 0;
     border-radius: 4px;
     background: transparent;
-    border: 1px solid var(--accent-light);
+    border: 1px solid var(--text-secondary);
     color: var(--text-secondary);
     opacity: 0.65;
     cursor: pointer;
@@ -1631,7 +1633,15 @@ h3 {
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.quick-card-expand-btn svg {
+.banner-card-minimize-btn {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    z-index: 10;
+}
+
+.quick-card-expand-btn svg,
+.banner-card-minimize-btn svg {
     display: block;
     width: 17px;
     height: 17px;
@@ -1639,7 +1649,8 @@ h3 {
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.quick-card-expand-btn:hover {
+.quick-card-expand-btn:hover,
+.banner-card-minimize-btn:hover {
     opacity: 1;
     color: var(--accent-color);
     background: rgba(var(--accent-rgb), 0.08);
@@ -1647,15 +1658,18 @@ h3 {
     transform: scale(1.08);
 }
 
-.quick-card-expand-btn:hover svg {
+.quick-card-expand-btn:hover svg,
+.banner-card-minimize-btn:hover svg {
     transform: scale(1.05);
 }
 
-.quick-card-expand-btn:active {
+.quick-card-expand-btn:active,
+.banner-card-minimize-btn:active {
     transform: scale(0.95);
 }
 
-.quick-card-expand-btn:focus-visible {
+.quick-card-expand-btn:focus-visible,
+.banner-card-minimize-btn:focus-visible {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
     opacity: 1;
@@ -1767,6 +1781,7 @@ h3 {
 }
 
 .project-card {
+    position: relative;
     background: var(--card-bg);
     border-radius: 20px;
     border: 1px solid var(--accent-light);
@@ -1866,6 +1881,7 @@ h3 {
     flex-direction: column;
     justify-content: flex-start;
     gap: 16px;
+    padding-right: 36px;
 }
 
 .project-desc-text {
@@ -1946,7 +1962,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
-    padding-bottom: 10px;
+    padding: 15px 0px;
     margin-bottom: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -1992,7 +2008,7 @@ h3 {
 
 .detail-list li {
     font-size: 1.1rem;
-    line-height: 1.5;
+    line-height: 1.8;
     margin-bottom: 8px;
     position: relative;
     padding-left: 16px;
@@ -2612,6 +2628,7 @@ h3 {
         width: 100%;
         margin-left: 0;
         text-align: left;
+        padding-right: 36px;
     }
 
     .project-meta-tags,
@@ -2678,6 +2695,10 @@ h3 {
     }
 
     .quick-display-carousel {
+        display: none !important;
+    }
+
+    .banner-card-minimize-btn {
         display: none !important;
     }
 
@@ -3676,6 +3697,8 @@ html.motion-hidden .project-card:hover,
 html.motion-hidden .quick-card:hover,
 html.motion-hidden .quick-card-expand-btn:hover,
 html.motion-hidden .quick-card-expand-btn:active,
+html.motion-hidden .banner-card-minimize-btn:hover,
+html.motion-hidden .banner-card-minimize-btn:active,
 html.motion-hidden .meta-pill:hover,
 html.motion-hidden .stat-badge:hover,
 html.motion-hidden .skill-card:hover,
@@ -3745,6 +3768,8 @@ html.motion-hidden .pwa-install:active {
     .quick-card:hover,
     .quick-card-expand-btn:hover,
     .quick-card-expand-btn:active,
+    .banner-card-minimize-btn:hover,
+    .banner-card-minimize-btn:active,
     .meta-pill:hover,
     .stat-badge:hover,
     .skill-card:hover,
