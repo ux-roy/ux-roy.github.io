@@ -1194,11 +1194,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewsWrapper = worksSection ? worksSection.querySelector('.case-study-views-wrapper') : null;
     let isViewTransitioning = false;
 
-    const setWorksView = (view) => {
+    const setWorksView = (view, targetIndex = null) => {
         if (!worksSection || isViewTransitioning) return;
 
         const currentView = worksSection.classList.contains('view-quick') ? 'quick' : 'banner';
-        if (currentView === view) return;
+        if (currentView === view) {
+            if (view === 'banner' && typeof targetIndex === 'number' && bannerCarousel) {
+                bannerCarousel.setIndex(targetIndex);
+            }
+            return;
+        }
 
         const isQuick = view === 'quick';
         const currentCarousel = worksSection.querySelector(isQuick ? '.banner-display-carousel' : '.quick-display-carousel');
@@ -1223,7 +1228,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isQuick && bannerCarousel && quickCarousel) {
                 quickCarousel.setIndex(Math.floor(bannerCarousel.getIndex() / 3));
             } else if (!isQuick && bannerCarousel && quickCarousel) {
-                bannerCarousel.setIndex(quickCarousel.getIndex() * 3);
+                const targetSlide = typeof targetIndex === 'number' ? targetIndex : quickCarousel.getIndex() * 3;
+                bannerCarousel.setIndex(targetSlide);
             }
             return;
         }
@@ -1248,7 +1254,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isQuick && bannerCarousel && quickCarousel) {
                 quickCarousel.setIndex(Math.floor(bannerCarousel.getIndex() / 3));
             } else if (!isQuick && bannerCarousel && quickCarousel) {
-                bannerCarousel.setIndex(quickCarousel.getIndex() * 3);
+                const targetSlide = typeof targetIndex === 'number' ? targetIndex : quickCarousel.getIndex() * 3;
+                bannerCarousel.setIndex(targetSlide);
             }
 
             // 4. Animate container height smoothly to new target height
@@ -1273,6 +1280,18 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const view = btn.getAttribute('data-view');
             if (view) setWorksView(view);
+        });
+    });
+
+    // Quick Card Expand to Banner View Buttons
+    const quickExpandBtns = document.querySelectorAll('.quick-card-expand-btn');
+    quickExpandBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const projectIndex = parseInt(btn.getAttribute('data-project-index'), 10);
+            if (!isNaN(projectIndex)) {
+                setWorksView('banner', projectIndex);
+            }
         });
     });
 
@@ -1472,7 +1491,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .quick-card-expand-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {

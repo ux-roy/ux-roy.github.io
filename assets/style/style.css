@@ -193,6 +193,7 @@ html.has-custom-cursor .stat-badge {
     .btn,
     .btn-outline,
     .view-toggle-btn,
+    .quick-card-expand-btn,
     .nav-link,
     .open-project-modal,
     .close-modal,
@@ -1599,7 +1600,7 @@ h3 {
 .quick-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 6px;
     gap: 8px;
 }
@@ -1613,22 +1614,51 @@ h3 {
     letter-spacing: -0.01em;
 }
 
-.quick-card-year {
+.quick-card-expand-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid var(--accent-light);
     color: var(--text-secondary);
-    font-size: 0.88rem;
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
+    opacity: 0.65;
+    cursor: pointer;
     flex-shrink: 0;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.quick-card-year-icon {
-    width: 15px;
-    height: 15px;
-    stroke: var(--text-secondary);
-    flex-shrink: 0;
+.quick-card-expand-btn svg {
+    display: block;
+    width: 17px;
+    height: 17px;
+    stroke: currentColor;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quick-card-expand-btn:hover {
+    opacity: 1;
+    color: var(--accent-color);
+    background: rgba(var(--accent-rgb), 0.08);
+    border-color: rgba(var(--accent-rgb), 0.35);
+    transform: scale(1.08);
+}
+
+.quick-card-expand-btn:hover svg {
+    transform: scale(1.05);
+}
+
+.quick-card-expand-btn:active {
+    transform: scale(0.95);
+}
+
+.quick-card-expand-btn:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    opacity: 1;
 }
 
 .quick-card-subtitle {
@@ -1641,7 +1671,7 @@ h3 {
 }
 
 [data-theme="dark"] .quick-card-subtitle {
-    color: #e5e7eb;
+    color: var(--accent-color);
 }
 
 .quick-card-tags {
@@ -3644,6 +3674,8 @@ html.motion-hidden .filter-chip:hover,
 html.motion-hidden .tab-btn:hover,
 html.motion-hidden .project-card:hover,
 html.motion-hidden .quick-card:hover,
+html.motion-hidden .quick-card-expand-btn:hover,
+html.motion-hidden .quick-card-expand-btn:active,
 html.motion-hidden .meta-pill:hover,
 html.motion-hidden .stat-badge:hover,
 html.motion-hidden .skill-card:hover,
@@ -3711,6 +3743,8 @@ html.motion-hidden .pwa-install:active {
     .tab-btn:hover,
     .project-card:hover,
     .quick-card:hover,
+    .quick-card-expand-btn:hover,
+    .quick-card-expand-btn:active,
     .meta-pill:hover,
     .stat-badge:hover,
     .skill-card:hover,
