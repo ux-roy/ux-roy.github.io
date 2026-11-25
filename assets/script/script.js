@@ -1137,130 +1137,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal Logic for multiple projects
     const modal = document.getElementById('project-modal');
     const projectVideo = document.getElementById('project-video');
-    const insightsImage = document.getElementById('insights-image');
     const videoSource = projectVideo ? projectVideo.querySelector('source') : null;
     const openModalButtons = document.querySelectorAll('.open-project-modal');
     const closeModalBtn = document.querySelector('.close-modal');
 
-    // Action buttons inside modal
-    const btnOpenPrototype = document.getElementById('btn-open-prototype');
-    const btnExpandModal = document.getElementById('btn-expand-modal');
-    const modalActions = document.getElementById('modal-actions');
-    const zoomControls = document.getElementById('zoom-controls');
-    const btnZoomIn = document.getElementById('btn-zoom-in');
-    const btnZoomOut = document.getElementById('btn-zoom-out');
-    const btnZoomReset = document.getElementById('btn-zoom-reset');
-    const btnZoomExpand = document.getElementById('btn-zoom-expand');
-    const expandIconPath = document.getElementById('expand-icon-path');
-
-    let currentProjectData = {
-        videoUrl: '',
-        prototypeUrl: '',
-        insightsImageUrl: ''
-    };
-
-    // Zoom & Pan Variables
-    let zoomScale = 1;
-    let translateX = 0;
-    let translateY = 0;
-    let isPanning = false;
-    let startX, startY;
-
-    const updateImageTransform = () => {
-        if (insightsImage) {
-            insightsImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomScale})`;
-        }
-    };
-
-    const resetZoom = (smooth = false) => {
-        zoomScale = 1;
-        translateX = 0;
-        translateY = 0;
-        isPanning = false;
-        if (insightsImage) {
-            if (smooth) {
-                insightsImage.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
-                updateImageTransform();
-                setTimeout(() => {
-                    if (insightsImage) {
-                        insightsImage.style.transition = 'transform 0.1s ease-out';
-                    }
-                }, 250);
-            } else {
-                insightsImage.style.transition = 'none';
-                updateImageTransform();
-                // Force a reflow
-                insightsImage.offsetHeight;
-                insightsImage.style.transition = 'transform 0.1s ease-out';
-            }
-            insightsImage.style.cursor = 'default';
-        }
-    };
-
-    const openModal = (videoUrl, prototypeUrl = '', insightsImageUrl = '') => {
-        if (modal) {
-            currentProjectData.videoUrl = videoUrl;
-            currentProjectData.prototypeUrl = prototypeUrl;
-            currentProjectData.insightsImageUrl = insightsImageUrl;
-
-            // Default view: Show Video
-            showVideo();
+    const openModal = (videoUrl) => {
+        if (modal && projectVideo && videoSource) {
+            videoSource.src = videoUrl;
+            projectVideo.style.display = 'block';
+            calmAudio.setMediaPaused(true, true);
+            projectVideo.load();
+            projectVideo.play();
 
             modal.classList.add('open');
             document.body.style.overflow = 'hidden';
         }
     };
 
-    const showInsights = () => {
-        if (projectVideo && insightsImage) {
-            projectVideo.style.display = 'none';
-            projectVideo.pause();
-
-            insightsImage.style.display = 'block';
-            insightsImage.src = currentProjectData.insightsImageUrl;
-            resetZoom(); // Reset zoom when showing new insights
-
-            // Show floating actions
-            if (modalActions) modalActions.style.display = 'flex';
-            if (zoomControls) zoomControls.style.display = 'flex';
-            if (closeModalBtn) closeModalBtn.style.display = 'flex';
-
-            // Update button text
-            if (btnExpandModal) btnExpandModal.textContent = 'Watch Again';
-        }
-    };
-
-    const showVideo = () => {
-        if (projectVideo && videoSource) {
-            if (insightsImage) {
-                insightsImage.style.display = 'none';
-                resetZoom();
-            }
-
-            projectVideo.style.display = 'block';
-            videoSource.src = currentProjectData.videoUrl;
-            calmAudio.setMediaPaused(true, true);
-            projectVideo.load();
-            projectVideo.play();
-
-            // Show floating actions
-            if (modalActions) modalActions.style.display = 'flex';
-            if (zoomControls) zoomControls.style.display = 'none';
-            if (closeModalBtn) closeModalBtn.style.display = 'flex';
-
-            // Update button text
-            if (btnExpandModal) btnExpandModal.textContent = 'Key Insights';
-        }
-    };
-
     const closeModal = () => {
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
-        if (zoomControls) zoomControls.style.display = 'none';
-        if (insightsImage) {
-            insightsImage.style.display = 'none';
-            resetZoom();
+        if (modal) {
+            modal.classList.remove('open');
         }
+        document.body.style.overflow = '';
         if (projectVideo) {
             projectVideo.pause();
             projectVideo.currentTime = 0;
@@ -1277,190 +1175,29 @@ document.addEventListener('DOMContentLoaded', () => {
     openModalButtons.forEach(button => {
         button.addEventListener('click', () => {
             const videoUrl = button.getAttribute('data-video-url');
-            const prototypeUrl = button.getAttribute('data-prototype-url') || '';
-            const insightsImageUrl = button.getAttribute('data-insights-image') || '';
-            openModal(videoUrl, prototypeUrl, insightsImageUrl);
+            if (videoUrl) {
+                openModal(videoUrl);
+            }
         });
     });
-
-    if (btnExpandModal) {
-        btnExpandModal.addEventListener('click', () => {
-            if (insightsImage && insightsImage.style.display === 'block') {
-                showVideo();
-            } else if (currentProjectData.insightsImageUrl) {
-                showInsights();
-            }
-        });
-    }
-
-    if (btnOpenPrototype) {
-        btnOpenPrototype.addEventListener('click', () => {
-            if (currentProjectData.prototypeUrl) {
-                window.open(currentProjectData.prototypeUrl, '_blank');
-            }
-        });
-    }
 
     if (closeModalBtn) {
         closeModalBtn.addEventListener('click', closeModal);
     }
 
+    if (modal) {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    }
 
     window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && modal.classList.contains('open')) {
+        if (event.key === 'Escape' && modal && modal.classList.contains('open')) {
             closeModal();
-        } else if ((event.key === 'r' || event.key === 'R' || event.key === '0') && modal.classList.contains('open') && insightsImage && insightsImage.style.display === 'block') {
-            resetZoom(true);
         }
     });
-
-    if (btnZoomIn) {
-        btnZoomIn.addEventListener('click', () => {
-            if (insightsImage && insightsImage.style.display === 'block') {
-                zoomScale = Math.min(zoomScale + 0.5, 5);
-                updateImageTransform();
-                insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
-            }
-        });
-    }
-
-    if (btnZoomOut) {
-        btnZoomOut.addEventListener('click', () => {
-            if (insightsImage && insightsImage.style.display === 'block') {
-                zoomScale = Math.max(1, zoomScale - 0.5);
-                if (zoomScale === 1) {
-                    translateX = 0;
-                    translateY = 0;
-                }
-                updateImageTransform();
-                insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
-            }
-        });
-    }
-
-    if (btnZoomReset) {
-        btnZoomReset.addEventListener('click', () => {
-            if (insightsImage && insightsImage.style.display === 'block') {
-                resetZoom(true);
-            }
-        });
-    }
-
-    if (btnZoomExpand) {
-        btnZoomExpand.addEventListener('click', () => {
-            if (insightsImage && insightsImage.style.display === 'block') {
-                const modalContent = modal.querySelector('.modal-content');
-                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                    if (modalContent.requestFullscreen) {
-                        modalContent.requestFullscreen();
-                    } else if (modalContent.webkitRequestFullscreen) {
-                        modalContent.webkitRequestFullscreen();
-                    }
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    }
-                }
-            }
-        });
-    }
-
-    const updateFullscreenIcon = () => {
-        if (!expandIconPath || !btnZoomExpand) return;
-
-        resetZoom(); // Reset zoom on both entering and exiting fullscreen
-
-        if (document.fullscreenElement || document.webkitFullscreenElement) {
-            expandIconPath.setAttribute('d', 'M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7');
-            btnZoomExpand.setAttribute('aria-label', 'Minimize Image');
-            btnZoomExpand.setAttribute('title', 'Minimize Image');
-            if (closeModalBtn) closeModalBtn.style.display = 'none';
-        } else {
-            expandIconPath.setAttribute('d', 'M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7');
-            btnZoomExpand.setAttribute('aria-label', 'Expand Image');
-            btnZoomExpand.setAttribute('title', 'Expand Image');
-            if (closeModalBtn) closeModalBtn.style.display = 'flex';
-        }
-    };
-
-    document.addEventListener('fullscreenchange', updateFullscreenIcon);
-    document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
-
-    // Zoom & Pan Event Listeners
-    if (insightsImage) {
-        insightsImage.addEventListener('wheel', (e) => {
-            if (insightsImage.style.display !== 'block') return;
-            e.preventDefault();
-
-            const zoomSpeed = 0.1;
-            const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
-            const prevScale = zoomScale;
-            zoomScale = Math.min(Math.max(1, zoomScale + delta), 5);
-
-            // Adjust translation to zoom towards center or maintain feel
-            if (zoomScale === 1) {
-                translateX = 0;
-                translateY = 0;
-            }
-
-            updateImageTransform();
-            insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
-        }, { passive: false });
-
-        insightsImage.addEventListener('mousedown', (e) => {
-            if (zoomScale > 1) {
-                isPanning = true;
-                startX = e.clientX - translateX;
-                startY = e.clientY - translateY;
-                insightsImage.style.transition = 'none';
-                insightsImage.style.cursor = 'grabbing';
-            }
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isPanning) return;
-            translateX = e.clientX - startX;
-            translateY = e.clientY - startY;
-            updateImageTransform();
-        });
-
-        window.addEventListener('mouseup', () => {
-            if (isPanning) {
-                isPanning = false;
-                insightsImage.style.transition = 'transform 0.1s ease-out';
-                insightsImage.style.cursor = zoomScale > 1 ? 'grab' : 'default';
-            }
-        });
-
-        // Double click to reset
-        insightsImage.addEventListener('dblclick', () => {
-            resetZoom(true);
-        });
-
-        // Touch support for mobile panning
-        insightsImage.addEventListener('touchstart', (e) => {
-            if (zoomScale > 1 && e.touches.length === 1) {
-                isPanning = true;
-                startX = e.touches[0].clientX - translateX;
-                startY = e.touches[0].clientY - translateY;
-                insightsImage.style.transition = 'none';
-            }
-        }, { passive: true });
-
-        insightsImage.addEventListener('touchmove', (e) => {
-            if (!isPanning || e.touches.length !== 1) return;
-            translateX = e.touches[0].clientX - startX;
-            translateY = e.touches[0].clientY - startY;
-            updateImageTransform();
-        }, { passive: true });
-
-        insightsImage.addEventListener('touchend', () => {
-            isPanning = false;
-            insightsImage.style.transition = 'transform 0.1s ease-out';
-        });
-    }
 
     // Back to Top Button
     const backToTopBtn = document.getElementById('back-to-top');
@@ -1592,7 +1329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .modal-action-btn, .close-modal, .overlay-icon-btn, #insights-image, video';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {

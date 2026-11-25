@@ -194,9 +194,7 @@ html.has-custom-cursor .stat-badge {
     .btn-outline,
     .nav-link,
     .open-project-modal,
-    .modal-action-btn,
     .close-modal,
-    .overlay-icon-btn,
     .nav-btn,
     .contact-value,
     .social-icon-btn,
@@ -2067,17 +2065,13 @@ h3 {
     }
 }
 
-.close-modal,
-.overlay-icon-btn {
+.close-modal {
     cursor: pointer;
     color: var(--text-primary);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--card-bg);
     box-shadow: 0 4px 12px var(--shadow-color);
     border: 1px solid var(--border-color);
-}
-
-.close-modal {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -2089,19 +2083,7 @@ h3 {
     height: 10px;
 }
 
-.overlay-icon-btn svg {
-    width: 18px;
-    height: 18px;
-}
-
-#btn-zoom-reset svg,
-#btn-zoom-expand svg {
-    width: 15px;
-    height: 15px;
-}
-
-.close-modal:hover,
-.overlay-icon-btn:hover {
+.close-modal:hover {
     box-shadow: 0 6px 15px rgba(var(--accent-rgb), 0.25);
     background-color: var(--accent-color);
     color: #ffffff;
@@ -2121,76 +2103,7 @@ h3 {
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
-    display: none;
-    /* Controlled by script */
-}
-
-#insights-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background-color: #ffffff;
-    /* Always white background for SVGs */
-    border-radius: 8px;
-    display: none;
-    /* Controlled by script */
-    transition: transform 0.1s ease-out;
-    /* Smooth zoom transition */
-    cursor: grab;
-    transform-origin: center;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-
-#insights-image:active {
-    cursor: grabbing;
-}
-
-.modal-floating-actions {
-    position: absolute;
-    bottom: -55px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 16px;
-    z-index: 100;
-    pointer-events: none;
-    justify-content: center;
-    width: max-content;
-}
-
-.zoom-controls-overlay {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 10;
-}
-
-/* Media queries consolidated below */
-
-.modal-action-btn {
-    pointer-events: auto;
-    padding: 10px 15px;
-    border-radius: 10px;
-    border: 1px solid var(--accent-color);
-    background-color: var(--accent-light);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    white-space: nowrap;
-    text-align: center;
-}
-
-.modal-action-btn:hover {
-    background-color: var(--accent-color);
-    color: #ffffff;
+    display: block;
 }
 
 .btn-action-icon {
@@ -2713,15 +2626,6 @@ h3 {
 }
 
 @media screen and (max-width: 600px) {
-    .modal-floating-actions {
-        pointer-events: none;
-    }
-
-    #btn-expand-modal,
-    #btn-open-prototype {
-        display: flex !important;
-    }
-
     .bg-typography-track {
         opacity: 0.5;
         font-size: clamp(1.6rem, 8.8vw, 3.6rem);
@@ -3348,8 +3252,6 @@ html.motion-hidden .btn-primary:hover,
 html.motion-hidden .btn-secondary:hover,
 html.motion-hidden .btn-outline:hover,
 html.motion-hidden .nav-btn:hover,
-html.motion-hidden .overlay-icon-btn:hover,
-html.motion-hidden .modal-action-btn:hover,
 html.motion-hidden .filter-chip:hover,
 html.motion-hidden .tab-btn:hover,
 html.motion-hidden .project-card:hover,
@@ -3416,8 +3318,6 @@ html.motion-hidden .pwa-install:active {
     .btn-secondary:hover,
     .btn-outline:hover,
     .nav-btn:hover,
-    .overlay-icon-btn:hover,
-    .modal-action-btn:hover,
     .filter-chip:hover,
     .tab-btn:hover,
     .project-card:hover,
