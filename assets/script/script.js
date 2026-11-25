@@ -506,8 +506,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) {
             return {
-                setEffectEnabled: () => {},
-                setMediaPaused: () => {}
+                setEffectEnabled: () => { },
+                setMediaPaused: () => { }
             };
         }
 
@@ -914,7 +914,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (suspendTimer) clearTimeout(suspendTimer);
             suspendTimer = setTimeout(() => {
                 if (!currentSession && ctx && ctx.state === 'running') {
-                    ctx.suspend().catch(() => {});
+                    ctx.suspend().catch(() => { });
                 }
             }, fadeSeconds * 1000 + 1000);
         };
@@ -1085,60 +1085,201 @@ document.addEventListener('DOMContentLoaded', () => {
         updateBodyScrollLock();
     }, { passive: true });
 
-    // Carousel Logic
-    const track = document.querySelector('.carousel-track');
-    const slides = Array.from(track ? track.children : []);
-    const nextButtons = document.querySelectorAll('.next-btn');
-    const prevButtons = document.querySelectorAll('.prev-btn');
-    const counters = document.querySelectorAll('.slide-counter');
+    // Carousel Logic Helper
+    const setupCarousel = (options) => {
+        const {
+            containerSelector,
+            trackSelector,
+            slideSelector,
+            prevBtnSelector,
+            nextBtnSelector,
+            counterSelector
+        } = options;
 
-    let currentSlideIndex = 0;
+        const container = document.querySelector(containerSelector);
+        if (!container) return null;
 
-    const updateSlide = (index) => {
-        if (!track || slides.length === 0) return;
+        const track = container.querySelector(trackSelector);
+        const slides = Array.from(track ? track.querySelectorAll(slideSelector) : []);
+        const prevButtons = container.querySelectorAll(prevBtnSelector);
+        const nextButtons = container.querySelectorAll(nextBtnSelector);
+        const counters = container.querySelectorAll(counterSelector);
 
-        // Hide all slides
-        slides.forEach(slide => {
-            slide.classList.remove('active');
+        if (!track || slides.length === 0) return null;
+
+        let currentIndex = 0;
+
+        const updateSlide = (index) => {
+            currentIndex = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentIndex);
+            });
+
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            counters.forEach(counter => {
+                counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+            });
+        };
+
+        nextButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                updateSlide(currentIndex + 1);
+            });
         });
 
-        // Show current slide
-        slides[index].classList.add('active');
-
-        // Move track
-        track.style.transform = `translateX(-${index * 100}%)`;
-
-        // Update all counters
-        counters.forEach(counter => {
-            counter.textContent = `${index + 1} / ${slides.length}`;
+        prevButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                updateSlide(currentIndex - 1);
+            });
         });
+
+        // Touch swipe gestures
+        let startX = 0;
+        let isSwiping = false;
+
+        track.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches.length === 1) {
+                startX = e.touches[0].clientX;
+                isSwiping = true;
+            }
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            isSwiping = false;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - startX;
+            if (diffX > 50) {
+                updateSlide(currentIndex - 1);
+            } else if (diffX < -50) {
+                updateSlide(currentIndex + 1);
+            }
+        }, { passive: true });
+
+        // Initialize display
+        updateSlide(0);
+
+        return {
+            getIndex: () => currentIndex,
+            setIndex: (i) => updateSlide(i),
+            count: slides.length
+        };
     };
 
-    // Bind all next buttons
-    nextButtons.forEach(btn => {
+    // Initialize Banner Carousel
+    const bannerCarousel = setupCarousel({
+        containerSelector: '.banner-display-carousel',
+        trackSelector: '.banner-carousel-track',
+        slideSelector: '.carousel-slide',
+        prevBtnSelector: '.banner-prev-btn, .prev-btn',
+        nextBtnSelector: '.banner-next-btn, .next-btn',
+        counterSelector: '.banner-slide-counter, .slide-counter'
+    });
+
+    // Initialize Quick Display Carousel
+    const quickCarousel = setupCarousel({
+        containerSelector: '.quick-display-carousel',
+        trackSelector: '.quick-carousel-track',
+        slideSelector: '.quick-carousel-slide',
+        prevBtnSelector: '.quick-prev-btn',
+        nextBtnSelector: '.quick-next-btn',
+        counterSelector: '.quick-slide-counter'
+    });
+
+    // Case Study View Switcher Logic (Desktop Only)
+    const worksSection = document.getElementById('works');
+    const viewToggleBtns = document.querySelectorAll('.view-toggle-btn');
+    const viewsWrapper = worksSection ? worksSection.querySelector('.case-study-views-wrapper') : null;
+    let isViewTransitioning = false;
+
+    const setWorksView = (view) => {
+        if (!worksSection || isViewTransitioning) return;
+
+        const currentView = worksSection.classList.contains('view-quick') ? 'quick' : 'banner';
+        if (currentView === view) return;
+
+        const isQuick = view === 'quick';
+        const currentCarousel = worksSection.querySelector(isQuick ? '.banner-display-carousel' : '.quick-display-carousel');
+        const nextCarousel = worksSection.querySelector(isQuick ? '.quick-display-carousel' : '.banner-display-carousel');
+
+        // Check if user prefers reduced motion or motion is hidden
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+                                document.documentElement.classList.contains('motion-hidden');
+
+        // Update toggle buttons active state immediately for instant feedback
+        viewToggleBtns.forEach(btn => {
+            const isActive = btn.getAttribute('data-view') === view;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        // Fast switch for reduced motion or fallback
+        if (isReducedMotion || !currentCarousel || !nextCarousel || !viewsWrapper) {
+            worksSection.classList.toggle('view-quick', isQuick);
+            worksSection.classList.toggle('view-banner', !isQuick);
+
+            if (isQuick && bannerCarousel && quickCarousel) {
+                quickCarousel.setIndex(Math.floor(bannerCarousel.getIndex() / 3));
+            } else if (!isQuick && bannerCarousel && quickCarousel) {
+                bannerCarousel.setIndex(quickCarousel.getIndex() * 3);
+            }
+            return;
+        }
+
+        // Smooth professional cross-fade & height transition
+        isViewTransitioning = true;
+
+        // 1. Lock initial height to prevent any layout shifts
+        const currentHeight = currentCarousel.offsetHeight;
+        viewsWrapper.style.minHeight = `${currentHeight}px`;
+
+        // 2. Animate out the active view
+        currentCarousel.classList.add('view-fade-out');
+
+        setTimeout(() => {
+            // 3. Switch active view classes
+            currentCarousel.classList.remove('view-fade-out');
+            worksSection.classList.toggle('view-quick', isQuick);
+            worksSection.classList.toggle('view-banner', !isQuick);
+
+            // Sync slide positions across views
+            if (isQuick && bannerCarousel && quickCarousel) {
+                quickCarousel.setIndex(Math.floor(bannerCarousel.getIndex() / 3));
+            } else if (!isQuick && bannerCarousel && quickCarousel) {
+                bannerCarousel.setIndex(quickCarousel.getIndex() * 3);
+            }
+
+            // 4. Animate container height smoothly to new target height
+            const nextHeight = nextCarousel.offsetHeight;
+            viewsWrapper.style.transition = 'min-height 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+            viewsWrapper.style.minHeight = `${nextHeight}px`;
+
+            // 5. Animate in the new view
+            nextCarousel.classList.add('view-fade-in');
+
+            setTimeout(() => {
+                nextCarousel.classList.remove('view-fade-in');
+                viewsWrapper.style.minHeight = '';
+                viewsWrapper.style.transition = '';
+                isViewTransitioning = false;
+            }, 360);
+
+        }, 180);
+    };
+
+    viewToggleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-            updateSlide(currentSlideIndex);
+            const view = btn.getAttribute('data-view');
+            if (view) setWorksView(view);
         });
     });
 
-    // Bind all prev buttons
-    prevButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
-            updateSlide(currentSlideIndex);
-        });
-    });
-
-    // Initialize slide counter dynamically
-    if (slides.length > 0) {
-        updateSlide(currentSlideIndex);
-    }
     // Modal Logic for multiple projects
     const modal = document.getElementById('project-modal');
     const projectVideo = document.getElementById('project-video');
     const videoSource = projectVideo ? projectVideo.querySelector('source') : null;
-    const openModalButtons = document.querySelectorAll('.open-project-modal');
     const closeModalBtn = document.querySelector('.close-modal');
 
     const openModal = (videoUrl) => {
@@ -1172,13 +1313,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    openModalButtons.forEach(button => {
-        button.addEventListener('click', () => {
+    // Event delegation for opening project video modal across all project views
+    document.addEventListener('click', (e) => {
+        const button = e.target && e.target.closest ? e.target.closest('.open-project-modal') : null;
+        if (button) {
             const videoUrl = button.getAttribute('data-video-url');
             if (videoUrl) {
                 openModal(videoUrl);
             }
-        });
+        }
     });
 
     if (closeModalBtn) {
@@ -1329,7 +1472,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
