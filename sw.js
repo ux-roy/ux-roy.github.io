@@ -1,29 +1,29 @@
-const CACHE_NAME = 'ux-roy-portfolio-v42';
+const CACHE_NAME = 'ux-roy-portfolio-v44';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/assets/style/style.css?v=44',
-  '/assets/script/script.js?v=31',
-  '/manifest.json',
-  '/assets/image/pwa-icon.png',
-  '/assets/icons/logo.svg',
-  '/assets/icons/Skill_1.svg',
-  '/assets/icons/Skill_2.svg',
-  '/assets/icons/Skill_3.svg',
-  '/assets/icons/Skill_4.svg',
-  '/assets/icons/Social_1.svg',
-  '/assets/icons/Social_2.svg',
-  '/assets/icons/Social_3.svg',
-  '/assets/icons/Social_4.svg',
-  '/assets/icons/Social_5.svg',
-  '/assets/image/profile.webp'
+  './',
+  './index.html',
+  './assets/style/style.css?v=46',
+  './assets/script/script.js?v=33',
+  './manifest.json',
+  './assets/image/pwa-icon.png',
+  './assets/image/pwa-icon.png?v=2',
+  './assets/icons/logo.svg',
+  './assets/icons/logo.svg?v=2',
+  './assets/icons/process.svg',
+  './assets/icons/QR Code.svg',
+  './assets/icons/Social_1.svg',
+  './assets/icons/Social_2.svg',
+  './assets/icons/Social_3.svg',
+  './assets/icons/Social_4.svg',
+  './assets/icons/Social_5.svg',
+  './assets/image/profile.webp'
 ];
 
 // Install Event
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('Service Worker: Caching Files');
+      console.log('Service Worker: Caching Core Assets');
       return cache.addAll(
         ASSETS_TO_CACHE.map((url) => new Request(url, { cache: 'reload' }))
       );
@@ -38,7 +38,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('Service Worker: Clearing Old Cache');
+            console.log('Service Worker: Clearing Old Cache', cache);
             return caches.delete(cache);
           }
         })
@@ -47,7 +47,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event (Network-first with cache refresh for same-origin GET requests)
+// Fetch Event (Network-first with cache fallback and offline navigation support)
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
@@ -63,6 +63,13 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       })
-      .catch(() => caches.match(event.request))
+      .catch(() => {
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) return cachedResponse;
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html') || caches.match('./');
+          }
+        });
+      })
   );
 });

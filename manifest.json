@@ -1,13 +1,15 @@
 {
-  "name": "SKR",
+  "name": "Suman Kanti Roy ✦ Portfolio",
   "short_name": "SKR",
-  "description": "Portfolio of Suman Kanti Roy, Senior Product Designer",
-  "start_url": "/",
-  "scope": "/",
+  "description": "Portfolio of Suman Kanti Roy, Senior Product Designer & UX Consultant",
+  "start_url": "./",
+  "scope": "./",
+  "id": "https://ux-roy.github.io/",
   "display": "standalone",
   "background_color": "#151922",
   "theme_color": "#151922",
   "orientation": "portrait",
+  "categories": ["portfolio", "design"],
   "icons": [
     {
       "src": "assets/image/pwa-icon.png",

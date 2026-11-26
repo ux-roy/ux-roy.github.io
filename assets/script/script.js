@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // SMOOTH THEME CHANGE REVEAL
-            if (!document.startViewTransition) {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !document.startViewTransition) {
                 runner();
                 return;
             }
@@ -1333,10 +1333,9 @@ document.addEventListener('DOMContentLoaded', () => {
             projectVideo.style.display = 'block';
             calmAudio.setMediaPaused(true, true);
             projectVideo.load();
-            projectVideo.play();
+            projectVideo.play().catch(() => {});
 
             modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
         }
     };
 
@@ -1344,13 +1343,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal) {
             modal.classList.remove('open');
         }
-        document.body.style.overflow = '';
         if (projectVideo) {
             projectVideo.pause();
             projectVideo.currentTime = 0;
         }
         calmAudio.setMediaPaused(false, true);
     };
+
+    if (modal) {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal && modal.classList.contains('open')) {
+            closeModal();
+        }
+    });
 
     if (projectVideo) {
         projectVideo.addEventListener('play', () => {
@@ -1372,20 +1384,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeModalBtn) {
         closeModalBtn.addEventListener('click', closeModal);
     }
-
-    if (modal) {
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
-    window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && modal && modal.classList.contains('open')) {
-            closeModal();
-        }
-    });
 
     // Back to Top Button
     const backToTopBtn = document.getElementById('back-to-top');
@@ -1469,6 +1467,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        // Event Delegation for Hover Target Detection (with safety type checks - video excluded so custom cursor stays visible)
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .quick-card-expand-btn, .banner-card-minimize-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, .safari-install-close';
+
         const handlePointerMove = (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -1515,9 +1516,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('mouseup', () => {
             document.body.classList.remove('cursor-click');
         });
-
-        // Event Delegation for Hover Target Detection (with safety type checks)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .quick-card-expand-btn, .banner-card-minimize-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, video';
 
         document.body.addEventListener('mouseover', (e) => {
             if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
@@ -2153,46 +2151,63 @@ const showPWAInstallModal = () => {
         // Create modal container
         modal = document.createElement('div');
         modal.id = 'pwa-install-modal';
-        modal.className = 'safari-install-modal'; // Reuse the existing PWA modal style
-        modal.setAttribute('aria-modal', 'true');
+        modal.className = 'safari-install-modal';
         modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'pwa-install-title');
 
         let bodyContent = '';
-        if (isSafari) {
-            // Detect if macOS or iOS Safari
-            const isMac = /Mac/i.test(navigator.userAgent) && !/iPhone|iPad|iPod/i.test(navigator.userAgent);
-            const instructions = isMac
-                ? `
-                    <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your Mac:</p>
-                    <ol class="safari-steps">
-                        <li>
-                            <span class="step-num">1</span>
-                            <span class="step-desc">Click the <strong>Share</strong> icon in the Safari toolbar (or open the <strong>File</strong> menu).</span>
-                        </li>
-                        <li>
-                            <span class="step-num">2</span>
-                            <span class="step-desc">Select <strong>Add to Dock</strong> to launch it natively from your Dock.</span>
-                        </li>
-                    </ol>
-                `
-                : `
-                    <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your iOS device:</p>
-                    <ol class="safari-steps">
-                        <li>
-                            <span class="step-num">1</span>
-                            <span class="step-desc">Tap the <strong>Share</strong> icon in Safari's bottom toolbar.</span>
-                        </li>
-                        <li>
-                            <span class="step-num">2</span>
-                            <span class="step-desc">Scroll down and tap <strong>Add to Home Screen</strong>.</span>
-                        </li>
-                    </ol>
-                `;
-            bodyContent = instructions;
-        } else {
-            // Other modern mobile browsers (Chrome, Firefox, Edge, etc.)
+        const isMac = /Mac/i.test(navigator.userAgent) && !/iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if (isSafari && isMac) {
             bodyContent = `
-                <p class="safari-instruction-text">Install Suman Kanti Roy's portfolio on your home screen for offline access and a native app experience.</p>
+                <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your Mac:</p>
+                <ol class="safari-steps">
+                    <li>
+                        <span class="step-num">1</span>
+                        <span class="step-desc">Click the <strong>Share</strong> icon in the Safari toolbar (or open the <strong>File</strong> menu).</span>
+                    </li>
+                    <li>
+                        <span class="step-num">2</span>
+                        <span class="step-desc">Select <strong>Add to Dock</strong> to launch it natively from your Dock.</span>
+                    </li>
+                </ol>
+            `;
+        } else if (isSafari && isIOS) {
+            bodyContent = `
+                <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your iOS device:</p>
+                <ol class="safari-steps">
+                    <li>
+                        <span class="step-num">1</span>
+                        <span class="step-desc">Tap the <strong>Share</strong> icon in Safari's bottom toolbar.</span>
+                    </li>
+                    <li>
+                        <span class="step-num">2</span>
+                        <span class="step-desc">Scroll down and tap <strong>Add to Home Screen</strong>.</span>
+                    </li>
+                </ol>
+            `;
+        } else if (!isSafari && isMac && !deferredPrompt) {
+            bodyContent = `
+                <p class="safari-instruction-text">To install this portfolio as a standalone app on your Mac:</p>
+                <ol class="safari-steps">
+                    <li>
+                        <span class="step-num">1</span>
+                        <span class="step-desc">Click the <strong>Install</strong> icon in the address bar (or open the browser menu <strong>⋮</strong>).</span>
+                    </li>
+                    <li>
+                        <span class="step-num">2</span>
+                        <span class="step-desc">Select <strong>Install Suman Kanti Roy</strong> to run it in its own window.</span>
+                    </li>
+                </ol>
+                <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
+                    <button class="btn btn-primary" id="pwa-later-btn" style="padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: var(--accent-color); color: #fff; border: none; cursor: pointer;">Got It</button>
+                </div>
+            `;
+        } else {
+            bodyContent = `
+                <p class="safari-instruction-text">Install Suman Kanti Roy's portfolio on your device for offline access and a native app experience.</p>
                 <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
                     <button class="btn btn-secondary" id="pwa-later-btn" style="padding: 10px 20px; border-radius: 8px; font-weight: 500; font-size: 0.95rem; border: 1px solid var(--border-color); background: transparent; color: var(--text-primary); cursor: pointer;">Maybe Later</button>
                     <button class="btn btn-primary" id="pwa-now-btn" style="padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: var(--accent-color); color: #fff; border: none; cursor: pointer;">Let's Install</button>
@@ -2204,7 +2219,7 @@ const showPWAInstallModal = () => {
             <div class="safari-install-content">
                 <button class="safari-install-close" id="pwa-install-close" aria-label="Close dialog">&times;</button>
                 <div class="safari-install-header">
-                    <h3>Install Application</h3>
+                    <h3 id="pwa-install-title">Install Application</h3>
                 </div>
                 <div class="safari-install-body">
                     ${bodyContent}
@@ -2214,20 +2229,20 @@ const showPWAInstallModal = () => {
 
         document.body.appendChild(modal);
 
+        const closePwaModal = () => {
+            modal.classList.remove('open');
+        };
+
         // Event listener for close button
         const closeBtn = modal.querySelector('#pwa-install-close');
         if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove('open');
-                document.body.style.overflow = '';
-            });
+            closeBtn.addEventListener('click', closePwaModal);
         }
 
-        // Event listener for clicking outside the content
+        // Close when clicking outside content on backdrop
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.classList.remove('open');
-                document.body.style.overflow = '';
+                closePwaModal();
             }
         });
 
@@ -2236,16 +2251,11 @@ const showPWAInstallModal = () => {
         const nowBtn = modal.querySelector('#pwa-now-btn');
 
         if (laterBtn) {
-            laterBtn.addEventListener('click', () => {
-                modal.classList.remove('open');
-                document.body.style.overflow = '';
-            });
+            laterBtn.addEventListener('click', closePwaModal);
         }
 
         if (nowBtn) {
             nowBtn.addEventListener('click', async () => {
-                modal.classList.remove('open');
-                document.body.style.overflow = '';
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
@@ -2255,26 +2265,23 @@ const showPWAInstallModal = () => {
                         pwaInstallBtn.style.display = 'none';
                     }
                 }
+                closePwaModal();
             });
         }
 
-        // Event listener for Escape key to close the modal
-        window.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.classList.contains('open')) {
-                modal.classList.remove('open');
-                document.body.style.overflow = '';
+        // Escape key to close
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('open')) {
+                closePwaModal();
             }
         });
     }
 
-    // Show the modal with transition
-    modal.offsetHeight; // force reflow
     modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
 };
 
-// Show the install button on page load in Safari if not already installed/standalone
-if (isSafari && !isStandalone && pwaInstallBtn) {
+// Show the install button on page load if not already installed/standalone
+if (!isStandalone && pwaInstallBtn) {
     pwaInstallBtn.style.display = 'flex';
 }
 

@@ -160,7 +160,8 @@ body.cursor-click:not(.cursor-hover) #custom-cursor-ring {
 html.has-custom-cursor,
 html.has-custom-cursor body,
 html.has-custom-cursor .meta-pill,
-html.has-custom-cursor .stat-badge {
+html.has-custom-cursor .stat-badge,
+html.has-custom-cursor #project-video {
     cursor: none !important;
 }
 
@@ -170,7 +171,8 @@ html.has-custom-cursor .stat-badge {
     html,
     body,
     .meta-pill,
-    .stat-badge {
+    .stat-badge,
+    #project-video {
         cursor: none !important;
     }
 
@@ -677,6 +679,12 @@ html.motion-hidden .text-animation {
     flex-direction: column;
     justify-content: center;
     position: relative;
+}
+
+/* Defer rendering of heavy below-the-fold content for faster initial render and smooth INP */
+.tab-content:not(#about) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto none auto 800px;
 }
 
 .tab-content:not(:last-of-type)::after {
@@ -2347,25 +2355,51 @@ h3 {
     transform: scale(0.96);
 }
 
-.modal {
+/* Dialog scroll containment (Mandatory: stops scroll chaining to underlying document) */
+dialog:modal {
+    overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+    overflow: hidden;
+    overscroll-behavior: contain;
+}
+
+/* Modal Overlay Styling */
+.modal,
+dialog.modal {
     display: none;
     position: fixed;
     z-index: 2000;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    padding: 0;
+    margin: 0;
     background-color: var(--modal-overlay);
     backdrop-filter: blur(10px) saturate(180%);
     -webkit-backdrop-filter: blur(10px) saturate(180%);
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.modal.open {
+.modal.open,
+dialog.modal.open {
     display: flex;
-    animation: fadeIn 0.3s ease forwards;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal.open .modal-content,
+dialog.modal.open .modal-content {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .modal-content {
@@ -2378,7 +2412,8 @@ h3 {
     position: relative;
     box-shadow: 0 20px 60px var(--shadow-color);
     transform: translateY(20px);
-    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     display: flex;
     flex-direction: column;
 }
@@ -2429,6 +2464,7 @@ h3 {
     object-fit: cover;
     border-radius: 8px;
     display: block;
+    cursor: none;
 }
 
 .btn-action-icon {
@@ -3458,28 +3494,33 @@ h3 {
     }
 }
 
-/* Safari Install Modal */
-.safari-install-modal {
+/* Safari / PWA Install Modal */
+.safari-install-modal,
+dialog.safari-install-modal {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100vw;
     height: 100vh;
+    border: none;
+    padding: 0;
+    margin: 0;
     background-color: rgba(21, 25, 34, 0.7);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 2000;
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.safari-install-modal.open {
+.safari-install-modal.open,
+dialog.safari-install-modal.open {
+    display: flex;
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
 }
 
 .safari-install-content {
@@ -3492,11 +3533,14 @@ h3 {
     padding: 30px;
     position: relative;
     transform: scale(0.9);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
 
-.safari-install-modal.open .safari-install-content {
+.safari-install-modal.open .safari-install-content,
+dialog.safari-install-modal.open .safari-install-content {
     transform: scale(1);
+    opacity: 1;
 }
 
 .safari-install-close {
@@ -3649,9 +3693,16 @@ html.motion-hidden .pwa-install:active {
     .back-to-top,
     .pwa-install,
     .mobile-nav-btn,
-    .mobile-nav-icon {
+    .mobile-nav-icon,
+    dialog.modal,
+    dialog.modal::backdrop,
+    .modal-content,
+    dialog.safari-install-modal,
+    dialog.safari-install-modal::backdrop,
+    .safari-install-content {
         transition: none !important;
         animation: none !important;
+        transform: none !important;
     }
 
     .social-icon-btn,
