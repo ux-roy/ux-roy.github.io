@@ -1009,7 +1009,7 @@ h3 {
     margin: 0 auto;
     overflow-x: auto;
     overflow-y: visible;
-    padding: 72px 40px 24px 40px;
+    padding: 82px 40px 24px 40px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-light) transparent;
@@ -1112,23 +1112,22 @@ h3 {
 /* MacBook Dock-Style Floating App Tooltip */
 .process-tooltip {
     position: absolute;
-    bottom: calc(100% + 28px);
+    bottom: calc(100% + 46px);
     left: 50%;
     transform: translateX(-50%) translateY(4px) scale(0.96);
     display: inline-flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 8px 18px;
-    border-radius: 10px;
+    padding: 7px 16px;
+    border-radius: 8px;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    line-height: 1.25;
+    line-height: 1.2;
     letter-spacing: -0.015em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    white-space: normal;
+    white-space: nowrap;
     text-align: center;
     pointer-events: none;
     opacity: 0;
@@ -1139,29 +1138,64 @@ h3 {
     z-index: 30;
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     backdrop-filter: blur(20px) saturate(180%);
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.92);
     border: 0.5px solid rgba(0, 0, 0, 0.12);
     color: #1d1d1f;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14), 0 2px 5px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
 }
 
 [data-theme="dark"] .process-tooltip {
-    background: rgba(28, 30, 36, 0.85);
+    background: rgba(28, 30, 36, 0.92);
     border: 0.5px solid rgba(255, 255, 255, 0.16);
     color: #f5f5f7;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4), 0 2px 5px rgba(0, 0, 0, 0.25), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="light"] .process-tooltip {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.92);
     border: 0.5px solid rgba(0, 0, 0, 0.12);
     color: #1d1d1f;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14), 0 2px 5px rgba(0, 0, 0, 0.06), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.8);
 }
 
+/* Down Arrow Head on Tooltip Box */
+.process-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    border-right: 0.5px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
+    z-index: 1;
+}
+
+[data-theme="dark"] .process-tooltip::after {
+    background: rgba(28, 30, 36, 0.92);
+    border-right-color: rgba(255, 255, 255, 0.16);
+    border-bottom-color: rgba(255, 255, 255, 0.16);
+}
+
+[data-theme="light"] .process-tooltip::after {
+    background: rgba(255, 255, 255, 0.92);
+    border-right-color: rgba(0, 0, 0, 0.12);
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
 .tooltip-name {
     letter-spacing: -0.015em;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.tooltip-num {
+    color: var(--accent-color, #E2723A);
+    font-weight: 700;
+    margin-right: 4px;
 }
 
 /* Tooltip Reveal States */
@@ -1179,6 +1213,11 @@ h3 {
     transform: translateX(0) translateY(4px) scale(0.96);
 }
 
+.process-hotspot[data-step="1"] .process-tooltip::after {
+    left: 24px;
+    transform: translateX(-50%) rotate(45deg);
+}
+
 .process-hotspot[data-step="1"]:hover .process-tooltip,
 .process-hotspot[data-step="1"].hovered .process-tooltip,
 .process-hotspot[data-step="1"]:focus-visible .process-tooltip {
@@ -1189,6 +1228,12 @@ h3 {
     left: auto;
     right: 0;
     transform: translateX(0) translateY(4px) scale(0.96);
+}
+
+.process-hotspot[data-step="5"] .process-tooltip::after {
+    left: auto;
+    right: 24px;
+    transform: translateX(50%) rotate(45deg);
 }
 
 .process-hotspot[data-step="5"]:hover .process-tooltip,
@@ -1540,6 +1585,7 @@ h3 {
 }
 
 .quick-card {
+    position: relative;
     background: var(--card-bg);
     border-radius: 20px;
     border: 1px solid var(--accent-light);
@@ -1547,7 +1593,6 @@ h3 {
     display: flex;
     flex-direction: column;
     height: 100%;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
 }
 
 [data-theme="dark"] .quick-card {
@@ -1559,16 +1604,6 @@ h3 {
     background: #ffffff;
     border-color: rgba(0, 0, 0, 0.08);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-}
-
-.quick-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(var(--accent-rgb), 0.4);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-}
-
-[data-theme="light"] .quick-card:hover {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 .quick-card-media {
@@ -1623,33 +1658,60 @@ h3 {
     width: 24px;
     height: 24px;
     padding: 0;
-    border-radius: 4px;
-    background: transparent;
-    border: 1px solid var(--text-secondary);
-    color: var(--text-secondary);
-    opacity: 0.65;
+    border-radius: 6px;
     cursor: pointer;
     flex-shrink: 0;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.quick-card-expand-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: var(--text-secondary);
+    opacity: 0.85;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .quick-card-expand-btn {
+    background: rgba(23, 26, 35, 0.85);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
 .banner-card-minimize-btn {
     position: absolute;
     top: 24px;
-    right: 28px;
+    right: 24px;
     z-index: 10;
+    background: transparent;
+    border: 1px solid var(--text-secondary);
+    color: var(--text-secondary);
+    opacity: 0.65;
 }
 
 .quick-card-expand-btn svg,
 .banner-card-minimize-btn svg {
     display: block;
-    width: 17px;
-    height: 17px;
+    width: 16px;
+    height: 16px;
     stroke: currentColor;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.quick-card-expand-btn:hover,
+.quick-card-expand-btn:hover {
+    opacity: 1;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.25);
+}
+
 .banner-card-minimize-btn:hover {
     opacity: 1;
     color: var(--accent-color);
@@ -1785,7 +1847,7 @@ h3 {
     background: var(--card-bg);
     border-radius: 20px;
     border: 1px solid var(--accent-light);
-    padding: 34px 36px 26px 36px;
+    padding: 34px 28px 26px 28px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -2762,7 +2824,7 @@ h3 {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 20px;
+        gap: 18px;
     }
 
     .project-stats-row,
@@ -3197,7 +3259,7 @@ h3 {
     .project-desc-text p,
     .detail-list li {
         font-size: 0.94rem;
-        line-height: 1.55;
+        line-height: 1.4;
     }
 
     .detail-list li::before {
