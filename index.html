@@ -82,14 +82,19 @@
     <!-- Default Inbuild Stylesheets                                           -->
     <!-- --------------------------------------------------------------------- -->
     <style>
+        .bg-abstract-canvas,
         .text-animation {
             position: fixed;
             inset: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: -1;
             overflow: hidden;
             pointer-events: none;
+            transition: opacity 0.6s ease;
         }
 
+        html.motion-hidden .bg-abstract-canvas,
         html.motion-hidden .text-animation {
             opacity: 0;
             visibility: hidden;
@@ -110,7 +115,7 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="assets/style/style.css?v=43">
+    <link rel="stylesheet" href="assets/style/style.css?v=44">
 
     <!-- --------------------------------------------------------------------- -->
     <!-- Analytics & Tracking (Google Tag)                                     -->
@@ -149,42 +154,15 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- Local System Scripts (Deferred)                                       -->
     <!-- --------------------------------------------------------------------- -->
-    <script src="assets/script/script.js?v=28" defer></script>
+    <script src="assets/script/script.js?v=31" defer></script>
 </head>
 
 <body>
 
     <!-- --------------------------------------------------------------------- -->
-    <!-- Animated Text Background                                              -->
+    <!-- Abstract Animation Canvas                                             -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="text-animation" aria-hidden="true">
-        <div class="bg-typography-track">
-            <span>Finding Friction</span> <span>Framing Context</span> <span>Crafting Solutions</span> <span>Validating
-                Ideas</span>
-            <span>Scaling Systems</span> <span>Iterating Quality</span> <span>Shipping Products</span> <span>Measuring
-                Impact</span>
-            <span>Finding Friction</span> <span>Framing Context</span> <span>Crafting Solutions</span> <span>Validating
-                Ideas</span>
-            <span>Scaling Systems</span> <span>Iterating Quality</span> <span>Shipping Products</span> <span>Measuring
-                Impact</span>
-            <span>Finding Friction</span> <span>Framing Context</span> <span>Crafting Solutions</span> <span>Validating
-                Ideas</span>
-            <span>Scaling Systems</span> <span>Iterating Quality</span> <span>Shipping Products</span> <span>Measuring
-                Impact</span>
-            <span>Finding Friction</span> <span>Framing Context</span> <span>Crafting Solutions</span> <span>Validating
-                Ideas</span>
-            <span>Scaling Systems</span> <span>Iterating Quality</span> <span>Shipping Products</span> <span>Measuring
-                Impact</span>
-            <span>Finding Friction</span> <span>Framing Context</span> <span>Crafting Solutions</span> <span>Validating
-                Ideas</span>
-            <span>Scaling Systems</span> <span>Iterating Quality</span> <span>Shipping Products</span> <span>Measuring
-                Impact</span>
-            <span>Finding Friction</span> <span>Framing Context</span> <span>Crafting Solutions</span> <span>Validating
-                Ideas</span>
-            <span>Scaling Systems</span> <span>Iterating Quality</span> <span>Shipping Products</span> <span>Measuring
-                Impact</span>
-        </div>
-    </div>
+    <canvas id="bg-abstract-canvas" class="bg-abstract-canvas" aria-hidden="true"></canvas>
 
     <!-- --------------------------------------------------------------------- -->
     <!-- Floating Header Buttons                                               -->

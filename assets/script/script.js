@@ -1038,6 +1038,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
                 }
             }
+
+            if (window.__bgAbstractLines && typeof window.__bgAbstractLines.stop === 'function') {
+                window.__bgAbstractLines.stop();
+            }
         } else {
             document.documentElement.classList.remove('motion-hidden');
             if (logo) logo.classList.add('logo-animate');
@@ -1050,6 +1054,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             calmAudio.setEffectEnabled(true, fromUserGesture);
+
+            if (window.__bgAbstractLines && typeof window.__bgAbstractLines.start === 'function') {
+                window.__bgAbstractLines.start();
+            }
         }
     };
 
@@ -1795,6 +1803,330 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // -------------------------------------------------------------------------
+    // Whole Canvas Abstract Form Lines Animation (Monochrome / Silver / Slate)
+    // -------------------------------------------------------------------------
+    const initAbstractLinesBackground = () => {
+        const canvas = document.getElementById('bg-abstract-canvas');
+        if (!canvas) return null;
+
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return null;
+
+        let width = 0;
+        let height = 0;
+        let dpr = 1;
+        let animFrameId = null;
+        let isRunning = false;
+        let lastTimestamp = 0;
+        let time = 0;
+
+        // Interactive mouse & scroll dynamics
+        const mouse = { x: -1000, y: -1000, strength: 0 };
+        const targetMouse = { x: -1000, y: -1000, active: false };
+        let mouseTiltX = 0;
+        let mouseTiltY = 0;
+        let mouseInactivityTimer = null;
+        let scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        let targetScrollY = scrollY;
+
+        // Theme tracking
+        let isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+
+        const resize = () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+
+            if (!isRunning) {
+                render(lastTimestamp || performance.now());
+            }
+        };
+
+        const updateTheme = () => {
+            const attr = document.documentElement.getAttribute('data-theme');
+            isDarkTheme = attr === 'dark' || (!attr && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        };
+
+        // Render one full frame of the unified 3D abstract lines form spanning the whole viewpoint
+        const render = (timestamp) => {
+            if (lastTimestamp === 0) lastTimestamp = timestamp;
+            const delta = Math.min((timestamp - lastTimestamp) / 1000, 0.1);
+            lastTimestamp = timestamp;
+            // Calibrated slow, meditative speed
+            time += delta * 0.40;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Interpolate mouse coordinates and strength
+            mouse.x += (targetMouse.x - mouse.x) * 0.08;
+            mouse.y += (targetMouse.y - mouse.y) * 0.08;
+            mouse.strength += ((targetMouse.active ? 1 : 0) - mouse.strength) * 0.06;
+
+            // Global 3D perspective tilt from mouse position (gentle easing)
+            const targetTiltX = targetMouse.active ? (targetMouse.x / width - 0.5) * 0.35 : 0;
+            const targetTiltY = targetMouse.active ? (targetMouse.y / height - 0.5) * 0.25 : 0;
+            mouseTiltX += (targetTiltX - mouseTiltX) * 0.03;
+            mouseTiltY += (targetTiltY - mouseTiltY) * 0.03;
+
+            // Interpolate scroll position for vertical parallax depth
+            scrollY += (targetScrollY - scrollY) * 0.08;
+            const scrollParallax = scrollY * 0.10;
+
+            const isMobile = width < 768;
+            const lineCount = isMobile ? 38 : 58;
+            const stepX = Math.max(26, Math.min(42, width / 42));
+            const pointCount = Math.ceil((width + 120) / stepX) + 1;
+            const startX = -60;
+
+            // Pre-calculate spline points for all lines in the unified 3D abstract form
+            const linesData = [];
+
+            for (let i = 0; i < lineCount; i++) {
+                // Normalized position across the form's cross-section (-1 at top/back, +1 at bottom/front)
+                const v = (i - (lineCount - 1) / 2) / ((lineCount - 1) / 2);
+                const bundleFactor = 1 - 0.35 * (v * v); // Center lines have slightly more presence
+
+                const pts = [];
+                let avgZ = 0;
+
+                for (let p = 0; p < pointCount; p++) {
+                    const px = startX + p * stepX;
+                    const u = px / width; // 0 to 1 across canvas
+
+                    // Centerline elevation spanning across the whole viewport with breathing wave harmonics
+                    const yCenter = (height * 0.5) + scrollParallax
+                        + (height * 0.18) * Math.sin(u * 2.6 + time * 0.32 + mouseTiltY)
+                        + (height * 0.09) * Math.cos(u * 4.4 - time * 0.22);
+
+                    // Form cross-sectional radius: dynamically expands to span 75%-95% of viewport height
+                    const formRadius = (height * 0.38) * (1 + 0.22 * Math.sin(u * 2.1 + time * 0.26 + 1.0))
+                        + (isMobile ? 30 : 60);
+
+                    // 3D twist along the length of the form, creating a sweeping ribbon manifold
+                    const twist = u * Math.PI * 1.65 + time * 0.36 + mouseTiltX;
+                    const localAngle = twist + v * 0.52;
+
+                    // 3D cross-section coordinate offsets
+                    const y3D = v * formRadius * Math.cos(localAngle);
+                    const z3D = v * formRadius * Math.sin(localAngle);
+                    avgZ += z3D;
+
+                    // Multi-frequency harmonic surface ripples
+                    const w1 = Math.sin(u * 4.6 + time * 0.62 + i * 0.042) * (isMobile ? 18 : 30);
+                    const w2 = Math.cos(u * 8.2 - time * 0.44 + i * 0.072) * (isMobile ? 10 : 18);
+                    const w3 = Math.sin(u * 2.4 + time * 0.24 + v * 0.65) * (isMobile ? 14 : 24);
+                    const breathe = 1 + 0.10 * Math.sin(time * 0.28 + u * 1.6);
+
+                    const ySurface = yCenter + y3D + (w1 + w2 + w3) * breathe;
+
+                    // Perspective projection (camera at z = 850)
+                    const cameraDist = 850;
+                    const perspectiveScale = cameraDist / (cameraDist - z3D * 0.55);
+                    let py = yCenter + (ySurface - yCenter) * perspectiveScale;
+
+                    // Fluid interactive mouse deflection (gentle & subtle)
+                    if (mouse.strength > 0.005) {
+                        const dx = px - mouse.x;
+                        const dy = py - mouse.y;
+                        const distSq = dx * dx + dy * dy;
+                        const maxDist = 240;
+                        if (distSq < maxDist * maxDist) {
+                            const dist = Math.sqrt(distSq);
+                            const force = Math.cos((dist / maxDist) * (Math.PI * 0.5));
+                            const ripple = Math.sin((dist / maxDist) * Math.PI * 2 - time * 1.5) * 8;
+                            const push = (dy >= 0 ? 1 : -1) * force * force * 24;
+                            py += (push + ripple * force) * mouse.strength;
+                        }
+                    }
+
+                    pts.push({ x: px, y: py });
+                }
+
+                avgZ /= pointCount;
+                linesData.push({ pts, avgZ, v, bundleFactor });
+            }
+
+            // Sort lines by depth (draw farthest background lines first, closest foreground lines last)
+            linesData.sort((a, b) => a.avgZ - b.avgZ);
+
+            // Render all lines in the unified 3D abstract form with lighter, delicate visibility
+            for (let l = 0; l < linesData.length; l++) {
+                const line = linesData[l];
+                const pts = line.pts;
+                // Normalized depth: -1 (deep background) to +1 (immediate foreground)
+                const normZ = Math.max(-1, Math.min(1, line.avgZ / (height * 0.38 + 60)));
+                const zWeight = (normZ + 1) * 0.5; // 0 to 1
+
+                let r, g, b, baseAlpha, lineWidth;
+
+                if (isDarkTheme) {
+                    // Dark Mode: Soft silver & luminous pearl slate with light, delicate visibility
+                    r = Math.round(135 + zWeight * (240 - 135));
+                    g = Math.round(150 + zWeight * (245 - 150));
+                    b = Math.round(175 + zWeight * (255 - 175));
+                    baseAlpha = (0.015 + zWeight * 0.075) * line.bundleFactor;
+                    lineWidth = 0.65 + zWeight * 0.45;
+                } else {
+                    // Light Mode: Delicate architectural graphite & subtle ink slate
+                    r = Math.round(95 - zWeight * (95 - 24));
+                    g = Math.round(108 - zWeight * (108 - 30));
+                    b = Math.round(124 - zWeight * (124 - 42));
+                    baseAlpha = (0.010 + zWeight * 0.045) * line.bundleFactor;
+                    lineWidth = 0.65 + zWeight * 0.40;
+                }
+
+                // Render continuous smooth spline using quadratic curve through midpoints
+                ctx.beginPath();
+                ctx.moveTo(pts[0].x, pts[0].y);
+                for (let j = 0; j < pts.length - 1; j++) {
+                    const p0 = pts[j];
+                    const p1 = pts[j + 1];
+                    const midX = (p0.x + p1.x) * 0.5;
+                    const midY = (p0.y + p1.y) * 0.5;
+                    ctx.quadraticCurveTo(p0.x, p0.y, midX, midY);
+                }
+                ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+
+                // Horizontal stroke gradient to softly feather opacity at viewport borders
+                const strokeGrad = ctx.createLinearGradient(0, 0, width, 0);
+                strokeGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0)`);
+                strokeGrad.addColorStop(0.12, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.85})`);
+                strokeGrad.addColorStop(0.50, `rgba(${r}, ${g}, ${b}, ${baseAlpha})`);
+                strokeGrad.addColorStop(0.88, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.85})`);
+                strokeGrad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+
+                ctx.strokeStyle = strokeGrad;
+                ctx.lineWidth = lineWidth;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            }
+        };
+
+        const loop = (timestamp) => {
+            if (!isRunning) return;
+            render(timestamp);
+            animFrameId = requestAnimationFrame(loop);
+        };
+
+        const start = () => {
+            if (isRunning) return;
+            const isMotionHidden = document.documentElement.classList.contains('motion-hidden');
+            if (isMotionHidden) return;
+
+            isRunning = true;
+            lastTimestamp = 0;
+            animFrameId = requestAnimationFrame(loop);
+        };
+
+        const stop = () => {
+            if (!isRunning) return;
+            isRunning = false;
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+            ctx.clearRect(0, 0, width, height);
+        };
+
+        // Pointer, Scroll & Visibility Event Listeners
+        const onPointerMove = (e) => {
+            targetMouse.x = e.clientX;
+            targetMouse.y = e.clientY;
+            targetMouse.active = true;
+
+            if (mouseInactivityTimer) clearTimeout(mouseInactivityTimer);
+            mouseInactivityTimer = setTimeout(() => {
+                targetMouse.active = false;
+            }, 2500);
+        };
+
+        const onPointerLeave = () => {
+            targetMouse.active = false;
+        };
+
+        const onScroll = () => {
+            targetScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        };
+
+        const onVisibilityChange = () => {
+            if (document.hidden) {
+                if (isRunning) {
+                    cancelAnimationFrame(animFrameId);
+                    animFrameId = null;
+                    isRunning = false;
+                }
+            } else {
+                const isMotionHidden = document.documentElement.classList.contains('motion-hidden');
+                if (!isMotionHidden) {
+                    start();
+                }
+            }
+        };
+
+        let resizeTimer = null;
+        const onResize = () => {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(resize, 100);
+        };
+
+        // Initialize dimensions and bind events
+        updateTheme();
+        resize();
+
+        window.addEventListener('resize', onResize, { passive: true });
+        window.addEventListener('pointermove', onPointerMove, { passive: true });
+        window.addEventListener('pointerleave', onPointerLeave, { passive: true });
+        window.addEventListener('pointerup', onPointerLeave, { passive: true });
+        window.addEventListener('scroll', onScroll, { passive: true });
+        document.addEventListener('visibilitychange', onVisibilityChange);
+
+        // React to dynamic theme changes and motion toggle on <html>
+        const themeObserver = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                if (mutation.attributeName === 'data-theme') {
+                    updateTheme();
+                    if (!isRunning) render(lastTimestamp || performance.now());
+                } else if (mutation.attributeName === 'class') {
+                    const isHidden = document.documentElement.classList.contains('motion-hidden');
+                    if (isHidden && isRunning) {
+                        stop();
+                    } else if (!isHidden && !isRunning) {
+                        start();
+                    }
+                }
+            }
+        });
+        themeObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme', 'class']
+        });
+
+        // Check initial motion state
+        const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isExplicitlyActive = localStorage.getItem('animation_hidden') === 'false';
+        const isInitiallyHidden = document.documentElement.classList.contains('motion-hidden');
+
+        if (!isInitiallyHidden && (!prefersReducedMotion || isExplicitlyActive)) {
+            start();
+        } else {
+            // Render 1 static frame for graceful preview
+            render(0);
+        }
+
+        const controller = { start, stop, resize, render };
+        window.__bgAbstractLines = controller;
+        return controller;
+    };
+
+    // Initialize background abstract lines canvas animation
+    initAbstractLinesBackground();
 
 });
 
