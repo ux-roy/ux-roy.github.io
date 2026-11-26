@@ -80,43 +80,9 @@
     <link rel="preload" as="image" href="assets/image/profile.webp" fetchpriority="high" type="image/webp">
 
     <!-- --------------------------------------------------------------------- -->
-    <!-- Default Inbuild Stylesheets                                           -->
+    <!-- Site Stylesheet                                                       -->
     <!-- --------------------------------------------------------------------- -->
-    <style>
-        .bg-abstract-canvas,
-        .text-animation {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-            transition: opacity 0.6s ease;
-        }
-
-        html.motion-hidden .bg-abstract-canvas,
-        html.motion-hidden .text-animation {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        @media (min-width: 769px) {
-            .mobile-nav {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mobile-nav {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="assets/style/style.css?v=46">
+    <link rel="stylesheet" href="assets/style/style.css?v=47">
 
     <!-- --------------------------------------------------------------------- -->
     <!-- Analytics & Tracking (Google Tag)                                     -->
@@ -155,7 +121,7 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- Local System Scripts (Deferred)                                       -->
     <!-- --------------------------------------------------------------------- -->
-    <script src="assets/script/script.js?v=33" defer></script>
+    <script src="assets/script/script.js?v=34" defer></script>
 </head>
 
 <body>
@@ -213,11 +179,13 @@
                     <button class="menu-item" id="animation-toggle" role="menuitem">
                         <span class="menu-item-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="10" y1="15" x2="10" y2="9"></line>
+                                <line x1="14" y1="15" x2="14" y2="9"></line>
                             </svg>
                         </span>
-                        <span class="menu-item-text">Active Effect</span>
+                        <span class="menu-item-text">Stop Effect</span>
                     </button>
                 </li>
             </ul>
@@ -1503,19 +1471,12 @@
                             <line x1="499" y1="111" x2="505" y2="111" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                             <path d="M495 103L505 111L495 119" class="process-arrowhead"/>
 
-                            <!-- 1. Friction Spotting -->
+                            <!-- 1. Framing Friction -->
                             <g class="process-node" data-step="1" role="button" tabindex="0"
-                                aria-label="1. Friction Spotting">
-                                <title>1. Friction Spotting</title>
+                                aria-label="1. Framing Friction">
+                                <title>1. Framing Friction</title>
                                 <circle cx="103.01" cy="111" r="25" class="process-pulse-ring" fill="none"
-                                    stroke="#E2723A" stroke-width="2" opacity="0">
-                                    <animate attributeName="r" values="25; 40; 46" dur="2.8s" repeatCount="indefinite"
-                                        begin="0s" />
-                                    <animate attributeName="opacity" values="0.85; 0.35; 0" dur="2.8s"
-                                        repeatCount="indefinite" begin="0s" />
-                                    <animate attributeName="stroke-width" values="2.5; 1.5; 0.5" dur="2.8s"
-                                        repeatCount="indefinite" begin="0s" />
-                                </circle>
+                                    stroke="var(--accent-color, #E2723A)" stroke-width="2" />
                                 <circle cx="103.01" cy="111" r="25" class="process-circle"
                                     fill="var(--accent-color, #E2723A)" stroke="var(--bg-color, #151922)"
                                     stroke-width="3" />
@@ -1529,14 +1490,7 @@
                                 aria-label="2. Product Thinking">
                                 <title>2. Product Thinking</title>
                                 <circle cx="553.01" cy="111" r="25" class="process-pulse-ring" fill="none"
-                                    stroke="#E2723A" stroke-width="2" opacity="0">
-                                    <animate attributeName="r" values="25; 40; 46" dur="2.8s" repeatCount="indefinite"
-                                        begin="0.56s" />
-                                    <animate attributeName="opacity" values="0.85; 0.35; 0" dur="2.8s"
-                                        repeatCount="indefinite" begin="0.56s" />
-                                    <animate attributeName="stroke-width" values="2.5; 1.5; 0.5" dur="2.8s"
-                                        repeatCount="indefinite" begin="0.56s" />
-                                </circle>
+                                    stroke="var(--accent-color, #E2723A)" stroke-width="2" />
                                 <circle cx="553.01" cy="111" r="25" class="process-circle"
                                     fill="var(--accent-color, #E2723A)" stroke="var(--bg-color, #151922)"
                                     stroke-width="3" />
@@ -1550,14 +1504,7 @@
                                 aria-label="3. Solution Shaping">
                                 <title>3. Solution Shaping</title>
                                 <circle cx="1003.01" cy="111" r="25" class="process-pulse-ring" fill="none"
-                                    stroke="#E2723A" stroke-width="2" opacity="0">
-                                    <animate attributeName="r" values="25; 40; 46" dur="2.8s" repeatCount="indefinite"
-                                        begin="1.12s" />
-                                    <animate attributeName="opacity" values="0.85; 0.35; 0" dur="2.8s"
-                                        repeatCount="indefinite" begin="1.12s" />
-                                    <animate attributeName="stroke-width" values="2.5; 1.5; 0.5" dur="2.8s"
-                                        repeatCount="indefinite" begin="1.12s" />
-                                </circle>
+                                    stroke="var(--accent-color, #E2723A)" stroke-width="2" />
                                 <circle cx="1003.01" cy="111" r="25" class="process-circle"
                                     fill="var(--accent-color, #E2723A)" stroke="var(--bg-color, #151922)"
                                     stroke-width="3" />
@@ -1571,14 +1518,7 @@
                                 aria-label="4. Iterative Testing">
                                 <title>4. Iterative Testing</title>
                                 <circle cx="1453.01" cy="111" r="25" class="process-pulse-ring" fill="none"
-                                    stroke="#E2723A" stroke-width="2" opacity="0">
-                                    <animate attributeName="r" values="25; 40; 46" dur="2.8s" repeatCount="indefinite"
-                                        begin="1.68s" />
-                                    <animate attributeName="opacity" values="0.85; 0.35; 0" dur="2.8s"
-                                        repeatCount="indefinite" begin="1.68s" />
-                                    <animate attributeName="stroke-width" values="2.5; 1.5; 0.5" dur="2.8s"
-                                        repeatCount="indefinite" begin="1.68s" />
-                                </circle>
+                                    stroke="var(--accent-color, #E2723A)" stroke-width="2" />
                                 <circle cx="1453.01" cy="111" r="25" class="process-circle"
                                     fill="var(--accent-color, #E2723A)" stroke="var(--bg-color, #151922)"
                                     stroke-width="3" />
@@ -1587,19 +1527,12 @@
                                     class="process-number">4</text>
                             </g>
 
-                            <!-- 5. Outcome Scaling -->
+                            <!-- 5. Driving Outcome -->
                             <g class="process-node" data-step="5" role="button" tabindex="0"
-                                aria-label="5. Outcome Scaling">
-                                <title>5. Outcome Scaling</title>
+                                aria-label="5. Driving Outcome">
+                                <title>5. Driving Outcome</title>
                                 <circle cx="1903.01" cy="111" r="25" class="process-pulse-ring" fill="none"
-                                    stroke="#E2723A" stroke-width="2" opacity="0">
-                                    <animate attributeName="r" values="25; 40; 46" dur="2.8s" repeatCount="indefinite"
-                                        begin="2.24s" />
-                                    <animate attributeName="opacity" values="0.85; 0.35; 0" dur="2.8s"
-                                        repeatCount="indefinite" begin="2.24s" />
-                                    <animate attributeName="stroke-width" values="2.5; 1.5; 0.5" dur="2.8s"
-                                        repeatCount="indefinite" begin="2.24s" />
-                                </circle>
+                                    stroke="var(--accent-color, #E2723A)" stroke-width="2" />
                                 <circle cx="1903.01" cy="111" r="25" class="process-circle"
                                     fill="var(--accent-color, #E2723A)" stroke="var(--bg-color, #151922)"
                                     stroke-width="3" />

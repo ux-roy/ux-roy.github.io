@@ -1042,6 +1042,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.__bgAbstractLines && typeof window.__bgAbstractLines.stop === 'function') {
                 window.__bgAbstractLines.stop();
             }
+
+            if (window.__processLoop && typeof window.__processLoop.stop === 'function') {
+                window.__processLoop.stop();
+            }
         } else {
             document.documentElement.classList.remove('motion-hidden');
             if (logo) logo.classList.add('logo-animate');
@@ -1058,11 +1062,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.__bgAbstractLines && typeof window.__bgAbstractLines.start === 'function') {
                 window.__bgAbstractLines.start();
             }
+
+            if (window.__processLoop && typeof window.__processLoop.start === 'function') {
+                window.__processLoop.start();
+            }
         }
     };
 
-    // Apply initial animation state
-    const isAnimationHidden = localStorage.getItem(animationStatusKey) !== 'false';
+    // Apply initial animation state (Play Effect active by default)
+    let isAnimationHidden = localStorage.getItem(animationStatusKey) === 'true';
+    if (localStorage.getItem('play_effect_initialized') !== 'v2') {
+        localStorage.setItem('play_effect_initialized', 'v2');
+        localStorage.setItem(animationStatusKey, 'false');
+        isAnimationHidden = false;
+    }
     updateAnimationState(isAnimationHidden, false);
 
     if (animationToggle) {
@@ -1718,88 +1731,234 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------------------
-    // Design Process Diagram Node & Tooltip Interactions
+    // Design Process Diagram Node & Tooltip Interactions (Looping Auto-Play)
     // -------------------------------------------------------------------------
     const processStageTrack = document.querySelector('.process-stage-track');
     if (processStageTrack) {
         const hotspots = processStageTrack.querySelectorAll('.process-hotspot');
         const nodes = processStageTrack.querySelectorAll('.process-node');
+        const steps = ['1', '2', '3', '4', '5'];
+        let currentStepIndex = 0;
+        let autoLoopTimer = null;
+        let isUserInteracting = false;
+        let resumeDelayTimer = null;
+        let isTrackInView = true;
+        const STEP_INTERVAL_MS = 3000; // 3 seconds slow pacing per step
 
-        const activateStep = (step) => {
+        const activateStep = (step, isUserAction = false) => {
             hotspots.forEach(h => {
-                if (h.getAttribute('data-step') === step) {
-                    h.classList.add('hovered');
+                const matches = h.getAttribute('data-step') === step;
+                if (matches) {
+                    h.classList.add(isUserAction ? 'hovered' : 'active');
                 } else {
-                    h.classList.remove('hovered');
+                    h.classList.remove('hovered', 'active');
                 }
             });
             nodes.forEach(n => {
-                if (n.getAttribute('data-step') === step) {
-                    n.classList.add('hovered');
+                const matches = n.getAttribute('data-step') === step;
+                if (matches) {
+                    n.classList.add(isUserAction ? 'hovered' : 'active');
                 } else {
-                    n.classList.remove('hovered');
+                    n.classList.remove('hovered', 'active');
                 }
             });
         };
 
         const deactivateAll = () => {
-            hotspots.forEach(h => h.classList.remove('hovered'));
-            nodes.forEach(n => n.classList.remove('hovered'));
+            hotspots.forEach(h => h.classList.remove('hovered', 'active'));
+            nodes.forEach(n => n.classList.remove('hovered', 'active'));
         };
 
+        const isMotionHidden = () => {
+            return document.documentElement.classList.contains('motion-hidden');
+        };
+
+        const playNextStep = () => {
+            if (isUserInteracting || isMotionHidden() || !isTrackInView) return;
+            activateStep(steps[currentStepIndex], false);
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+        };
+
+        const startAutoLoop = () => {
+            stopAutoLoop();
+            if (isMotionHidden()) return;
+            playNextStep();
+            autoLoopTimer = setInterval(playNextStep, STEP_INTERVAL_MS);
+        };
+
+        const stopAutoLoop = () => {
+            if (autoLoopTimer) {
+                clearInterval(autoLoopTimer);
+                autoLoopTimer = null;
+            }
+        };
+
+        const pauseForInteraction = () => {
+            isUserInteracting = true;
+            stopAutoLoop();
+            if (resumeDelayTimer) {
+                clearTimeout(resumeDelayTimer);
+                resumeDelayTimer = null;
+            }
+        };
+
+        const resumeAfterInteraction = () => {
+            if (resumeDelayTimer) clearTimeout(resumeDelayTimer);
+            resumeDelayTimer = setTimeout(() => {
+                isUserInteracting = false;
+                if (!isMotionHidden() && isTrackInView) {
+                    startAutoLoop();
+                }
+            }, 1800);
+        };
+
+        // User interaction handlers on nodes
         nodes.forEach(node => {
             const step = node.getAttribute('data-step');
-            node.addEventListener('mouseenter', () => activateStep(step));
-            node.addEventListener('mouseleave', deactivateAll);
-            node.addEventListener('focus', () => activateStep(step));
-            node.addEventListener('blur', deactivateAll);
+            node.addEventListener('mouseenter', () => {
+                pauseForInteraction();
+                currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                activateStep(step, true);
+            });
+            node.addEventListener('mouseleave', () => {
+                deactivateAll();
+                resumeAfterInteraction();
+            });
+            node.addEventListener('focus', () => {
+                pauseForInteraction();
+                currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                activateStep(step, true);
+            });
+            node.addEventListener('blur', () => {
+                deactivateAll();
+                resumeAfterInteraction();
+            });
             node.addEventListener('click', (e) => {
                 e.stopPropagation();
+                pauseForInteraction();
                 const hotspot = processStageTrack.querySelector(`.process-hotspot[data-step="${step}"]`);
-                const isHovered = hotspot && hotspot.classList.contains('hovered');
+                const isAlreadyHovered = hotspot && hotspot.classList.contains('hovered');
                 deactivateAll();
-                if (!isHovered) activateStep(step);
+                if (!isAlreadyHovered) {
+                    currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                    activateStep(step, true);
+                }
+                resumeAfterInteraction();
             });
             node.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     e.stopPropagation();
+                    pauseForInteraction();
                     const hotspot = processStageTrack.querySelector(`.process-hotspot[data-step="${step}"]`);
-                    const isHovered = hotspot && hotspot.classList.contains('hovered');
+                    const isAlreadyHovered = hotspot && hotspot.classList.contains('hovered');
                     deactivateAll();
-                    if (!isHovered) activateStep(step);
+                    if (!isAlreadyHovered) {
+                        currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                        activateStep(step, true);
+                    }
+                    resumeAfterInteraction();
                 }
             });
         });
 
+        // User interaction handlers on hotspots
         hotspots.forEach(hotspot => {
             const step = hotspot.getAttribute('data-step');
-            hotspot.addEventListener('mouseenter', () => activateStep(step));
-            hotspot.addEventListener('mouseleave', deactivateAll);
-            hotspot.addEventListener('focus', () => activateStep(step));
-            hotspot.addEventListener('blur', deactivateAll);
+            hotspot.addEventListener('mouseenter', () => {
+                pauseForInteraction();
+                currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                activateStep(step, true);
+            });
+            hotspot.addEventListener('mouseleave', () => {
+                deactivateAll();
+                resumeAfterInteraction();
+            });
+            hotspot.addEventListener('focus', () => {
+                pauseForInteraction();
+                currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                activateStep(step, true);
+            });
+            hotspot.addEventListener('blur', () => {
+                deactivateAll();
+                resumeAfterInteraction();
+            });
             hotspot.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const isHovered = hotspot.classList.contains('hovered');
+                pauseForInteraction();
+                const isAlreadyHovered = hotspot.classList.contains('hovered');
                 deactivateAll();
-                if (!isHovered) activateStep(step);
+                if (!isAlreadyHovered) {
+                    currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                    activateStep(step, true);
+                }
+                resumeAfterInteraction();
             });
             hotspot.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     e.stopPropagation();
-                    const isHovered = hotspot.classList.contains('hovered');
+                    pauseForInteraction();
+                    const isAlreadyHovered = hotspot.classList.contains('hovered');
                     deactivateAll();
-                    if (!isHovered) activateStep(step);
+                    if (!isAlreadyHovered) {
+                        currentStepIndex = (steps.indexOf(step) + 1) % steps.length;
+                        activateStep(step, true);
+                    }
+                    resumeAfterInteraction();
                 }
             });
         });
 
         document.addEventListener('click', (e) => {
             if (!processStageTrack.contains(e.target)) {
-                deactivateAll();
+                if (isUserInteracting) {
+                    deactivateAll();
+                    resumeAfterInteraction();
+                }
             }
         });
+
+        // Tab visibility handling
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopAutoLoop();
+            } else if (!isUserInteracting && !isMotionHidden() && isTrackInView) {
+                startAutoLoop();
+            }
+        });
+
+        // Viewport intersection handling to save cycles
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    isTrackInView = entry.isIntersecting;
+                    if (isTrackInView) {
+                        if (!isUserInteracting && !isMotionHidden()) {
+                            startAutoLoop();
+                        }
+                    } else {
+                        stopAutoLoop();
+                        if (!isUserInteracting) {
+                            deactivateAll();
+                        }
+                    }
+                });
+            }, { threshold: 0.15 });
+            observer.observe(processStageTrack);
+        } else {
+            if (!isMotionHidden()) {
+                startAutoLoop();
+            }
+        }
+
+        window.__processLoop = {
+            start: startAutoLoop,
+            stop: () => {
+                stopAutoLoop();
+                deactivateAll();
+            }
+        };
     }
 
     // -------------------------------------------------------------------------
