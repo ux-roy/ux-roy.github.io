@@ -978,14 +978,14 @@ h3 {
     color: var(--text-secondary);
     margin-bottom: 10px;
     position: relative;
-    padding-left: 35px;
+    padding-left: 60px;
 }
 
 .skill-list li::before {
     content: "•";
     position: absolute;
     left: 0;
-    width: 30px;
+    width: 60px;
     text-align: center;
     color: var(--accent-color);
     font-weight: bold;
@@ -1009,7 +1009,7 @@ h3 {
     margin: 0 auto;
     overflow-x: auto;
     overflow-y: visible;
-    padding: 82px 40px 24px 40px;
+    padding: 82px 50px 30px 40px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-light) transparent;
@@ -1118,7 +1118,7 @@ h3 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 7px 16px;
+    padding: 7px 11px;
     border-radius: 8px;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: 0.95rem;
@@ -1207,39 +1207,46 @@ h3 {
     transform: translateX(-50%) translateY(0) scale(1);
 }
 
-/* Ensure Step 1 (far left) and Step 5 (far right) tooltips never clip edges */
-.process-hotspot[data-step="1"] .process-tooltip {
-    left: 0;
-    transform: translateX(0) translateY(4px) scale(0.96);
+/* Step 3: Move tooltip down close to circle 3 */
+.process-hotspot[data-step="3"] .process-tooltip {
+    bottom: calc(100% + 14px);
 }
 
-.process-hotspot[data-step="1"] .process-tooltip::after {
-    left: 24px;
-    transform: translateX(-50%) rotate(45deg);
-}
-
-.process-hotspot[data-step="1"]:hover .process-tooltip,
-.process-hotspot[data-step="1"].hovered .process-tooltip,
-.process-hotspot[data-step="1"]:focus-visible .process-tooltip {
-    transform: translateX(0) translateY(0) scale(1);
-}
-
+/* Step 5: Reposition tooltip under circle 5 */
 .process-hotspot[data-step="5"] .process-tooltip {
-    left: auto;
-    right: 0;
-    transform: translateX(0) translateY(4px) scale(0.96);
+    bottom: auto;
+    top: calc(100% + 14px);
+    left: 30%;
+    right: auto;
+    transform: translateX(-50%) translateY(-4px) scale(0.96);
 }
 
 .process-hotspot[data-step="5"] .process-tooltip::after {
-    left: auto;
-    right: 24px;
-    transform: translateX(50%) rotate(45deg);
+    bottom: auto;
+    top: -5px;
+    left: 55%;
+    right: auto;
+    transform: translateX(-50%) rotate(45deg);
+    border-right: none;
+    border-bottom: none;
+    border-left: 0.5px solid rgba(0, 0, 0, 0.12);
+    border-top: 0.5px solid rgba(0, 0, 0, 0.12);
 }
 
 .process-hotspot[data-step="5"]:hover .process-tooltip,
 .process-hotspot[data-step="5"].hovered .process-tooltip,
 .process-hotspot[data-step="5"]:focus-visible .process-tooltip {
-    transform: translateX(0) translateY(0) scale(1);
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+[data-theme="dark"] .process-hotspot[data-step="5"] .process-tooltip::after {
+    border-left-color: rgba(255, 255, 255, 0.16);
+    border-top-color: rgba(255, 255, 255, 0.16);
+}
+
+[data-theme="light"] .process-hotspot[data-step="5"] .process-tooltip::after {
+    border-left-color: rgba(0, 0, 0, 0.12);
+    border-top-color: rgba(0, 0, 0, 0.12);
 }
 
 /* Arrowheads Matching Diagram Line Stroke (2px) */
