@@ -3376,9 +3376,9 @@ dialog.modal.open .modal-content {
     grid-column: 3;
     justify-self: end;
     position: relative;
-    width: 48px;
-    height: 48px;
-    border-radius: 9px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
     background-color: var(--bg-color);
     border: 1.2px solid rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
@@ -3413,9 +3413,9 @@ dialog.modal.open .modal-content {
     grid-column: 1;
     justify-self: start;
     position: relative;
-    width: 48px;
-    height: 48px;
-    border-radius: 9px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
     background-color: var(--bg-color);
     border: 1.2px solid rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
@@ -3508,7 +3508,8 @@ dialog.modal.open .modal-content {
     }
 }
 
-/* Safari / PWA Install Modal */
+/* PWA & Safari Install Modal */
+.pwa-install-modal,
 .safari-install-modal,
 dialog.safari-install-modal {
     position: fixed;
@@ -3518,18 +3519,24 @@ dialog.safari-install-modal {
     border: none;
     padding: 0;
     margin: 0;
-    background-color: rgba(21, 25, 34, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(14, 17, 24, 0.45);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 2000;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+[data-theme="dark"] .pwa-install-modal,
+[data-theme="dark"] .safari-install-modal {
+    background-color: rgba(6, 8, 12, 0.7);
+}
+
+.pwa-install-modal.open,
 .safari-install-modal.open,
 dialog.safari-install-modal.open {
     display: flex;
@@ -3537,56 +3544,213 @@ dialog.safari-install-modal.open {
     pointer-events: auto;
 }
 
+.pwa-install-content,
 .safari-install-content {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    box-shadow: 0 20px 40px var(--shadow-color);
-    border-radius: 20px;
-    width: 90%;
-    max-width: 440px;
-    padding: 30px;
+    box-shadow: 0 24px 60px var(--shadow-color), 0 4px 16px rgba(0, 0, 0, 0.05);
+    border-radius: 22px;
+    width: min(calc(100vw - 36px), 380px);
+    padding: 32px 28px 26px;
     position: relative;
-    transform: scale(0.9);
+    transform: scale(0.92) translateY(8px);
     opacity: 0;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    overflow: hidden;
 }
 
+/* Subtle top border ambient glow highlight */
+.pwa-install-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.55), transparent);
+    pointer-events: none;
+}
+
+.pwa-install-modal.open .pwa-install-content,
 .safari-install-modal.open .safari-install-content,
 dialog.safari-install-modal.open .safari-install-content {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
     opacity: 1;
 }
 
+.pwa-install-close,
 .safari-install-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 28px;
-    line-height: 1;
+    top: 18px;
+    right: 18px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    z-index: 2;
 }
 
-.safari-install-close:hover {
-    color: var(--accent-color);
+.pwa-install-header,
+.safari-install-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 8px;
+    padding: 0;
 }
 
+.pwa-install-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bg-color);
+    border: 1.5px solid rgba(var(--accent-rgb), 0.25);
+    box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.18), 0 2px 6px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pwa-install-icon-wrapper:hover {
+    transform: translateY(-2px);
+}
+
+.pwa-app-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.pwa-install-title,
 .safari-install-header h3 {
     font-family: var(--font-heading);
-    font-size: 1.4rem;
+    font-size: 1.25rem;
+    font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 15px;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    text-align: center;
+}
+
+.pwa-install-body,
+.safari-install-body {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.pwa-install-desc,
+.safari-instruction-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0 auto;
+    max-width: 400px;
+    text-align: center;
+}
+
+.pwa-install-guide {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: rgba(var(--accent-rgb), 0.07);
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
+    border-radius: 12px;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+    text-align: center;
+}
+
+.pwa-install-guide strong {
+    color: var(--accent-color);
     font-weight: 600;
 }
 
-.safari-instruction-text {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-    line-height: 1.5;
+.pwa-install-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.pwa-btn-dismiss {
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 11px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    font-family: var(--font-body);
+    border: 1.2px solid var(--border-color);
+    background: rgba(var(--accent-rgb), 0.04);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pwa-btn-dismiss:hover {
+    border-color: rgba(var(--accent-rgb), 0.4);
+    background-color: rgba(var(--accent-rgb), 0.09);
+    color: var(--accent-color);
+}
+
+.pwa-btn-dismiss:active {
+    transform: scale(0.97);
+}
+
+.pwa-btn-install {
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 11px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    background: var(--accent-color);
+    color: #ffffff;
+    border: 1.2px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.35);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pwa-btn-install:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.5);
+    background-color: #d8642a;
+}
+
+.pwa-btn-install:active {
+    transform: scale(0.97);
+}
+
+/* Mobile Responsiveness: Floating sheet docked towards bottom for natural thumb reach */
+@media (max-width: 640px) {
+    .pwa-install-modal,
+    .safari-install-modal {
+        align-items: flex-end;
+        padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
+    }
+
+    .pwa-install-content,
+    .safari-install-content {
+        width: min(calc(100vw - 28px), 400px);
+        padding: 28px 22px 22px;
+        border-radius: 20px;
+        transform: translateY(24px) scale(0.96);
+    }
+
+    .pwa-install-modal.open .pwa-install-content,
+    .safari-install-modal.open .safari-install-content {
+        transform: translateY(0) scale(1);
+    }
 }
 
 .safari-steps {
@@ -3725,7 +3889,9 @@ html.motion-hidden .process-pulse-ring {
     .modal-content,
     dialog.safari-install-modal,
     dialog.safari-install-modal::backdrop,
-    .safari-install-content {
+    .safari-install-content,
+    .pwa-install-modal,
+    .pwa-install-content {
         transition: none !important;
         animation: none !important;
         transform: none !important;

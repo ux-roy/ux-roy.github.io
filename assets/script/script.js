@@ -1486,7 +1486,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Event Delegation for Hover Target Detection (with safety type checks - video excluded so custom cursor stays visible)
-        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .quick-card-expand-btn, .banner-card-minimize-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, .safari-install-close';
+        const interactiveSelector = 'a, button, input, textarea, select, [role="button"], .process-hotspot, .process-node, .logo-trigger, .logo-link, .hamburger-menu, .menu-item, .panel-link, .mobile-nav-btn, .btn-outline, .open-project-modal, .carousel-controls, .slide-counter, .nav-btn, .view-toggle-btn, .quick-card-expand-btn, .banner-card-minimize-btn, .contact-value, .social-icon-btn, .pwa-install, .back-to-top, .tab-btn, .filter-chip, .btn, .nav-link, .close-modal, .safari-install-close, .pwa-install-close, .pwa-btn-dismiss, .pwa-btn-install';
 
         const handlePointerMove = (e) => {
             mouseX = e.clientX;
@@ -2307,6 +2307,77 @@ const pwaInstallBtn = document.getElementById('pwa-install');
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
+// Function to initialize PWA install modal event listeners
+const initPWAInstallModal = (modal) => {
+    if (!modal || modal.dataset.initialized === 'true') return;
+    modal.dataset.initialized = 'true';
+
+    const closeBtn = modal.querySelector('#pwa-install-close');
+    const dismissBtn = modal.querySelector('#pwa-dismiss-btn');
+    const installBtn = modal.querySelector('#pwa-install-action-btn');
+    const guideEl = modal.querySelector('#pwa-install-guide');
+
+    const closeModal = () => {
+        modal.classList.remove('open');
+        if (guideEl) {
+            guideEl.style.display = 'none';
+            guideEl.innerHTML = '';
+        }
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (dismissBtn) dismissBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+            closeModal();
+        }
+    });
+
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+                if (pwaInstallBtn) {
+                    pwaInstallBtn.style.display = 'none';
+                }
+                closeModal();
+            } else {
+                const isMac = /Mac/i.test(navigator.userAgent) && !/iPhone|iPad|iPod/i.test(navigator.userAgent);
+                const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+                if (guideEl) {
+                    if (isSafari && isMac) {
+                        guideEl.innerHTML = 'In Safari, click the <strong>Share</strong> icon (or File menu) and select <strong>Add to Dock</strong>.';
+                    } else if (isSafari && isIOS) {
+                        guideEl.innerHTML = 'Tap the <strong>Share</strong> icon in Safari toolbar and select <strong>Add to Home Screen</strong>.';
+                    } else if (!isSafari && isMac) {
+                        guideEl.innerHTML = 'Click the <strong>Install</strong> icon in the address bar (or menu ⋮) to install.';
+                    } else {
+                        guideEl.innerHTML = 'Open your browser menu (⋮) and tap <strong>Install App</strong> or <strong>Add to Home Screen</strong>.';
+                    }
+                    guideEl.style.display = 'block';
+                }
+            }
+        });
+    }
+};
+
+// Initialize modal listeners if already present in DOM
+const existingModal = document.getElementById('pwa-install-modal');
+if (existingModal) {
+    initPWAInstallModal(existingModal);
+}
+
 // Function to show PWA installation instructions or browser prompt modal
 const showPWAInstallModal = () => {
     let modal = document.getElementById('pwa-install-modal');
@@ -2315,132 +2386,34 @@ const showPWAInstallModal = () => {
         // Create modal container
         modal = document.createElement('div');
         modal.id = 'pwa-install-modal';
-        modal.className = 'safari-install-modal';
+        modal.className = 'pwa-install-modal';
         modal.setAttribute('role', 'dialog');
         modal.setAttribute('aria-modal', 'true');
         modal.setAttribute('aria-labelledby', 'pwa-install-title');
 
-        let bodyContent = '';
-        const isMac = /Mac/i.test(navigator.userAgent) && !/iPhone|iPad|iPod/i.test(navigator.userAgent);
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        if (isSafari && isMac) {
-            bodyContent = `
-                <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your Mac:</p>
-                <ol class="safari-steps">
-                    <li>
-                        <span class="step-num">1</span>
-                        <span class="step-desc">Click the <strong>Share</strong> icon in the Safari toolbar (or open the <strong>File</strong> menu).</span>
-                    </li>
-                    <li>
-                        <span class="step-num">2</span>
-                        <span class="step-desc">Select <strong>Add to Dock</strong> to launch it natively from your Dock.</span>
-                    </li>
-                </ol>
-            `;
-        } else if (isSafari && isIOS) {
-            bodyContent = `
-                <p class="safari-instruction-text">To install Suman Kanti Roy's portfolio as an app on your iOS device:</p>
-                <ol class="safari-steps">
-                    <li>
-                        <span class="step-num">1</span>
-                        <span class="step-desc">Tap the <strong>Share</strong> icon in Safari's bottom toolbar.</span>
-                    </li>
-                    <li>
-                        <span class="step-num">2</span>
-                        <span class="step-desc">Scroll down and tap <strong>Add to Home Screen</strong>.</span>
-                    </li>
-                </ol>
-            `;
-        } else if (!isSafari && isMac && !deferredPrompt) {
-            bodyContent = `
-                <p class="safari-instruction-text">To install this portfolio as a standalone app on your Mac:</p>
-                <ol class="safari-steps">
-                    <li>
-                        <span class="step-num">1</span>
-                        <span class="step-desc">Click the <strong>Install</strong> icon in the address bar (or open the browser menu <strong>⋮</strong>).</span>
-                    </li>
-                    <li>
-                        <span class="step-num">2</span>
-                        <span class="step-desc">Select <strong>Install Suman Kanti Roy</strong> to run it in its own window.</span>
-                    </li>
-                </ol>
-                <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
-                    <button class="btn btn-primary" id="pwa-later-btn" style="padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: var(--accent-color); color: #fff; border: none; cursor: pointer;">Got It</button>
-                </div>
-            `;
-        } else {
-            bodyContent = `
-                <p class="safari-instruction-text">Install Suman Kanti Roy's portfolio on your device for offline access and a native app experience.</p>
-                <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
-                    <button class="btn btn-secondary" id="pwa-later-btn" style="padding: 10px 20px; border-radius: 8px; font-weight: 500; font-size: 0.95rem; border: 1px solid var(--border-color); background: transparent; color: var(--text-primary); cursor: pointer;">Maybe Later</button>
-                    <button class="btn btn-primary" id="pwa-now-btn" style="padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; background: var(--accent-color); color: #fff; border: none; cursor: pointer;">Let's Install</button>
-                </div>
-            `;
-        }
-
         modal.innerHTML = `
-            <div class="safari-install-content">
-                <button class="safari-install-close" id="pwa-install-close" aria-label="Close dialog">&times;</button>
-                <div class="safari-install-header">
-                    <h3 id="pwa-install-title">Install Application</h3>
+            <div class="pwa-install-content">
+                <div class="pwa-install-header">
+                    <div class="pwa-install-icon-wrapper">
+                        <img src="assets/image/pwa-icon.png" alt="Portfolio Icon" class="pwa-app-icon" width="56" height="56">
+                    </div>
+                    <h3 id="pwa-install-title" class="pwa-install-title">Install this Portfolio</h3>
                 </div>
-                <div class="safari-install-body">
-                    ${bodyContent}
+                <div class="pwa-install-body">
+                    <p class="pwa-install-desc">Quick home-screen access and offline browsing.</p>
+                    <div id="pwa-install-guide" class="pwa-install-guide" style="display: none;"></div>
+                </div>
+                <div class="pwa-install-actions">
+                    <button type="button" class="btn pwa-btn-dismiss" id="pwa-dismiss-btn">Dismiss</button>
+                    <button type="button" class="btn pwa-btn-install" id="pwa-install-action-btn">Install</button>
                 </div>
             </div>
         `;
 
         document.body.appendChild(modal);
-
-        const closePwaModal = () => {
-            modal.classList.remove('open');
-        };
-
-        // Event listener for close button
-        const closeBtn = modal.querySelector('#pwa-install-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closePwaModal);
-        }
-
-        // Close when clicking outside content on backdrop
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closePwaModal();
-            }
-        });
-
-        // Event listeners for action buttons
-        const laterBtn = modal.querySelector('#pwa-later-btn');
-        const nowBtn = modal.querySelector('#pwa-now-btn');
-
-        if (laterBtn) {
-            laterBtn.addEventListener('click', closePwaModal);
-        }
-
-        if (nowBtn) {
-            nowBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`User response to the install prompt: ${outcome}`);
-                    deferredPrompt = null;
-                    if (pwaInstallBtn) {
-                        pwaInstallBtn.style.display = 'none';
-                    }
-                }
-                closePwaModal();
-            });
-        }
-
-        // Escape key to close
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('open')) {
-                closePwaModal();
-            }
-        });
     }
 
+    initPWAInstallModal(modal);
     modal.classList.add('open');
 };
 
