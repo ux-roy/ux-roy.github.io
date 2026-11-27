@@ -191,7 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     mobileNav.classList.remove('nav-hidden');
                 }
 
-                targetContent.scrollIntoView({ behavior: 'smooth' });
+                if (targetId === 'contact') {
+                    const contactLayout = targetContent.querySelector('.contact-layout') || targetContent;
+                    contactLayout.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
 
                 // Auto-close navigation panel on mobile section click
                 if (window.innerWidth <= 768 && sidePanel) {

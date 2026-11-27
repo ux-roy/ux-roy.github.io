@@ -679,11 +679,6 @@ html.motion-hidden .bg-abstract-canvas {
     position: relative;
 }
 
-/* Defer rendering of heavy below-the-fold content for faster initial render and smooth INP */
-.tab-content:not(#about) {
-    content-visibility: auto;
-    contain-intrinsic-size: auto none auto 800px;
-}
 
 .tab-content:not(:last-of-type)::after {
     content: '';
@@ -2312,13 +2307,15 @@ h3 {
     border: none;
     background: transparent;
     padding: 0;
-    border-radius: 15px;
+    width: 48px;
+    height: 48px;
+    border-radius: 9px;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .social-asset-icon {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     display: block;
     color: var(--text-secondary);
     transition: color 0.3s ease;
@@ -3176,6 +3173,7 @@ dialog.modal.open .modal-content {
         gap: 15px;
     }
 
+    .social-icon-btn,
     .social-asset-icon {
         width: 44px;
         height: 44px;
@@ -3281,26 +3279,28 @@ dialog.modal.open .modal-content {
 .site-footer {
     width: 100%;
     max-width: 100%;
-    margin: 0 auto 40px;
-    padding: 40px;
+    margin: 40px auto 40px;
+    padding: 0 40px;
     position: relative;
     z-index: 10;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
+    min-height: 48px;
 }
 
 /* Centered border line to match original design */
 .site-footer::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: -50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: calc(100% - 80px);
     /* Account for padding */
     height: 1px;
     background-color: rgba(255, 255, 255, 0.08);
+    z-index: 1;
 }
 
 [data-theme="light"] .site-footer::before {
@@ -3317,6 +3317,10 @@ dialog.modal.open .modal-content {
     text-align: center;
     margin: 0;
     width: 100%;
+    background-color: transparent;
+    padding: 0 20px;
+    z-index: 2;
+    position: relative;
 }
 
 .footer-symbol {
@@ -3338,17 +3342,22 @@ dialog.modal.open .modal-content {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 40px 20px calc(85px + env(safe-area-inset-bottom, 0px));
+        padding: 30px 20px calc(85px + env(safe-area-inset-bottom, 0px));
         gap: 15px;
+        min-height: auto;
     }
 
     .site-footer::before {
+        top: 0;
+        transform: translateX(-50%);
         width: calc(100% - 40px);
         /* Adapt border line padding on mobile */
     }
 
     .footer-text {
         grid-column: auto;
+        background-color: transparent;
+        padding: 0;
     }
 
     .footer-break {
@@ -3370,14 +3379,14 @@ dialog.modal.open .modal-content {
     width: 48px;
     height: 48px;
     border-radius: 9px;
-    background-color: transparent;
+    background-color: var(--bg-color);
     border: 1.2px solid rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 10;
+    z-index: 2;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -3385,6 +3394,7 @@ dialog.modal.open .modal-content {
     transform: translateY(-2px);
     border-color: var(--accent-color);
     box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.25);
+    background-color: var(--card-bg);
 }
 
 .back-to-top:active {
@@ -3406,7 +3416,7 @@ dialog.modal.open .modal-content {
     width: 48px;
     height: 48px;
     border-radius: 9px;
-    background-color: transparent;
+    background-color: var(--bg-color);
     border: 1.2px solid rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
     display: none;
@@ -3414,7 +3424,7 @@ dialog.modal.open .modal-content {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 10;
+    z-index: 2;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -3422,6 +3432,7 @@ dialog.modal.open .modal-content {
     transform: translateY(-2px);
     border-color: var(--accent-color);
     box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.25);
+    background-color: var(--card-bg);
 }
 
 .pwa-install:active {
@@ -3433,6 +3444,26 @@ dialog.modal.open .modal-content {
     position: relative;
 }
 
+/* Tooltip Down Arrow Head */
+[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background-color: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s;
+    pointer-events: none;
+    z-index: 101;
+}
+
+/* Tooltip Box Content */
 [data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -3456,10 +3487,18 @@ dialog.modal.open .modal-content {
 }
 
 @media (hover: hover) {
-    [data-tooltip]:hover::after {
+    [data-tooltip]:hover::after,
+    [data-tooltip]:focus-visible::after {
         opacity: 1;
         visibility: visible;
         transform: translateX(-50%) translateY(0);
+    }
+
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus-visible::before {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0) rotate(45deg);
     }
 }
 
